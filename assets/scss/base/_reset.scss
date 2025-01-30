@@ -1,0 +1,74 @@
+/* Удаление внешних отступов и заполнений */
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Удаление стандартного стиля для списков */
+ul,
+ol {
+	list-style: none;
+}
+
+/* Удаление стандартного стиля для полей формы */
+input,
+textarea,
+button {
+	outline: none;
+	border: none;
+	background: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+}
+
+/* Удаление стандартного стиля для ссылок */
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Удаление стандартного стиля для кнопок */
+button {
+	cursor: pointer;
+}
+
+/* Удаление стандартного стиля для таблиц */
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+/* Удаление стандартного стиля для изображений */
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Удаление стандартного стиля для заголовков */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+/* Удаление стандартного стиля для абзацев */
+p {
+	margin: 0;
+}
+
+/* Удаление стандартного стиля для форм */
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}

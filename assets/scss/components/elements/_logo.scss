@@ -1,0 +1,30 @@
+.logo {
+	background-color: #28282d;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70px;
+	width: fit-content;
+	padding: 0 30px;
+	transition:
+		opacity 0.3s ease,
+		background-color 0.3s ease;
+
+	&:hover {
+		opacity: 0.8;
+		background-color: var(--gray-color);
+	}
+
+	&__inner {
+		font-size: 28px;
+		font-weight: 600;
+	}
+
+	&__pink {
+		color: var(--accent-color);
+	}
+
+	&__white {
+		color: var(--white-color);
+	}
+}
