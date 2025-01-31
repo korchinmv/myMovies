@@ -13,6 +13,14 @@
 	&:hover {
 		opacity: 0.8;
 		background-color: var(--gray-color);
+
+		.logo__pink {
+			color: var(--white-color);
+		}
+
+		.logo__white {
+			color: var(--accent-color);
+		}
 	}
 
 	&__inner {
@@ -22,9 +30,11 @@
 
 	&__pink {
 		color: var(--accent-color);
+		transition: color 0.3s ease;
 	}
 
 	&__white {
 		color: var(--white-color);
+		transition: color 0.3s ease;
 	}
 }
