@@ -10,6 +10,10 @@
 			<li class="navigation__item">
 				<NuxtLink class="navigation__link" to="/series">Сериалы</NuxtLink>
 			</li>
+
+			<li class="navigation__item">
+				<NuxtLink class="navigation__link" to="/shows">ТВ Шоу</NuxtLink>
+			</li>
 		</ul>
 	</nav>
 </template>

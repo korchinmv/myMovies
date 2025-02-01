@@ -2,7 +2,29 @@
 	&__wrapper {
 		height: 70px;
 		display: flex;
-		/* justify-content: space-between; */
+		justify-content: space-between;
 		align-items: center;
+	}
+
+	&__left {
+		display: flex;
+		margin-right: 30px;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+	}
+
+	&__search {
+		margin-right: 40px;
+	}
+
+	&__favorites {
+		margin-right: 40px;
+	}
+
+	&__navigation {
+		flex-shrink: 0;
 	}
 }

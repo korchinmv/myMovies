@@ -1,0 +1,15 @@
+.add-favorites-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	span {
+		transition: all 0.3s ease-in-out;
+	}
+
+	&:hover {
+		span {
+			color: var(--accent-color);
+		}
+	}
+}
