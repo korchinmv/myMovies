@@ -1,4 +1,11 @@
 .header {
+	box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.2);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 101;
+
 	&__wrapper {
 		height: 70px;
 		display: flex;
@@ -9,22 +16,79 @@
 	&__left {
 		display: flex;
 		margin-right: 30px;
+
+		@media screen and (width <= 1200px) {
+			margin-right: 20px;
+		}
 	}
 
 	&__actions {
 		display: flex;
 		align-items: center;
+
+		@media screen and (width <= 1024px) {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		@media screen and (width <= 768px) {
+			justify-content: end;
+		}
 	}
 
 	&__search {
 		margin-right: 40px;
+
+		@media screen and (width <= 1200px) {
+			margin-right: 20px;
+		}
+
+		@media screen and (width <= 1024px) {
+			width: 100%;
+		}
+
+		@media screen and (width <= 768px) {
+			&.search-form {
+				display: none;
+			}
+		}
 	}
 
 	&__favorites {
 		margin-right: 40px;
+
+		@media screen and (width <= 1200px) {
+			margin-right: 20px;
+		}
 	}
 
 	&__navigation {
 		flex-shrink: 0;
+
+		@media screen and (width <= 1024px) {
+			display: none;
+		}
+	}
+
+	&__categories {
+		@media screen and (width <= 768px) {
+			display: none;
+		}
+	}
+
+	&__signin {
+		@media screen and (width <= 1024px) {
+			margin-right: 20px;
+		}
+	}
+
+	&__burger {
+		&.burger-btn {
+			display: none;
+
+			@media screen and (width <= 1024px) {
+				display: block;
+			}
+		}
 	}
 }

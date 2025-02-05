@@ -1,0 +1,25 @@
+.signin-btn {
+	@media screen and (width <= 768px) {
+		padding: 10px;
+	}
+
+	&__text {
+		@media screen and (width <= 768px) {
+			display: none;
+		}
+	}
+
+	&__icon {
+		display: none;
+		width: 24px;
+		height: 24px;
+
+		path {
+			fill: #fff;
+		}
+
+		@media screen and (width <= 768px) {
+			display: block;
+		}
+	}
+}

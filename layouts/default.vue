@@ -2,7 +2,8 @@
 
 <template>
 	<div class="layout">
-		<OrganismsHeader> </OrganismsHeader>
+		<OrganismsHeader />
+		<OrganismsMobileMenu />
 
 		<main class="main">
 			<div class="container">

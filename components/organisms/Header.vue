@@ -12,9 +12,8 @@
 				<div class="header__actions">
 					<MoleculesSearchForm class="header__search" />
 					<AtomsAddFavoritesBtn class="header__favorites" />
-					<NuxtLink class="header__signin button-primary" to="/login">
-						<span class="button-primary__text">Войти</span>
-					</NuxtLink>
+					<AtomsLoginBtn class="header__signin" />
+					<AtomsBurgerBtn class="header__burger" />
 				</div>
 				<slot />
 			</div>
