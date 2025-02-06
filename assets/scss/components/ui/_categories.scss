@@ -75,6 +75,10 @@
 		}
 	}
 
+	.router-link-active {
+		color: var(--accent-color);
+	}
+
 	&__btn {
 		display: flex;
 		flex-direction: column;

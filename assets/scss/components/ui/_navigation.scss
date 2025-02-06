@@ -10,13 +10,33 @@
 		align-items: center;
 		height: 70px;
 		padding: 0 20px;
+		position: relative;
 		transition:
 			color 0.3s ease,
 			background-color 0.3s ease;
 
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background-color: transparent;
+			transition: background-color 0.3s;
+		}
+
 		&:hover {
 			color: var(--accent-color);
 			background-color: #28282d;
+		}
+	}
+
+	.router-link-active {
+		background-color: #28282d;
+
+		&::after {
+			background-color: var(--accent-color);
 		}
 	}
 }

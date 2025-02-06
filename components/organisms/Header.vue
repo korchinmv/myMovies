@@ -12,7 +12,10 @@
 				<div class="header__actions">
 					<MoleculesSearchForm class="header__search" />
 					<AtomsAddFavoritesBtn class="header__favorites" />
-					<AtomsLoginBtn class="header__signin" />
+					<AtomsLoginBtn class="header__signin signin-btn" link="/login">
+						<span class="button-primary__text signin-btn__text">Войти</span>
+						<Icon class="signin-btn__icon" name="fluent:arrow-exit-20-filled" />
+					</AtomsLoginBtn>
 					<AtomsBurgerBtn class="header__burger" />
 				</div>
 				<slot />
