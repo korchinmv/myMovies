@@ -8,9 +8,7 @@
 		<OrganismsMobileMenu />
 
 		<main class="main">
-			<div class="container">
-				<slot />
-			</div>
+			<slot />
 		</main>
 
 		<OrganismsFooter />

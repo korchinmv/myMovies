@@ -11,6 +11,7 @@
 @import 'components/elements/logo';
 @import 'components/elements/mobile-menu';
 @import 'components/elements/socials-list';
+@import 'components/elements/main-title';
 
 @import 'components/ui/navigation';
 @import 'components/ui/categories';
@@ -19,3 +20,7 @@
 @import 'components/ui/button-primary';
 @import 'components/ui/signin-btn';
 @import 'components/ui/burger-btn';
+
+@import 'components/sections/hero-section';
+
+@import 'components/cards/movie-card';
