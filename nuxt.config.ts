@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 		"@vee-validate/nuxt",
 		"nuxt-swiper",
 		"@nuxt/icon",
+		"nuxt-rating",
 	],
 	googleFonts: {
 		families: {

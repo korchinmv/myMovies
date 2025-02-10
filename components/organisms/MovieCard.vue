@@ -32,7 +32,25 @@
 				</li>
 			</ul>
 
-			<span class="movie-card__rate">9.0</span>
+			<div class="movie-card__info">
+				<div class="movie-card__rate">
+					<NuxtRating
+						:read-only="true"
+						:rating-value="1"
+						:rating-step="0.1"
+						:rating-size="18"
+						:rating-count="1"
+						:border-width="1.5"
+						border-color="#fff"
+						active-color="#ff55a5"
+						inactive-color="#333"
+					/>
+
+					<span class="movie-card__rate-num">9.0</span>
+				</div>
+
+				<span class="movie-card__year">2024 г.</span>
+			</div>
 		</div>
 	</div>
 </template>

@@ -8,9 +8,9 @@
 </script>
 
 <template>
-	<OrganismsHeroSection
-		bgImage="img/bg/bg-main-page.jpeg"
-	></OrganismsHeroSection>
+	<OrganismsHeroSection bgImage="img/bg/bg-main-page.jpeg">
+		<OrganismsSlider />
+	</OrganismsHeroSection>
 
 	<div>
 		<div class="container"></div>

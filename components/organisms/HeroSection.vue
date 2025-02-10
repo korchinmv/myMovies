@@ -20,13 +20,7 @@
 					mainTitle="новинки"
 				/>
 
-				<ul class="hero-section__list">
-					<li><OrganismsMovieCard /></li>
-					<li><OrganismsMovieCard /></li>
-					<li><OrganismsMovieCard /></li>
-					<li><OrganismsMovieCard /></li>
-					<li><OrganismsMovieCard /></li>
-				</ul>
+				<slot />
 			</div>
 		</div>
 	</section>

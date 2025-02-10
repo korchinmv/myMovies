@@ -1,4 +1,10 @@
 .movie-card {
+	&--preview {
+		.movie-card__year {
+			display: none;
+		}
+	}
+
 	&__cover {
 		display: flex;
 		flex-direction: row;
@@ -95,6 +101,19 @@
 		}
 	}
 
+	&__info {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	&__rate {
+		display: flex;
+		align-items: center;
+		column-gap: 5px;
+	}
+
+	&__rate-num,
+	&__year {
+		font-size: 16px;
 	}
 }

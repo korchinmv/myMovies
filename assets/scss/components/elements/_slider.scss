@@ -1,0 +1,16 @@
+.slider {
+	&__controls {
+	}
+
+	&__button {
+		&--prev {
+		}
+		&--next {
+		}
+	}
+}
+.swiper-pagination {
+	.swiper-pagination-bullet {
+		background-color: red !important;
+	}
+}
