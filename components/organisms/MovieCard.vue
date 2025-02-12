@@ -36,9 +36,9 @@
 				<div class="movie-card__rate">
 					<NuxtRating
 						:read-only="true"
-						:rating-value="1"
+						:rating-value="0.7"
 						:rating-step="0.1"
-						:rating-size="18"
+						:rating-size="16"
 						:rating-count="1"
 						:border-width="1.5"
 						border-color="#fff"

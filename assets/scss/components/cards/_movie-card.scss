@@ -42,12 +42,6 @@
 		}
 	}
 
-	&__img {
-		width: 100%;
-		position: relative;
-		z-index: 1;
-	}
-
 	&__play {
 		position: absolute;
 		display: flex;
@@ -79,6 +73,10 @@
 
 		&:hover {
 			color: var(--accent-color);
+		}
+
+		@media screen and (width <= 768px) {
+			font-size: 18px;
 		}
 	}
 
