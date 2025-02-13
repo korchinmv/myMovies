@@ -9,7 +9,7 @@
 
 <template>
 	<OrganismsHeroSection bgImage="img/bg/bg-main-page.jpeg">
-		<OrganismsSlider />
+		<OrganismsSlider className="hero-section__slider" />
 	</OrganismsHeroSection>
 
 	<div>

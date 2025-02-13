@@ -1,5 +1,9 @@
 <script setup lang="ts">
-	const containerRef = ref(null);
+	const props = defineProps<{
+		className?: string;
+	}>();
+
+	const containerRef = ref<null>(null);
 	const swiper = useSwiper(containerRef, {
 		breakpoints: {
 			1440: {
@@ -22,6 +26,10 @@
 				slidesPerView: 2,
 				spaceBetween: 24,
 			},
+			320: {
+				slidesPerView: 1,
+				spaceBetween: 10,
+			},
 		},
 	});
 </script>
@@ -38,7 +46,7 @@
 		</div>
 
 		<ClientOnly>
-			<swiper-container class="slider" ref="containerRef">
+			<swiper-container :class="[props.className, 'slider']" ref="containerRef">
 				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
 				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
 				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
