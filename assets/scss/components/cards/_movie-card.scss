@@ -1,6 +1,54 @@
 .movie-card {
+	@media screen and (width <= 576px) {
+		flex-direction: column;
+
+		.movie-card__year,
+		.movie-card__year,
+		.movie-card__time,
+		.movie-card__descr {
+			display: none;
+		}
+
+		.movie-card__cover {
+			max-width: 100% !important;
+		}
+	}
+
+	&--content {
+		display: flex;
+
+		.movie-card__cover {
+			max-width: 196px;
+			flex-shrink: 0;
+			margin: 0 10px 0 0;
+
+			@media screen and (width <= 576px) {
+				margin: 0 0 5px 0;
+				max-width: 100%;
+			}
+		}
+
+		.movie-card__title,
+		.movie-card__genres,
+		.movie-card__info {
+			margin-bottom: 10px;
+
+			@media screen and (width <= 576px) {
+				margin-bottom: 5px;
+			}
+		}
+
+		.movie-card__info {
+			justify-content: start;
+			column-gap: 15px;
+		}
+	}
+
 	&--preview {
-		.movie-card__year {
+		.movie-card__year,
+		.movie-card__year,
+		.movie-card__time,
+		.movie-card__descr {
 			display: none;
 		}
 	}
@@ -101,6 +149,7 @@
 
 	&__info {
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 	}
 
@@ -113,5 +162,33 @@
 	&__rate-num,
 	&__year {
 		font-size: 16px;
+	}
+
+	&__year,
+	&__time {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		height: 24px;
+		border: 1px solid rgba(199, 199, 199, 0.5);
+		padding: 0 5px;
+		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+		font-family: var(--font-open-sans);
+		color: var(--txt-gray);
+	}
+
+	&__descr {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 7;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-family: var(--font-open-sans);
+		font-size: 14px;
+		line-height: 24px;
+		color: var(--txt-gray);
 	}
 }

@@ -4,7 +4,7 @@
 	<nav class="navigation">
 		<ul class="navigation__list">
 			<li class="navigation__item">
-				<NuxtLink class="navigation__link" to="/films">Фильмы</NuxtLink>
+				<NuxtLink class="navigation__link" to="/movies">Фильмы</NuxtLink>
 			</li>
 
 			<li class="navigation__item">

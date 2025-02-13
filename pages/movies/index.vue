@@ -1,3 +1,3 @@
 <template>
-	<h1>FILMS PAGE</h1>
+	<h1>MOVIES PAGE</h1>
 </template>

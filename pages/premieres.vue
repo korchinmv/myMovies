@@ -1,3 +1,3 @@
 <template>
-	<h1>PREMIERS PAGE</h1>
+	<h1>PREMIERES PAGE</h1>
 </template>

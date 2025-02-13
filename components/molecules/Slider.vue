@@ -47,15 +47,33 @@
 
 		<ClientOnly>
 			<swiper-container :class="[props.className, 'slider']" ref="containerRef">
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
-				<swiper-slide class="slider__item"><OrganismsMovieCard /></swiper-slide>
+				<swiper-slide class="slider__item">
+					<OrganismsMovieCard class="movie-card--preview" />
+				</swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
+				<swiper-slide class="slider__item"
+					><OrganismsMovieCard class="movie-card--preview"
+				/></swiper-slide>
 			</swiper-container>
 		</ClientOnly>
 	</div>

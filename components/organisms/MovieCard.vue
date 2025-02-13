@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-	<div class="movie-card movie-card--preview">
+	<article class="movie-card">
 		<NuxtLink class="movie-card__cover" to="#">
 			<NuxtImg
 				class="movie-card__img"
@@ -17,9 +17,7 @@
 
 		<div class="movie-card__content">
 			<h3 class="movie-card__title">
-				<NuxtLink to="#">
-					The Lord of the Rings: The Fellowship of the Ring</NuxtLink
-				>
+				<NuxtLink to="#"> Titanic</NuxtLink>
 			</h3>
 
 			<ul class="movie-card__genres">
@@ -49,8 +47,17 @@
 					<span class="movie-card__rate-num">9.0</span>
 				</div>
 
-				<span class="movie-card__year">2024 г.</span>
+				<span class="movie-card__year">2024г.</span>
+
+				<span class="movie-card__time">1.30ч.</span>
 			</div>
+
+			<p class="movie-card__descr">
+				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi aut Lorem
+				ipsum dolor, sit amet consectetur adipisicing elit. Modi aut Lorem ipsum
+				dolor, sit amet consectetur adipisicing elit. Modi aut Lorem ipsum
+				dolor, sit amet consectetur adipisicing elit. Modi aut
+			</p>
 		</div>
-	</div>
+	</article>
 </template>

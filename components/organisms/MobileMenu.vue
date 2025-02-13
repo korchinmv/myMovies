@@ -13,7 +13,7 @@
 		<nav class="mobile-menu__nav">
 			<ul class="mobile-menu__nav-list">
 				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/films">Фильмы</NuxtLink>
+					<NuxtLink class="mobile-menu__nav-link" to="/movies">Фильмы</NuxtLink>
 				</li>
 				<li class="mobile-menu__nav-item">
 					<NuxtLink class="mobile-menu__nav-link" to="/series"
@@ -38,7 +38,7 @@
 					<NuxtLink class="mobile-menu__nav-link" to="/actors">Актеры</NuxtLink>
 				</li>
 				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/premiers"
+					<NuxtLink class="mobile-menu__nav-link" to="/premieres"
 						>Премьеры</NuxtLink
 					>
 				</li>

@@ -47,7 +47,7 @@
 
 			<ul class="categories__list">
 				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/films"
+					<NuxtLink class="categories__link" @click="closeMenu" to="/movies"
 						>Фильмы</NuxtLink
 					>
 				</li>

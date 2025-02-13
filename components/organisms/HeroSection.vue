@@ -14,12 +14,6 @@
 	>
 		<div class="container">
 			<div class="hero-section__wrapper">
-				<AtomsMainTitle
-					class="hero-section__title"
-					mainTitleStrong="Популярные"
-					mainTitle="новинки"
-				/>
-
 				<slot />
 			</div>
 		</div>
