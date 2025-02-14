@@ -1,17 +1,16 @@
 <script setup lang="ts">
 	const isActiveButton = ref<boolean>(false);
-
 	const toggleActiveButton = () => {
-		return (isActiveButton.value = !isActiveButton.value);
+		isActiveButton.value = !isActiveButton.value;
 	};
 
-	const closeMenu = () => {
-		return (isActiveButton.value = false);
+	const closeMenu = (): void => {
+		isActiveButton.value = false;
 	};
 </script>
 
 <template>
-	<div class="categories">
+	<div class="categories" v-click-outside="closeMenu">
 		<button
 			class="categories__btn"
 			:class="{ 'categories__btn--active': isActiveButton }"

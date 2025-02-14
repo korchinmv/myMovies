@@ -1,0 +1,26 @@
+.sign-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: #28282d;
+	box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.2);
+	position: relative;
+	width: 100%;
+	max-width: 440px;
+	border-radius: 8px;
+	overflow: hidden;
+	padding: 40px 80px;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		display: block;
+		background: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+		box-shadow: 0 0 20px 0 rgba(255, 88, 96, 0.5);
+	}
+}

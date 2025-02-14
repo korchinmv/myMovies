@@ -1,0 +1,29 @@
+.sign {
+	background-image: url('img/bg/4.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	position: relative;
+
+	&::before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #000;
+		opacity: 0.5;
+		z-index: 1;
+	}
+
+	&__wrapper {
+		position: relative;
+		z-index: 2;
+	}
+}
