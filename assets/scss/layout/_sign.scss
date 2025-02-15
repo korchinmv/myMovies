@@ -1,13 +1,14 @@
 .sign {
-	background-image: url('img/bg/4.jpg');
+	background-image: url('~/public/img/bg/4.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
-	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	padding: 40px 15px;
 
 	&::before {
 		content: '';
@@ -23,6 +24,8 @@
 	}
 
 	&__wrapper {
+		max-width: 440px;
+		width: 100%;
 		position: relative;
 		z-index: 2;
 	}

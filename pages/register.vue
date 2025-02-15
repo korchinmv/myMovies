@@ -4,13 +4,14 @@
 	});
 
 	useSeoMeta({
-		title: "myMovies - Вход",
-		description: "myMovies - Вход",
+		title: "myMovies - Регистрация",
+		description: "myMovies - Регистрация",
 	});
 
 	const form = reactive({
 		email: "",
 		password: "",
+		repeatPassword: "",
 	});
 </script>
 
@@ -23,13 +24,18 @@
 				v-model="form.password"
 				type="password"
 			/>
-			<button class="form__btn button-primary">Войти</button>
+			<AtomsInput
+				placeholder="Повторите пароль"
+				v-model="form.repeatPassword"
+				type="password"
+			/>
+			<button class="form__btn button-primary">Зарегистрироваться</button>
 		</template>
 		<template #form-footer>
 			<div class="sign-form__form-footer">
-				Нет аккаунта?
-				<NuxtLink class="sign-form__form-footer-link" to="/register"
-					>Зарегистрироваться</NuxtLink
+				Есть аккаунт?
+				<NuxtLink class="sign-form__form-footer-link" to="/login"
+					>Войти</NuxtLink
 				>
 			</div>
 		</template>

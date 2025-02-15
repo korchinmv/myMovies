@@ -6,11 +6,15 @@
 	background: #28282d;
 	box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.2);
 	position: relative;
-	width: 100%;
 	max-width: 440px;
+	width: 100%;
 	border-radius: 8px;
 	overflow: hidden;
 	padding: 40px 80px;
+
+	@media screen and (width <= 1200px) {
+		padding: 20px;
+	}
 
 	&:before {
 		content: '';
@@ -22,5 +26,34 @@
 		display: block;
 		background: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
 		box-shadow: 0 0 20px 0 rgba(255, 88, 96, 0.5);
+	}
+
+	&__logo {
+		margin-bottom: 15px;
+		border-radius: 8px;
+		width: 100%;
+		padding: 0;
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 25px;
+		width: 100%;
+		margin-bottom: 30px;
+	}
+
+	&__form-footer {
+		font-size: 14px;
+		line-height: 24px;
+		color: var(--txt-gray);
+	}
+
+	&__form-footer-link {
+		color: var(--accent-color);
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 }

@@ -65,10 +65,3 @@ h6 {
 p {
 	margin: 0;
 }
-
-/* Удаление стандартного стиля для форм */
-form {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-}
