@@ -5,6 +5,10 @@
 		padding: 40px 0;
 		position: relative;
 
+		@media screen and (width <= 768px) {
+			padding: 20px 0;
+		}
+
 		&::before {
 			content: '';
 			position: absolute;
@@ -19,6 +23,12 @@
 		}
 	}
 
+	&__head-wrapper {
+		display: flex;
+		flex-direction: column;
+		row-gap: 24px;
+	}
+
 	&__body {
 		padding: 40px 0 56px;
 	}
@@ -26,13 +36,13 @@
 	&__inner {
 		display: flex;
 		flex-direction: column;
+		row-gap: 40px;
 	}
 
 	&__list {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 24px;
-		margin-bottom: 40px;
 
 		@media screen and (width <= 1400px) {
 			grid-template-columns: repeat(2, 1fr);

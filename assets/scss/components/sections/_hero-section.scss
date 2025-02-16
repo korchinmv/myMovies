@@ -30,6 +30,10 @@
 	&__title {
 		margin-bottom: 40px;
 
+		&--genres {
+			margin-bottom: 140px;
+		}
+
 		@media screen and (width <= 768px) {
 			margin-bottom: 30px;
 		}
