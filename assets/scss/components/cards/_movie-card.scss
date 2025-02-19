@@ -49,34 +49,6 @@
 		}
 	}
 
-	&--genre {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		.movie-card__genres,
-		.movie-card__info,
-		.movie-card__year,
-		.movie-card__time,
-		.movie-card__descr {
-			display: none;
-		}
-
-		.movie-card__title {
-			text-align: center;
-			margin: 0;
-		}
-
-		.movie-card__cover {
-			max-width: fit-content;
-			height: 350px;
-
-			@media screen and (width <= 576px) {
-				height: auto;
-			}
-		}
-	}
-
 	&__cover {
 		display: flex;
 		flex-direction: row;
@@ -91,7 +63,7 @@
 
 		&:hover {
 			&::before {
-				opacity: 0.66;
+				opacity: 0.7;
 			}
 
 			.movie-card__play {

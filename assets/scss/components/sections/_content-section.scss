@@ -1,4 +1,26 @@
 .content-section {
+	&--genres-list {
+		.content-section__list {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 30px;
+
+			@media screen and (width <= 1024px) {
+				grid-template-columns: repeat(3, 1fr);
+				gap: 20px;
+			}
+
+			@media screen and (width <= 768px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@media screen and (width <= 578px) {
+				grid-template-columns: repeat(1, 1fr);
+				gap: 15px;
+			}
+		}
+	}
+
 	&__head {
 		background-color: var(--bg-color);
 		box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.2);

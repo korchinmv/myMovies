@@ -14,25 +14,9 @@
 				<div class="content-section__inner">
 					<ul class="content-section__list">
 						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
-						</li>
-						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
-						</li>
-						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
-						</li>
-						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
-						</li>
-						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
-						</li>
-						<li class="content-section__item">
-							<OrganismsMovieCard class="movie-card--genre" />
+							<OrganismsGenreCard class="content-section__card" />
 						</li>
 					</ul>
-
 					<slot name="link" />
 				</div>
 			</div>

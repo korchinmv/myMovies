@@ -3,7 +3,7 @@ export const useMobileMenu = defineStore("mobileMenu", {
 		isShowMobileMenu: false as boolean,
 	}),
 	actions: {
-		toggleMobileMenu() {
+		toggleMobileMenu(): void {
 			this.isShowMobileMenu = !this.isShowMobileMenu;
 		},
 	},
