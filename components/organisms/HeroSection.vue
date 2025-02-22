@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	const { bgImage } = defineProps({
+	defineProps({
 		bgImage: {
 			type: String,
 			required: true,

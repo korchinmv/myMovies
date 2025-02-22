@@ -1,0 +1,17 @@
+.movie-links {
+	display: flex;
+	column-gap: 8px;
+	flex-wrap: wrap;
+
+	&__link {
+		color: var(--accent-color);
+		font-size: 14px;
+		line-height: 20px;
+		opacity: 0.8;
+		transition: opacity 0.3s ease;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

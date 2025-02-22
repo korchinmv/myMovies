@@ -1,7 +1,6 @@
 .movie-card {
 	@media screen and (width <= 576px) {
 		.movie-card__year,
-		.movie-card__year,
 		.movie-card__time,
 		.movie-card__descr {
 			display: none;
@@ -26,7 +25,6 @@
 		}
 
 		.movie-card__title,
-		.movie-card__genres,
 		.movie-card__info {
 			margin-bottom: 10px;
 
@@ -132,56 +130,14 @@
 		}
 	}
 
-	&__genres {
-		display: flex;
-		column-gap: 8px;
-		flex-wrap: wrap;
-		margin-bottom: 5px;
-	}
-
-	&__genre-link {
-		font-size: 14px;
-		line-height: 20px;
-		opacity: 0.8;
-		color: var(--accent-color);
-		transition: opacity 0.3 ease;
-
-		&:hover {
-			opacity: 1;
-		}
-	}
-
 	&__info {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	&__rate {
-		display: flex;
-		align-items: center;
-		column-gap: 5px;
-	}
-
-	&__rate-num,
-	&__year {
-		font-size: 16px;
-	}
-
-	&__year,
-	&__time {
-		display: inline-flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		height: 24px;
-		border: 1px solid rgba(199, 199, 199, 0.5);
-		padding: 0 5px;
-		border-radius: 4px;
-		font-size: 12px;
-		font-weight: 600;
-		font-family: var(--font-open-sans);
-		color: var(--txt-gray);
+	&__genres {
+		margin-bottom: 10px;
 	}
 
 	&__descr {

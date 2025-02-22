@@ -20,36 +20,22 @@
 				<NuxtLink to="#"> Titanic</NuxtLink>
 			</h3>
 
-			<ul class="movie-card__genres">
-				<li class="movie-card__genre">
-					<NuxtLink class="movie-card__genre-link" to="#">Adventure</NuxtLink>
-				</li>
-
-				<li class="movie-card__genre">
-					<NuxtLink class="movie-card__genre-link" to="#">Action</NuxtLink>
-				</li>
-			</ul>
+			<AtomsMovieLinks class="movie-card__genres" />
 
 			<div class="movie-card__info">
-				<div class="movie-card__rate">
-					<NuxtRating
-						:read-only="true"
-						:rating-value="0.7"
-						:rating-step="0.1"
-						:rating-size="16"
-						:rating-count="1"
-						:border-width="1.5"
-						border-color="#fff"
-						active-color="#ff55a5"
-						inactive-color="#333"
-					/>
+				<AtomsRating :ratingNum="8" :ratingValue="0.6" />
 
-					<span class="movie-card__rate-num">9.0</span>
-				</div>
+				<AtomsMovieDetails
+					class="movie-card__year"
+					title="2022"
+					description="г"
+				/>
 
-				<span class="movie-card__year">2024</span>
-
-				<span class="movie-card__time">1.30ч.</span>
+				<AtomsMovieDetails
+					class="movie-card__time"
+					title="136"
+					description="мин"
+				/>
 			</div>
 
 			<p class="movie-card__descr">

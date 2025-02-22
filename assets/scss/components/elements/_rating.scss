@@ -1,0 +1,9 @@
+.rating {
+	display: flex;
+	align-items: center;
+	column-gap: 5px;
+
+	&__num {
+		font-size: 16px;
+	}
+}

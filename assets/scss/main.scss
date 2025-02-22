@@ -3,8 +3,6 @@
 @import 'abstracts/vars';
 @import 'abstracts/mixins/mixins';
 
-// @import 'pages/';
-
 @import 'layout/header';
 @import 'layout/footer';
 @import 'layout/sign';
@@ -13,10 +11,14 @@
 @import 'components/elements/mobile-menu';
 @import 'components/elements/socials-list';
 @import 'components/elements/main-title';
+@import 'components/elements/movie-title';
 @import 'components/elements/section-title';
 @import 'components/elements/slider';
 @import 'components/elements/input';
 @import 'components/elements/text-block';
+@import 'components/elements/rating';
+@import 'components/elements/movie-links';
+@import 'components/elements/movie-details';
 
 @import 'components/forms/sign-form';
 
@@ -34,3 +36,5 @@
 
 @import 'components/cards/movie-card';
 @import 'components/cards/genre-card';
+
+@import 'pages/movie-page';
