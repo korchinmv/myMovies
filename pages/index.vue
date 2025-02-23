@@ -17,12 +17,34 @@
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection>
-		<template #title>
+		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
 				sectionTitleStrong="Популярные"
 				sectionTitle="фильмы"
 		/></template>
+		<template #body-content>
+			<MoleculesMoviesList className="content-section__list">
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+			</MoleculesMoviesList>
+		</template>
 		<template #link>
 			<NuxtLink class="content-section__link button-primary" to="/movies"
 				>Все фильмы</NuxtLink
@@ -31,12 +53,35 @@
 	</OrganismsContentSection>
 
 	<OrganismsContentSection>
-		<template #title>
+		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
 				sectionTitleStrong="Лучшие"
 				sectionTitle="сериалы"
 		/></template>
+
+		<template #body-content>
+			<MoleculesMoviesList>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+				<li class="movies-list__item">
+					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+				</li>
+			</MoleculesMoviesList>
+		</template>
 
 		<template #link>
 			<NuxtLink class="content-section__link button-primary" to="/series"

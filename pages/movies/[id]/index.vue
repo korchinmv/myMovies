@@ -60,6 +60,7 @@
 		</OrganismsHeroSection>
 
 		<OrganismsContentSection class="movie-page__content">
+			<template #head-content></template>
 		</OrganismsContentSection>
 	</section>
 </template>

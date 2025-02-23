@@ -11,7 +11,7 @@
 		}
 	}
 
-	&--content {
+	&--horizontal {
 		display: flex;
 
 		.movie-card__cover {
@@ -31,11 +31,6 @@
 			@media screen and (width <= 576px) {
 				margin-bottom: 5px;
 			}
-		}
-
-		.movie-card__info {
-			justify-content: start;
-			column-gap: 15px;
 		}
 	}
 
@@ -133,7 +128,8 @@
 	&__info {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: start;
+		column-gap: 10px;
 	}
 
 	&__genres {
