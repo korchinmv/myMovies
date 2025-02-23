@@ -58,6 +58,16 @@
 	&__favorites {
 		margin-right: 40px;
 
+		span {
+			transition: all 0.3s ease-in-out;
+		}
+
+		&:hover {
+			span {
+				color: var(--accent-color);
+			}
+		}
+
 		@media screen and (width <= 1200px) {
 			margin-right: 20px;
 		}

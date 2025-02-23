@@ -11,7 +11,13 @@
 
 				<div class="header__actions">
 					<MoleculesSearchForm class="header__search" />
-					<AtomsAddFavoritesBtn class="header__favorites" />
+					<NuxtLink class="header__favorites" to="/favorites">
+						<Icon
+							class="header__favorites-icon"
+							size="30"
+							name="ph:heart-bold"
+						/>
+					</NuxtLink>
 					<AtomsLoginBtn class="header__signin signin-btn" link="/login">
 						<span class="button-primary__text signin-btn__text">Вход</span>
 						<Icon class="signin-btn__icon" name="fluent:arrow-exit-20-filled" />

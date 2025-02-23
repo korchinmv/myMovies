@@ -1,0 +1,1 @@
+<template>FAVORITES PAGE</template>

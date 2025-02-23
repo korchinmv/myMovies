@@ -28,6 +28,33 @@ body {
 	flex-direction: column;
 }
 
+div,
+p,
+span,
+button,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+input {
+	&::selection {
+		background-color: var(--accent-color-selection); /* Желтый фон */
+		color: var(--white-color); /* Черный текст */
+	}
+
+	&::-webkit-selection {
+		background-color: var(--accent-color-selection); /* Желтый фон */
+		color: var(--white-color); /* Черный текст */
+	}
+
+	&::-o-selection {
+		background-color: var(--accent-color-selection); /* Желтый фон */
+		color: var(--white-color); /* Черный текст */
+	}
+}
+
 #__nuxt {
 	flex-grow: 1;
 }

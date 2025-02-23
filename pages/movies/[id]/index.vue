@@ -1,9 +1,44 @@
+<script setup lang="ts">
+	const breadcrumbs = [
+		{
+			label: "Главная",
+			to: "/",
+		},
+		{
+			label: "Фильмы",
+			to: "/movies",
+		},
+		{
+			label: "Матрица",
+		},
+	];
+</script>
+
 <template>
-	<section class="movie-page">
+	<div class="movie-page">
 		<OrganismsHeroSection
 			bgImage="https://avatars.mds.yandex.net/get-ott/2419418/2a0000017c27e0e090b55381c1b06e5c5b0b/orig"
 		>
-			<AtomsMovieTitle class="movie-page__title" movieTitle="Матрица" />
+			<OrganismsBreadcrumbs
+				class="movie-page__breadcrumbs"
+				:breadcrumbs="breadcrumbs"
+			/>
+
+			<div class="movie-page__hero-wrapper">
+				<AtomsMovieTitle class="movie-page__title" movieTitle="Матрица" />
+
+				<div class="movie-page__hero-inner">
+					<AtomsAddFavoritesBtn
+						class="movie-page__favorites-btn"
+						text="В избранное"
+					/>
+
+					<AtomsBeWatchingBtn
+						class="movie-page__watching-btn"
+						text="Буду смотреть"
+					/>
+				</div>
+			</div>
 
 			<div class="movie-page__content">
 				<div class="movie-page__content-left">
@@ -35,7 +70,7 @@
 							</ul>
 
 							<div class="movie-page__content-movie">
-								<span class="movie-page__content-movie-title">Жанры: </span>
+								<span class="movie-page__content-movie-title">Жанр: </span>
 								<AtomsMovieLinks />
 							</div>
 
@@ -55,12 +90,12 @@
 					</p>
 				</div>
 
-				<div class="movie-page__content-video"></div>
+				<div class="movie-page__content-video">Тут видео</div>
 			</div>
 		</OrganismsHeroSection>
 
 		<OrganismsContentSection class="movie-page__content">
 			<template #head-content></template>
 		</OrganismsContentSection>
-	</section>
+	</div>
 </template>

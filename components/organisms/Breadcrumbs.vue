@@ -5,11 +5,11 @@
 </script>
 
 <template>
-	<UBreadcrumb class="breadcrumbs text-red-200" :links="breadcrumbs">
-		<template #default="{ link, isActive, index }">
+	<UBreadcrumb class="breadcrumbs" :links="breadcrumbs">
+		<template #default="{ link, isActive }">
 			<span
-				:class="{ 'text-white': isActive }"
-				class="md:text-lg text-sm duration-300 ease-in hover:text-white font-thin"
+				class="md:text-lg text-sm duration-300 ease-in hover:text-[#ff55a5] font-thin"
+				:class="{ 'text-[#ff55a5]': isActive }"
 			>
 				{{ link.label }}</span
 			>
