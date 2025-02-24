@@ -12,6 +12,19 @@
 			label: "Матрица",
 		},
 	];
+
+	const tabs = [
+		{ title: "Скриншоты", name: "tab1" },
+		{ title: "Отзывы", name: "tab2" },
+		{ title: "Сиквелы", name: "tab3" },
+		{ title: "Похожие фильмы", name: "tab4" },
+	];
+
+	const activeTabIndex = ref<number>(0);
+
+	const onTabChange = (index: number) => {
+		activeTabIndex.value = index;
+	};
 </script>
 
 <template>
@@ -94,8 +107,14 @@
 			</div>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection class="movie-page__content">
-			<template #head-content></template>
+		<OrganismsContentSection class="movie-page__info">
+			<template #head-content>
+				<MoleculesTabs
+					class="movie-page__tabs"
+					:tabs="tabs"
+					@tab-change="onTabChange"
+				/>
+			</template>
 		</OrganismsContentSection>
 	</div>
 </template>

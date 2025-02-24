@@ -5,6 +5,10 @@
 	padding: 80px 0;
 	overflow: hidden;
 
+	@media screen and (width <= 1240px) {
+		padding: 56px 0;
+	}
+
 	@media screen and (width <= 768px) {
 		padding: 30px 0;
 	}

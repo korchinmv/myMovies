@@ -3,6 +3,17 @@
 	justify-content: center;
 	align-items: center;
 	column-gap: 3px;
+	font-size: 16px;
+
+	@media screen and (width <= 768px) {
+		font-size: 14px;
+	}
+
+	&__icon {
+		@media screen and (width <= 768px) {
+			width: 24px;
+		}
+	}
 
 	span {
 		transition: all 0.3s ease-in-out;
