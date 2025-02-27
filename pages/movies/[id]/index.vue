@@ -14,10 +14,10 @@
 	];
 
 	const tabs = [
-		{ title: "Скриншоты", name: "tab1" },
-		{ title: "Отзывы", name: "tab2" },
-		{ title: "Сиквелы", name: "tab3" },
-		{ title: "Похожие фильмы", name: "tab4" },
+		{ title: "Скриншоты" },
+		{ title: "Отзывы" },
+		{ title: "Сиквелы" },
+		{ title: "Похожие фильмы" },
 	];
 
 	const activeTabIndex = ref<number>(0);
@@ -25,6 +25,19 @@
 	const onTabChange = (index: number) => {
 		activeTabIndex.value = index;
 	};
+
+	const images = [
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
+	];
+
+	onMounted(() => {
+		console.log("Fancybox is available:", window.Fancybox); // Лог для проверки
+	});
 </script>
 
 <template>
@@ -114,6 +127,32 @@
 					:tabs="tabs"
 					@tab-change="onTabChange"
 				/>
+			</template>
+
+			<template #body-content>
+				<MoleculesTabsContent :active-tab-index="activeTabIndex">
+					<template #tab1>
+						<ul class="gallery">
+							<a
+								v-for="(img, index) in images"
+								:key="index"
+								:href="img.img"
+								data-fancybox="gallery"
+							>
+								<img :src="img.img" />
+							</a>
+						</ul>
+					</template>
+					<template #tab2>
+						<div class="">tab2</div>
+					</template>
+					<template #tab3>
+						<div class="">tab3</div>
+					</template>
+					<template #tab4>
+						<div class="">tab4</div>
+					</template>
+				</MoleculesTabsContent>
 			</template>
 		</OrganismsContentSection>
 	</div>

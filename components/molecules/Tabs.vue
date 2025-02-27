@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	interface Tab {
 		title: string;
-		name: string;
 	}
 
 	defineProps<{
