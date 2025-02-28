@@ -26,14 +26,9 @@
 		activeTabIndex.value = index;
 	};
 
-	const images = [
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-	];
+	const GalleryComponent = defineAsyncComponent(
+		() => import("~/components/atoms/GalleryClient.vue")
+	);
 </script>
 
 <template>
@@ -130,14 +125,7 @@
 					<template #tab1>
 						<ul class="gallery">
 							<ClientOnly>
-								<a
-									v-for="(img, index) in images"
-									:key="index"
-									:href="img.img"
-									data-fancybox="gallery"
-								>
-									<img :src="img.img" />
-								</a>
+								<GalleryComponent />
 							</ClientOnly>
 						</ul>
 					</template>
