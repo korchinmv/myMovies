@@ -34,10 +34,6 @@
 			img: "/img/bg/360.webp",
 		},
 	];
-
-	onMounted(() => {
-		console.log("Fancybox is available:", window.Fancybox); // Лог для проверки
-	});
 </script>
 
 <template>
@@ -145,12 +141,15 @@
 							</ClientOnly>
 						</ul>
 					</template>
+
 					<template #tab2>
 						<div class="">tab2</div>
 					</template>
+
 					<template #tab3>
 						<div class="">tab3</div>
 					</template>
+
 					<template #tab4>
 						<div class="">tab4</div>
 					</template>
