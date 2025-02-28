@@ -133,14 +133,16 @@
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
 						<ul class="gallery">
-							<a
-								v-for="(img, index) in images"
-								:key="index"
-								:href="img.img"
-								data-fancybox="gallery"
-							>
-								<img :src="img.img" />
-							</a>
+							<ClientOnly>
+								<a
+									v-for="(img, index) in images"
+									:key="index"
+									:href="img.img"
+									data-fancybox="gallery"
+								>
+									<img :src="img.img" />
+								</a>
+							</ClientOnly>
 						</ul>
 					</template>
 					<template #tab2>
