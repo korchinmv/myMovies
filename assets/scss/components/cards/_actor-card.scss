@@ -1,0 +1,47 @@
+.actor-card {
+	flex-shrink: 0;
+
+	&__link {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		border: 1px solid var(--gray-color);
+		text-align: center;
+
+		&:hover {
+			.actor-card__img {
+				border-color: var(--accent-color);
+				box-shadow: 0 0 16px 0 rgba(255, 88, 96, 0.3);
+			}
+
+			.actor-card__name {
+				color: var(--accent-color);
+			}
+		}
+	}
+
+	&__img,
+	&__name,
+	&__proff {
+		margin-bottom: 5px;
+	}
+
+	&__img {
+		display: block;
+		border: 1px solid transparent;
+		border-radius: 8px;
+		object-fit: contain;
+		transition: all 0.4s ease-in-out;
+	}
+
+	&__name {
+		font-size: 14px;
+		margin-bottom: 5px;
+		transition: color 0.3s ease-in-out;
+	}
+
+	&__proff,
+	&__description {
+		font-size: 12px;
+	}
+}

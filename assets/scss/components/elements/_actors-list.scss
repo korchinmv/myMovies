@@ -1,0 +1,19 @@
+.actors-list {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 24px;
+
+	@media screen and (width <= 990px) {
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	@media screen and (width <= 768px) {
+		grid-template-columns: repeat(5, 1fr);
+		gap: 16px;
+	}
+
+	@media screen and (width <= 576px) {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8px;
+	}
+}

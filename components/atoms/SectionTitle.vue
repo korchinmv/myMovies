@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-	defineProps({
-		sectionTitleStrong: {
-			type: String,
-			required: true,
-		},
-		sectionTitle: {
-			type: String,
-		},
-	});
+	interface Props {
+		sectionTitleStrong: string;
+		sectionTitle: string;
+	}
+
+	defineProps<Props>();
 </script>
 
 <template>

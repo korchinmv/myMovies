@@ -15,9 +15,30 @@
 
 	const tabs = [
 		{ title: "Скриншоты" },
-		{ title: "Отзывы" },
+		{ title: "О фильме" },
 		{ title: "Сиквелы" },
 		{ title: "Похожие фильмы" },
+	];
+
+	const images = [
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
+		{
+			img: "/img/bg/360.webp",
+		},
 	];
 
 	const activeTabIndex = ref<number>(0);
@@ -125,13 +146,27 @@
 					<template #tab1>
 						<ul class="gallery">
 							<ClientOnly>
-								<GalleryComponent />
+								<li
+									class="gallery__item"
+									v-for="(img, index) in images"
+									:key="index"
+								>
+									<GalleryComponent />
+								</li>
 							</ClientOnly>
 						</ul>
 					</template>
 
 					<template #tab2>
-						<div class="">tab2</div>
+						<div class="">
+							<AtomsSubTitle class="movie-page__subtitle" subtitle="Режисеры" />
+
+							<MoleculesActorsList class="movie-page__actors-list" />
+
+							<AtomsSubTitle class="movie-page__subtitle" subtitle="Актеры" />
+
+							<MoleculesActorsList class="movie-page__actors-list" />
+						</div>
 					</template>
 
 					<template #tab3>

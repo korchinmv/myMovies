@@ -1,26 +1,13 @@
-<script setup>
-	const images = [
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-	];
-
-	onMounted(() => {
-		console.log("Fancybox is available:", window.Fancybox); // Проверка доступности Fancybox
-	});
-</script>
+<script setup></script>
 <template>
-	<div>
-		<a
-			v-for="(img, index) in images"
-			:key="index"
-			:href="img.img"
-			data-fancybox="gallery"
-		>
-			<img :src="img.img" />
-		</a>
-	</div>
+	<a
+		class="gallery-link"
+		href="https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/50c60c18-1da2-469a-907b-6d4a6f9636e5/orig"
+		data-fancybox="gallery"
+	>
+		<img
+			class="gallery-link__img"
+			src="https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/50c60c18-1da2-469a-907b-6d4a6f9636e5/300x"
+		/>
+	</a>
 </template>

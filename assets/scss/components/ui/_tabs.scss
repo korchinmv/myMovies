@@ -3,6 +3,7 @@
 	column-gap: 35px;
 
 	&__item {
+		flex-shrink: 0;
 		position: relative;
 
 		&::after {
@@ -38,5 +39,9 @@
 		font-size: 14px;
 		font-weight: 400;
 		font-family: var(--font-open-sans);
+
+		@media screen and (width <= 768px) {
+			height: 40px;
+		}
 	}
 }

@@ -21,6 +21,10 @@
 @import 'components/elements/movie-details';
 @import 'components/elements/movies-list';
 @import 'components/elements/genres-list';
+@import 'components/elements/gallery';
+@import 'components/elements/gallery-link';
+@import 'components/elements/subtitle';
+@import 'components/elements/actors-list';
 
 @import 'components/forms/sign-form';
 
@@ -39,5 +43,6 @@
 
 @import 'components/cards/movie-card';
 @import 'components/cards/genre-card';
+@import 'components/cards/actor-card';
 
 @import 'pages/movie-page';

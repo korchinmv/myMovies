@@ -138,5 +138,25 @@
 	&__tabs {
 		position: absolute;
 		bottom: 0;
+
+		@media screen and (width <= 768px) {
+			position: static;
+			column-gap: 20px;
+			flex-wrap: wrap;
+		}
+	}
+
+	&__subtitle {
+		margin-bottom: 30px;
+	}
+
+	&__actors-list {
+		&:not(:last-child) {
+			margin-bottom: 50px;
+
+			@media screen and (width <= 768px) {
+				margin-bottom: 40px;
+			}
+		}
 	}
 }
