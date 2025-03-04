@@ -12,7 +12,7 @@
 			</li>
 
 			<li class="navigation__item">
-				<NuxtLink class="navigation__link" to="/shows">ТВ Шоу</NuxtLink>
+				<NuxtLink class="navigation__link" to="/collections">Подборки</NuxtLink>
 			</li>
 		</ul>
 	</nav>

@@ -1,0 +1,65 @@
+.news-card {
+	border-radius: 8px;
+	border: 1px solid var(--gray-line);
+	height: 100%;
+	transition:
+		border-color 0.5s ease,
+		box-shadow 0.5s ease;
+
+	&:hover {
+		border-color: var(--accent-color);
+		box-shadow: 0 0 5px 5px rgba(255, 85, 165, 0.5);
+
+		.news-card__title {
+			color: var(--accent-color);
+		}
+	}
+
+	&__link {
+		display: block;
+		height: 100%;
+	}
+
+	&__img {
+		border-radius: 8px 8px 0 0;
+		width: 100%;
+		height: 210px;
+		object-fit: cover;
+	}
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		height: 180px;
+	}
+
+	&__title {
+		font-size: 20px;
+		font-family: var(--font-ubuntu);
+		margin-bottom: 15px;
+		line-height: 1;
+		transition: color 0.5s ease;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__descr {
+		font-size: 14px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-bottom: 10px;
+	}
+
+	&__date {
+		display: block;
+		margin-top: auto;
+		font-size: 12px;
+	}
+}

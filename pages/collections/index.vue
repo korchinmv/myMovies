@@ -1,3 +1,3 @@
 <template>
-	<h1>SHOWS PAGE</h1>
+	<h1>collections</h1>
 </template>

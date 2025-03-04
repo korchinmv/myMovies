@@ -21,22 +21,13 @@
 					>
 				</li>
 				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/mini-series"
-						>Мини сериалы</NuxtLink
+					<NuxtLink class="mobile-menu__nav-link" to="/collections"
+						>Подборки</NuxtLink
 					>
-				</li>
-				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/shows">ТВ Шоу</NuxtLink>
 				</li>
 			</ul>
 
 			<ul class="mobile-menu__nav-list">
-				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/genres">Жанры</NuxtLink>
-				</li>
-				<li class="mobile-menu__nav-item">
-					<NuxtLink class="mobile-menu__nav-link" to="/actors">Актеры</NuxtLink>
-				</li>
 				<li class="mobile-menu__nav-item">
 					<NuxtLink class="mobile-menu__nav-link" to="/premieres"
 						>Премьеры</NuxtLink
@@ -44,6 +35,14 @@
 				</li>
 				<li class="mobile-menu__nav-item">
 					<NuxtLink class="mobile-menu__nav-link" to="/top">Топ 250</NuxtLink>
+				</li>
+				<li class="mobile-menu__nav-item">
+					<NuxtLink class="mobile-menu__nav-link" to="/genres">Жанры</NuxtLink>
+				</li>
+				<li class="mobile-menu__nav-item">
+					<NuxtLink class="mobile-menu__nav-link" to="/news"
+						>Новости кино</NuxtLink
+					>
 				</li>
 			</ul>
 		</nav>

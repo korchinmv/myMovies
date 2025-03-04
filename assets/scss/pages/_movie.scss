@@ -1,12 +1,4 @@
-.movie-page {
-	&__breadcrumbs {
-		margin-bottom: 80px;
-
-		@media screen and (width <= 990px) {
-			margin-bottom: 56px;
-		}
-	}
-
+.movie {
 	&__hero-wrapper {
 		display: flex;
 		justify-content: space-between;

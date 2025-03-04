@@ -8,7 +8,7 @@
 
 <template>
 	<article class="actor-card">
-		<NuxtLink class="actor-card__link" to="#">
+		<NuxtLink class="actor-card__link" to="/actors/1">
 			<NuxtImg
 				class="actor-card__img"
 				:src="actor.posterUrl"

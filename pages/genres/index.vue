@@ -1,4 +1,11 @@
 <script setup lang="ts">
+	useSeoMeta({
+		title:
+			"myMovies - Фильмы по жанрам: смотреть онлайн лучшие комедии, драмы, боевики, фантастику и другие жанры",
+		description:
+			"myMovies - Смотрите фильмы по жанрам онлайн: комедии, драмы, боевики, фантастика, ужасы и многое другое. Выбирайте лучшие фильмы в нашем онлайн-кинотеатре и наслаждайтесь просмотром в HD-качестве!",
+	});
+
 	const breadcrumbs = [
 		{
 			label: "Главная",
@@ -12,19 +19,23 @@
 	const { data, isLoading, error } = useFetchData<{
 		id: string;
 		genre: string;
-	}>("filters");
+	}>("v2.2/filters");
 
 	const genres = ref(data.value);
+	console.log(genres.value);
 </script>
 
 <template>
 	<OrganismsHeroSection bgImage="img/bg/genres.jpg">
+		<OrganismsBreadcrumbs
+			class="hero-section__breadcrumbs"
+			:breadcrumbs="breadcrumbs"
+		/>
 		<AtomsMainTitle
-			class="hero-section__title hero-section__title--genres"
+			class="hero-section__title"
 			mainTitleStrong="Жанры"
 			mainTitle="фильмов"
 		/>
-		<OrganismsBreadcrumbs :breadcrumbs="breadcrumbs" />
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection class="content-section" :genres="genres">

@@ -23,29 +23,6 @@
 		<div class="categories__menu">
 			<ul class="categories__list">
 				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/genres"
-						>Жанры</NuxtLink
-					>
-				</li>
-				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/actors"
-						>Актеры</NuxtLink
-					>
-				</li>
-				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/premieres"
-						>Премьеры</NuxtLink
-					>
-				</li>
-				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/top"
-						>Топ 250</NuxtLink
-					>
-				</li>
-			</ul>
-
-			<ul class="categories__list">
-				<li class="categories__item">
 					<NuxtLink class="categories__link" @click="closeMenu" to="/movies"
 						>Фильмы</NuxtLink
 					>
@@ -59,13 +36,31 @@
 					<NuxtLink
 						class="categories__link"
 						@click="closeMenu"
-						to="/mini-series"
-						>Мини сериалы</NuxtLink
+						to="/collections"
+						>Подборки</NuxtLink
 					>
 				</li>
 				<li class="categories__item">
-					<NuxtLink class="categories__link" @click="closeMenu" to="/shows"
-						>ТВ Шоу</NuxtLink
+					<NuxtLink class="categories__link" @click="closeMenu" to="/top"
+						>Топ 250</NuxtLink
+					>
+				</li>
+			</ul>
+
+			<ul class="categories__list">
+				<li class="categories__item">
+					<NuxtLink class="categories__link" @click="closeMenu" to="/premieres"
+						>Премьеры</NuxtLink
+					>
+				</li>
+				<li class="categories__item">
+					<NuxtLink class="categories__link" @click="closeMenu" to="/genres"
+						>Жанры</NuxtLink
+					>
+				</li>
+				<li class="categories__item">
+					<NuxtLink class="categories__link" @click="closeMenu" to="/news"
+						>Новости кино</NuxtLink
 					>
 				</li>
 			</ul>
