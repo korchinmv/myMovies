@@ -1,8 +1,6 @@
 <script setup lang="ts">
 	import type { TNews } from "~/types/News";
 
-	const config = useRuntimeConfig();
-
 	useSeoMeta({
 		title: "myMovies - Новости о фильмах 2025: премьеры, актеры, сюжеты",
 		description:
@@ -19,7 +17,7 @@
 		},
 	];
 
-	const { data, isLoading, error } = useFetchData<{
+	const { data, pending, error } = useFetchData<{
 		total: number;
 		totalPages: number;
 		items: TNews[];
@@ -55,7 +53,11 @@
 			</template>
 
 			<template #body-content>
-				<ul class="news__list">
+				<AtomsPreloader v-if="pending" />
+				<AtomsErrorData v-else-if="error">
+					Ошибка при получении данных
+				</AtomsErrorData>
+				<ul class="news__list" v-else>
 					<li
 						class="news__item"
 						v-for="news in data?.items"
@@ -67,7 +69,7 @@
 			</template>
 
 			<template #link>
-				<span>PAGINATION</span>
+				<span v-show="error || pending">PAGINATION</span>
 			</template>
 		</OrganismsContentSection>
 	</div>

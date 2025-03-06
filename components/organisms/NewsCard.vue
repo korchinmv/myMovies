@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	import type { TNews } from "~/types/News";
+	import dateStringFormat from "~/utils/dateStringFormat";
 
 	defineProps({
 		news: {
@@ -23,7 +24,9 @@
 					{{ news.description }}
 				</p>
 
-				<span class="news-card__date">{{ news.publishedAt }}</span>
+				<span class="news-card__date">{{
+					dateStringFormat(news.publishedAt)
+				}}</span>
 			</div>
 		</a>
 	</article>

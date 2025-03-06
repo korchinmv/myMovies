@@ -1,4 +1,4 @@
-export function useFetchData<T>(url: string) {
+export const useFetchData = <T>(url: string) => {
 	const config = useRuntimeConfig();
 	const headers = {
 		"X-API-KEY": config.public.apiKey,
@@ -7,11 +7,12 @@ export function useFetchData<T>(url: string) {
 
 	const { data, pending, error } = useFetch<T>(config.public.baseUrl + url, {
 		headers,
+		lazy: true,
 	});
 
 	return {
 		data,
-		isLoading: pending,
+		pending,
 		error,
 	};
-}
+};
