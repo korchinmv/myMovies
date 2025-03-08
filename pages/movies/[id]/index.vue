@@ -63,7 +63,7 @@
 			/>
 
 			<div class="movie__hero-wrapper">
-				<AtomsMovieTitle class="movie__title" movieTitle="Матрица" />
+				<AtomsPageTitle class="movie__title" pageTitle="Матрица" />
 
 				<div class="movie__hero-inner">
 					<AtomsAddFavoritesBtn

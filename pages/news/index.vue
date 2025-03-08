@@ -2,6 +2,12 @@
 	import type { TNews } from "~/types/News";
 	import { useFetchData } from "~/composables/useFetchData";
 
+	useSeoMeta({
+		title: "myMovies - Свежие новинки, анонсы и обзоры фильмов и сериалов",
+		description:
+			"myMovies - Читайте свежие новости о кино на нашем онлайн-кинотеатре. Узнавайте первыми о новинках, анонсах фильмов, эксклюзивных интервью и обзорах. Все самое интересное из мира кино в одном месте!",
+	});
+
 	const route = useRoute();
 	const router = useRouter();
 	const page = ref(Number(route.query.page) || 1);
@@ -59,7 +65,7 @@
 
 <template>
 	<div class="news">
-		<OrganismsHeroSection bgImage="img/bg/news.jpg">
+		<OrganismsHeroSection bgImage="/img/bg/news-page.jpg">
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
 				:breadcrumbs="breadcrumbs"

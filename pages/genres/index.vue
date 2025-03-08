@@ -22,11 +22,10 @@
 	}>("v2.2/filters");
 
 	const genres = ref(data.value);
-	console.log(genres.value);
 </script>
 
 <template>
-	<OrganismsHeroSection bgImage="img/bg/genres.jpg">
+	<OrganismsHeroSection bgImage="/img/bg/genres-page.jpg">
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
 			:breadcrumbs="breadcrumbs"

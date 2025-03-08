@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 	defineProps({
-		movieTitle: {
+		pageTitle: {
 			type: String,
 		},
 	});
 </script>
 
 <template>
-	<h1 class="movie-title">
-		{{ movieTitle }}
+	<h1 class="page-title">
+		{{ pageTitle }}
 	</h1>
 </template>

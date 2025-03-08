@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 	useSeoMeta({
-		title: "myMovies - смотрите Лучшие Фильмы и Сериалы Онлайн",
+		title: "myMovies - Смотрите лучшие фильмы и сериалы онлайн",
 		description:
-			"myMovies - большой каталог фильмов и сериалов онлайн. Без рекламы, без регистрации. Качество HD. Смотри лучшие фильмы и сериалы прямо сейчас!",
+			"myMovies - Большой каталог фильмов и сериалов онлайн. Без рекламы, без регистрации. Качество HD. Смотри лучшие фильмы и сериалы прямо сейчас!",
 	});
 </script>
 
 <template>
-	<OrganismsHeroSection bgImage="img/bg/bg-main-page.jpeg">
+	<OrganismsHeroSection bgImage="/img/bg/bg-main-page.jpeg">
 		<AtomsMainTitle
 			class="hero-section__title"
 			mainTitleStrong="Лучшие"
