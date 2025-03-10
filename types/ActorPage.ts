@@ -1,4 +1,4 @@
-export type ActorPage = {
+export type TActorPage = {
 	personId: number;
 	webUrl: string;
 	nameRu: string;
