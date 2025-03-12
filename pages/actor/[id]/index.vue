@@ -13,6 +13,20 @@
 		`v1/staff/${route.params.id}`
 	);
 
+	watch(data, (newData) => {
+		if (newData) {
+			useSeoMeta({
+				title: `myMovies - ${newData.nameRu} -Об актере, фильмы, факты`,
+				description: `myMovies - Полная информация о актере ${newData.nameRu}`,
+			});
+		} else {
+			useSeoMeta({
+				title: "myMovies - Все об актере, фильмы, факты",
+				description: "myMovies - Все об актере, фильмы, факты",
+			});
+		}
+	});
+
 	onMounted(() => {
 		fetchData();
 	});
@@ -139,7 +153,18 @@
 			<template #body-content>
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
-						<h2>Фильмы</h2>
+						<ul class="actor__movie-list" v-if="data?.films">
+							<li
+								v-for="movie in data.films"
+								class="actor__movie-item"
+								:key="movie.filmId"
+							>
+								<MoleculesActorsFilm
+									v-if="movie.nameRu !== null"
+									:movie="movie"
+								/>
+							</li>
+						</ul>
 					</template>
 
 					<template #tab2>

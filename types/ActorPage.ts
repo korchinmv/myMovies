@@ -1,3 +1,24 @@
+export type TFilm = {
+	filmId: number;
+	nameRu?: string;
+	nameEn?: string;
+	rating?: string;
+	general: boolean;
+	description: string;
+	professionKey: string;
+};
+
+export type TSpouse = {
+	personId: number;
+	name: string;
+	divorced: boolean;
+	divorcedReason: string;
+	sex: string;
+	children: number;
+	webUrl: string;
+	relation: string;
+};
+
 export type TActorPage = {
 	personId: number;
 	webUrl: string;
@@ -11,26 +32,9 @@ export type TActorPage = {
 	age: number;
 	birthplace: string;
 	deathplace: string;
-	spouses: Array<{
-		personId: number;
-		name: string;
-		divorced: boolean;
-		divorcedReason: string;
-		sex: string;
-		children: number;
-		webUrl: string;
-		relation: string;
-	}>;
+	spouses: TSpouse[];
 	hasAwards: number;
 	profession: string;
-	facts: Array<string>;
-	films: Array<{
-		filmId: number;
-		nameRu?: string;
-		nameEn?: string;
-		rating?: string;
-		general: boolean;
-		description: string;
-		professionKey: string;
-	}>;
+	facts: string[];
+	films: TFilm[];
 };

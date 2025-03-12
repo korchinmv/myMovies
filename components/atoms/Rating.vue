@@ -1,21 +1,24 @@
 <script setup lang="ts">
-	defineProps({
-		ratingNum: {
-			type: Number,
-			required: true,
-		},
-		ratingValue: {
-			type: Number,
-			required: true,
-		},
-	});
+	import numForRatingFormat from "~/utils/numForRatingFormat";
+
+	interface Props {
+		ratingNum: number | string;
+		ratingValue: number | string;
+	}
+
+	const props = defineProps<Props>();
+
+	// Форматирование значения рейтинга
+	const formattedRatingValue = computed(() =>
+		numForRatingFormat(props.ratingValue)
+	);
 </script>
 
 <template>
 	<div class="rating">
 		<NuxtRating
 			:read-only="true"
-			:rating-value="ratingValue"
+			:rating-value="formattedRatingValue"
 			:rating-step="0.1"
 			:rating-size="16"
 			:rating-count="1"

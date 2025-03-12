@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	// import type { TMovie } from "~/types/Movie";
+	// defineProps<TMovie>();
+</script>
 
 <template>
 	<article class="movie-card">
