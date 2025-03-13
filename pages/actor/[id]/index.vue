@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import type { TActorPage } from "~/types/ActorPage";
+	import { ref, computed, watch, onMounted } from "vue";
 
 	const activeTabIndex = ref<number>(0);
 	const route = useRoute();
@@ -13,16 +14,32 @@
 		`v1/staff/${route.params.id}`
 	);
 
+	// Количество отображаемых фильмов
+	const visibleFilmsCount = ref(16); // Начальное количество фильмов
+	const showMoreFilms = () => {
+		visibleFilmsCount.value += 16; // Увеличиваем количество на 16
+	};
+
+	// Фильтрация фильмов
+	const filtredFilms = computed(() => {
+		return data.value?.films?.filter((movie) => movie.nameRu !== null) || [];
+	});
+
+	// Обрезанный массив фильмов
+	const visibleFilms = computed(() => {
+		return filtredFilms.value.slice(0, visibleFilmsCount.value);
+	});
+
+	// Проверка, есть ли ещё фильмы для отображения
+	const hasMoreFilms = computed(() => {
+		return visibleFilmsCount.value < filtredFilms.value.length;
+	});
+
 	watch(data, (newData) => {
 		if (newData) {
 			useSeoMeta({
-				title: `myMovies - ${newData.nameRu} -Об актере, фильмы, факты`,
+				title: `myMovies - ${newData.nameRu} - Об актере, фильмы, факты`,
 				description: `myMovies - Полная информация о актере ${newData.nameRu}`,
-			});
-		} else {
-			useSeoMeta({
-				title: "myMovies - Все об актере, фильмы, факты",
-				description: "myMovies - Все об актере, фильмы, факты",
 			});
 		}
 	});
@@ -153,22 +170,34 @@
 			<template #body-content>
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
-						<ul class="actor__movie-list" v-if="data?.films">
+						<ul class="actor__movie-list" v-if="visibleFilms.length">
 							<li
-								v-for="movie in data.films"
-								class="actor__movie-item"
+								v-for="movie in visibleFilms"
+								class="actor__movie-item fade-in"
 								:key="movie.filmId"
 							>
-								<MoleculesActorsFilm
-									v-if="movie.nameRu !== null"
-									:movie="movie"
-								/>
+								<MoleculesActorsFilm :movie="movie" />
 							</li>
 						</ul>
+						<button
+							class="actor__show-more button-primary"
+							v-if="hasMoreFilms"
+							@click="showMoreFilms"
+						>
+							Показать ещё
+						</button>
 					</template>
 
 					<template #tab2>
-						<h2>Факты</h2>
+						<ul class="actor__facts" v-if="data?.facts">
+							<li
+								v-for="(fact, index) in data.facts"
+								class="actor__facts-item fade-in"
+								:key="index"
+							>
+								{{ fact }}
+							</li>
+						</ul>
 					</template>
 				</MoleculesTabsContent>
 			</template>

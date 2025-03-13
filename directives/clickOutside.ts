@@ -1,13 +1,31 @@
+const clickOutsideMap = new WeakMap();
+
 export const clickOutside = {
 	beforeMount(el: HTMLElement, binding: DirectiveBinding) {
-		el.clickOutsideEvent = function (event: MouseEvent) {
-			if (!(el === event.target || el.contains(event.target as Node))) {
-				binding.value(event);
+		const isPassive = !binding.modifiers.noPassive;
+		const clickOutsideEvent = (event: MouseEvent | TouchEvent) => {
+			const target = event.target as Node;
+			if (target && !(el === target || el.contains(target))) {
+				if (typeof binding.value === "function") {
+					binding.value(event);
+				}
 			}
 		};
-		document.body.addEventListener("click", el.clickOutsideEvent);
+
+		clickOutsideMap.set(el, clickOutsideEvent);
+		document.addEventListener("click", clickOutsideEvent, {
+			passive: isPassive,
+		});
+		document.addEventListener("touchstart", clickOutsideEvent, {
+			passive: isPassive,
+		});
 	},
 	unmounted(el: HTMLElement) {
-		document.body.removeEventListener("click", el.clickOutsideEvent);
+		const clickOutsideEvent = clickOutsideMap.get(el);
+		if (clickOutsideEvent) {
+			document.removeEventListener("click", clickOutsideEvent);
+			document.removeEventListener("touchstart", clickOutsideEvent);
+			clickOutsideMap.delete(el);
+		}
 	},
 };

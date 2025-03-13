@@ -45,7 +45,10 @@
 @import 'components/cards/movie-card';
 @import 'components/cards/genre-card';
 @import 'components/cards/actor-card';
+@import 'components/cards/actors-film';
 @import 'components/cards/news-card';
+
+@import 'animations/fade-in';
 
 @import 'pages/movie';
 @import 'pages/news';

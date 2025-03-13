@@ -14,8 +14,17 @@
 
 <template>
 	<article class="actors-film">
-		<NuxtLink class="actors-film__link" :to="`/movies/${movie.filmId}`">
-			<h3 class="actors-film__title">{{ movie.nameRu }}</h3>
+		<NuxtLink class="actors-film__cover" :to="`/movies/${movie.filmId}`">
+			<div class="actors-film__inner">
+				<h3 class="actors-film__title">{{ movie.nameRu }}</h3>
+
+				<AtomsRating
+					class="actors-film__rating"
+					v-if="isValidRating"
+					:ratingNum="movie.rating || 0"
+					:ratingValue="movie.rating || 0"
+				/>
+			</div>
 
 			<div class="actors-film__wrap">
 				<span class="actors-film__descr">Роль: {{ movie.professionKey }}</span>
@@ -23,12 +32,6 @@
 					>Персонаж: {{ movie.description }}</span
 				>
 			</div>
-
-			<AtomsRating
-				v-if="isValidRating"
-				:ratingNum="movie.rating || 0"
-				:ratingValue="movie.rating || 0"
-			/>
 		</NuxtLink>
 	</article>
 </template>
