@@ -1,14 +1,19 @@
 <script lang="ts" setup>
-	// import type { TMovie } from "~/types/Movie";
-	// defineProps<TMovie>();
+	import type { TMovie } from "~/types/Movie";
+	interface Props {
+		movie: TMovie;
+	}
+
+	const props = defineProps<Props>();
 </script>
 
 <template>
 	<article class="movie-card">
-		<NuxtLink class="movie-card__cover" to="#">
+		<NuxtLink class="movie-card__cover" :to="`/movies/${movie.kinopoiskId}`">
 			<NuxtImg
 				class="movie-card__img"
-				src="https://m.media-amazon.com/images/M/MV5BNWJmOTE0ZGQtMDU0MS00ODYyLTk0NTAtZjE4NjUwNGIyMjQ1XkEyXkFqcGdeQXVyNDUyMTU0NDg@._V1_FMjpg_UX1000_.jpg"
+				:src="movie.posterUrlPreview"
+				:alt="movie.nameRu"
 			/>
 
 			<Icon
@@ -20,13 +25,18 @@
 
 		<div class="movie-card__content">
 			<h3 class="movie-card__title">
-				<NuxtLink to="#"> Titanic</NuxtLink>
+				<NuxtLink to="#">{{ movie.nameRu }}</NuxtLink>
 			</h3>
 
-			<AtomsMovieLinks class="movie-card__genres" />
+			<AtomsMovieLinks class="movie-card__genres" :genres="movie.genres" />
 
 			<div class="movie-card__info">
-				<AtomsRating :ratingNum="8" :ratingValue="0.6" />
+				<AtomsRating
+					class="movie-card__rating"
+					v-if="movie.ratingKinopoisk"
+					:ratingNum="movie.ratingKinopoisk"
+					:ratingValue="movie.ratingKinopoisk"
+				/>
 
 				<AtomsMovieDetails
 					class="movie-card__year"

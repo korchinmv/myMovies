@@ -109,8 +109,8 @@
 
 			<template #link>
 				<MoleculesPagination
-					v-show="data?.items.length"
 					class="news__pagination"
+					v-if="data?.items.length"
 					v-model:page="page"
 					:total="total"
 					:totalPages="totalPages"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import { useMobileMenu } from "~/store/mobileMenu";
+	import { useMobileMenu } from "~/store/useMobileMenu";
 	import { storeToRefs } from "pinia";
 
 	const mobileStore = useMobileMenu();

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import type { TFilm } from "~/types/ActorPage";
-
 	interface Props {
 		movie: TFilm;
 	}

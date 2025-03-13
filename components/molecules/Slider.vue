@@ -1,6 +1,7 @@
 <script setup lang="ts">
-	const props = defineProps<{
+	defineProps<{
 		className?: string;
+		controls?: boolean;
 	}>();
 
 	const containerRef = ref<null>(null);
@@ -36,7 +37,7 @@
 
 <template>
 	<div class="slider-wrapper">
-		<div class="controls">
+		<div class="controls" v-if="controls">
 			<button class="controls__button" @click="swiper.prev()">
 				<Icon name="material-symbols:arrow-back" size="20px" />
 			</button>
@@ -46,34 +47,8 @@
 		</div>
 
 		<ClientOnly>
-			<swiper-container :class="[props.className, 'slider']" ref="containerRef">
-				<swiper-slide class="slider__item">
-					<OrganismsMovieCard class="movie-card--preview" />
-				</swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
-				<swiper-slide class="slider__item"
-					><OrganismsMovieCard class="movie-card--preview"
-				/></swiper-slide>
+			<swiper-container :class="[className, 'slider']" ref="containerRef">
+				<slot />
 			</swiper-container>
 		</ClientOnly>
 	</div>
