@@ -5,7 +5,7 @@
 		<input
 			class="search-form__input"
 			type="text"
-			placeholder="Найти..."
+			placeholder="Найти фильм"
 			required
 		/>
 

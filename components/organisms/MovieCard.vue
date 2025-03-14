@@ -25,7 +25,9 @@
 
 		<div class="movie-card__content">
 			<h3 class="movie-card__title">
-				<NuxtLink to="#">{{ movie.nameRu }}</NuxtLink>
+				<NuxtLink :to="`/movies/${movie.kinopoiskId}`">{{
+					movie.nameRu
+				}}</NuxtLink>
 			</h3>
 
 			<AtomsMovieLinks class="movie-card__genres" :genres="movie.genres" />
@@ -40,23 +42,24 @@
 
 				<AtomsMovieDetails
 					class="movie-card__year"
-					title="2022"
+					:title="movie.year"
 					description="г"
 				/>
 
 				<AtomsMovieDetails
 					class="movie-card__time"
-					title="136"
+					:title="movie.filmLength"
 					description="мин"
+				/>
+
+				<AtomsMovieDetails
+					class="movie-card__time"
+					:title="movie.ratingAgeLimits"
+					description="+"
 				/>
 			</div>
 
-			<p class="movie-card__descr">
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi aut Lorem
-				ipsum dolor, sit amet consectetur adipisicing elit. Modi aut Lorem ipsum
-				dolor, sit amet consectetur adipisicing elit. Modi aut Lorem ipsum
-				dolor, sit amet consectetur adipisicing elit. Modi aut
-			</p>
+			<p class="movie-card__descr">{{ movie.description }}</p>
 		</div>
 	</article>
 </template>

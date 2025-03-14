@@ -3,6 +3,9 @@
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 
+	const isLoading = ref<boolean>(true);
+	const isError = ref<boolean>(false);
+
 	useSeoMeta({
 		title: "myMovies - Смотрите лучшие фильмы и сериалы онлайн",
 		description:
@@ -13,22 +16,28 @@
 	const { currentYear, currentMonth } = currentDate();
 
 	//Получаем премьеры
-	const {
-		data: dataPremieres,
-		isLoading: isLoadingPremieres,
-		error: errorPremieres,
-		fetchData: fetchDataPremieres,
-	} = useFetchData<{
+	const { data: dataPremieres, fetchData: fetchDataPremieres } = useFetchData<{
 		total: number;
 		items: TMovie[];
 	}>(`/v2.2/films/premieres?year=${currentYear}&month=${currentMonth}`);
 
+	//Получаем популярные фильмы
+	const { data: dataPopular, fetchData: fetchDataPopular } = useFetchData<{
+		total: number;
+		totalPages: number;
+		items: TMovie[];
+	}>(`/v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1`);
+
+	//Получаем популярные сериалы
+	const { data: dataSeries, fetchData: fetchDataSeries } = useFetchData<{
+		total: number;
+		totalPages: number;
+		items: TMovie[];
+	}>(`/v2.2/films/collections?type=POPULAR_SERIES&page=1`);
+
 	//Получаем данные стран и жанров для фильтра
 	const { data: dataFilters, fetchData: fetchDataFilters } =
 		useFetchData<TGenresAndCountries>("/v2.2/films/filters");
-
-	//Если премьеры есть, то показываем контролы
-	const showControls = computed(() => !!dataPremieres.value);
 
 	//Если данные есть, то добавляем состояние в Pinia
 	watch(dataFilters, (newFilters) => {
@@ -37,29 +46,46 @@
 		}
 	});
 
+	const fetchData = async () => {
+		try {
+			isLoading.value = true;
+			await Promise.all([
+				fetchDataPremieres(),
+				fetchDataPopular(),
+				fetchDataSeries(),
+				fetchDataFilters(),
+			]);
+		} catch (error) {
+			console.error("Ошибка при загрузке данных:", error);
+			isError.value = true;
+		} finally {
+			isLoading.value = false;
+		}
+	};
+
 	onMounted(() => {
-		fetchDataPremieres();
-		fetchDataFilters();
+		fetchData();
 	});
 </script>
 
 <template>
-	<OrganismsHeroSection bgImage="/img/bg/bg-main-page.jpeg">
+	<AtomsPreloader v-if="isLoading" />
+	<AtomsErrorData v-else-if="isError">
+		Ошибка при получении данных
+	</AtomsErrorData>
+
+	<OrganismsHeroSection
+		v-if="dataPremieres"
+		bgImage="/img/bg/bg-main-page.jpeg"
+	>
 		<AtomsMainTitle
 			class="hero-section__title"
 			mainTitleStrong="Лучшие"
 			mainTitle="новинки"
+			v-if="dataPremieres"
 		/>
 
-		<AtomsPreloaderDots v-if="isLoadingPremieres" />
-		<AtomsErrorData v-else-if="errorPremieres">
-			Ошибка при получении данных
-		</AtomsErrorData>
-		<MoleculesSlider
-			className="hero-section__slider"
-			:controls="showControls"
-			v-else
-		>
+		<MoleculesSlider className="hero-section__slider">
 			<swiper-slide
 				v-for="movie in dataPremieres?.items"
 				:key="movie.kinopoiskId"
@@ -70,7 +96,7 @@
 		</MoleculesSlider>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection>
+	<OrganismsContentSection v-if="dataPopular">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -78,26 +104,18 @@
 				sectionTitle="фильмы"
 		/></template>
 		<template #body-content>
-			<!-- <MoleculesMoviesList className="content-section__list">
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+			<MoleculesMoviesList className="content-section__list">
+				<li
+					class="movies-list__item"
+					v-for="movie in dataPopular?.items.slice(0, 6)"
+					:key="movie.kinopoiskId"
+				>
+					<OrganismsMovieCard
+						class="movie-card movie-card--horizontal"
+						:movie="movie"
+					/>
 				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-			</MoleculesMoviesList> -->
+			</MoleculesMoviesList>
 		</template>
 		<template #link>
 			<NuxtLink class="content-section__link button-primary" to="/movies"
@@ -106,7 +124,7 @@
 		>
 	</OrganismsContentSection>
 
-	<OrganismsContentSection>
+	<OrganismsContentSection v-if="dataSeries">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -115,26 +133,18 @@
 		/></template>
 
 		<template #body-content>
-			<!-- <MoleculesMoviesList>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+			<MoleculesMoviesList>
+				<li
+					class="movies-list__item"
+					v-for="movie in dataSeries?.items.slice(0, 6)"
+					:key="movie.kinopoiskId"
+				>
+					<OrganismsMovieCard
+						class="movie-card movie-card--horizontal"
+						:movie="movie"
+					/>
 				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-				<li class="movies-list__item">
-					<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-				</li>
-			</MoleculesMoviesList> -->
+			</MoleculesMoviesList>
 		</template>
 
 		<template #link>

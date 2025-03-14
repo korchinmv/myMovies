@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	defineProps<{
 		className?: string;
-		controls?: boolean;
 	}>();
 
 	const containerRef = ref<null>(null);
@@ -37,7 +36,7 @@
 
 <template>
 	<div class="slider-wrapper">
-		<div class="controls" v-if="controls">
+		<div class="controls">
 			<button class="controls__button" @click="swiper.prev()">
 				<Icon name="material-symbols:arrow-back" size="20px" />
 			</button>

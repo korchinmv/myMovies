@@ -61,6 +61,9 @@ input {
 
 main {
 	padding-top: 70px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .layout {

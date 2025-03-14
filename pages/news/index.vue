@@ -65,7 +65,12 @@
 
 <template>
 	<div class="news">
-		<OrganismsHeroSection bgImage="/img/bg/news-page.jpg">
+		<AtomsPreloader v-if="isLoading" />
+		<AtomsErrorData v-else-if="error">
+			Ошибка при получении данных
+		</AtomsErrorData>
+
+		<OrganismsHeroSection v-if="data" bgImage="/img/bg/news-page.jpg">
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
 				:breadcrumbs="breadcrumbs"
@@ -78,7 +83,7 @@
 			/>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection>
+		<OrganismsContentSection v-if="data">
 			<template #head-content>
 				<AtomsTextBlock>
 					<p class="text-block__text">
@@ -92,11 +97,7 @@
 			</template>
 
 			<template #body-content>
-				<AtomsPreloader v-if="isLoading" />
-				<AtomsErrorData v-else-if="error">
-					Ошибка при получении данных
-				</AtomsErrorData>
-				<ul class="news__list" v-else>
+				<ul class="news__list">
 					<li
 						class="news__item"
 						v-for="news in data?.items"

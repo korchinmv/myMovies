@@ -1,12 +1,22 @@
 <script lang="ts" setup>
 	interface Props {
-		title: number | string;
+		title: number | string | null | undefined;
 		description: string;
 	}
 
-	defineProps<Props>();
+	const { title, description } = defineProps<Props>();
+
+	const removeAgeFromString = computed(() => {
+		if (typeof title === "string") {
+			return title.replace(/age/g, "");
+		}
+
+		return title;
+	});
 </script>
 
 <template>
-	<span class="movie-details">{{ `${title}${description}` }}</span>
+	<span v-if="title" class="movie-details">{{
+		`${removeAgeFromString}${description}`
+	}}</span>
 </template>
