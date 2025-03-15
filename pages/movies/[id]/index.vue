@@ -1,7 +1,16 @@
 <script setup lang="ts">
 	import type { TMovie } from "~/types/Movie";
 
-	const breadcrumbs = [
+	const route = useRoute();
+
+	const tabs = [
+		{ title: "Скриншоты" },
+		{ title: "О фильме" },
+		{ title: "Сиквелы" },
+		{ title: "Похожие фильмы" },
+	];
+
+	const breadcrumbs = ref([
 		{
 			label: "Главная",
 			to: "/",
@@ -11,18 +20,9 @@
 			to: "/movies",
 		},
 		{
-			label: "Матрица",
+			label: "",
 		},
-	];
-
-	const route = useRoute();
-
-	const tabs = [
-		{ title: "Скриншоты" },
-		{ title: "О фильме" },
-		{ title: "Сиквелы" },
-		{ title: "Похожие фильмы" },
-	];
+	]);
 
 	const { data, isLoading, error, fetchData } = useFetchData<TMovie>(
 		`/v2.2/films/${route.params.id}`
@@ -52,6 +52,12 @@
 				title: `myMovies - ${newData.nameRu} (${newData.year}г.) смотреть онлайн бесплатно, в хорошем качестве`,
 				description: `myMovies - Смотрите ${newData.nameRu} бесплатно, в хорошем качестве на русском. Смотрите все фильмы онлайн в 4K на myMovies с телефона или компьютера бесплатно.`,
 			});
+		}
+	});
+
+	watch(data, (newData) => {
+		if (newData) {
+			breadcrumbs.value[2].label = newData.nameRu;
 		}
 	});
 
