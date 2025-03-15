@@ -1,4 +1,6 @@
 <script setup lang="ts">
+	import type { TMovie } from "~/types/Movie";
+
 	const breadcrumbs = [
 		{
 			label: "Главная",
@@ -13,6 +15,8 @@
 		},
 	];
 
+	const route = useRoute();
+
 	const tabs = [
 		{ title: "Скриншоты" },
 		{ title: "О фильме" },
@@ -20,26 +24,36 @@
 		{ title: "Похожие фильмы" },
 	];
 
-	const images = [
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-		{
-			img: "/img/bg/360.webp",
-		},
-	];
+	const { data, isLoading, error, fetchData } = useFetchData<TMovie>(
+		`/v2.2/films/${route.params.id}`
+	);
+
+	onMounted(() => {
+		fetchData();
+	});
+
+	onMounted(() => {
+		setTimeout(() => {
+			if ((window as any).kbox) {
+				(window as any).kbox(".kinobox_player", {
+					search: {
+						kinopoisk: route.params.id,
+					},
+				});
+			} else {
+				console.error("Kinobox script is not loaded.");
+			}
+		}, 500);
+	});
+
+	watch(data, (newData) => {
+		if (newData) {
+			useSeoMeta({
+				title: `myMovies - ${newData.nameRu} (${newData.year}г.) смотреть онлайн бесплатно, в хорошем качестве`,
+				description: `myMovies - Смотрите ${newData.nameRu} бесплатно, в хорошем качестве на русском. Смотрите все фильмы онлайн в 4K на myMovies с телефона или компьютера бесплатно.`,
+			});
+		}
+	});
 
 	const activeTabIndex = ref<number>(0);
 
@@ -53,9 +67,14 @@
 </script>
 
 <template>
-	<div class="movie">
+	<AtomsPreloader v-if="isLoading" />
+	<AtomsErrorData v-else-if="error">
+		Ошибка при получении данных
+	</AtomsErrorData>
+
+	<div class="movie" v-if="data">
 		<OrganismsHeroSection
-			bgImage="https://avatars.mds.yandex.net/get-ott/2419418/2a0000017c27e0e090b55381c1b06e5c5b0b/orig"
+			:bgImage="data?.coverUrl || `/img/bg/bg-movie-page.jpg`"
 		>
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
@@ -63,7 +82,7 @@
 			/>
 
 			<div class="movie__hero-wrapper">
-				<AtomsPageTitle class="movie__title" pageTitle="Матрица" />
+				<AtomsPageTitle class="movie__title" :pageTitle="data?.nameRu" />
 
 				<div class="movie__hero-inner">
 					<AtomsAddFavoritesBtn
@@ -78,57 +97,82 @@
 				</div>
 			</div>
 
+			<p class="movie__slogan" v-if="data?.slogan">{{ data.slogan }}</p>
+
 			<div class="movie__content">
 				<div class="movie__content-left">
 					<div class="movie__content-head">
 						<NuxtImg
 							class="movie__content-img"
-							src="https://kinopoiskapiunofficial.tech/images/posters/kp_small/301.jpg"
+							:src="data?.posterUrl"
+							:alt="data?.nameRu"
 						/>
 
 						<div class="movie__content-info">
-							<AtomsRating
-								class="movie__rating"
-								:ratingNum="8.5"
-								:ratingValue="0.4"
-							/>
-
 							<ul class="movie__details">
-								<li class="movie__details-item">
-									<AtomsMovieDetails :title="1999" :description="'г'" />
+								<li class="movie__details-item" v-if="data?.year">
+									<AtomsMovieDetails :title="data?.year" :description="'г'" />
 								</li>
 
-								<li class="movie__details-item">
-									<AtomsMovieDetails :title="136" :description="'мин'" />
+								<li class="movie__details-item" v-if="data?.filmLength">
+									<AtomsMovieDetails
+										:title="data?.filmLength"
+										:description="'мин'"
+									/>
 								</li>
 
-								<li class="movie__details-item">
-									<AtomsMovieDetails :title="16" :description="'+'" />
+								<li class="movie__details-item" v-if="data?.ratingAgeLimits">
+									<AtomsMovieDetails
+										:title="data?.ratingAgeLimits"
+										:description="'+'"
+									/>
 								</li>
 							</ul>
 
-							<div class="movie__content-movie">
-								<span class="movie__content-movie-title">Жанр: </span>
-								<AtomsMovieLinks />
+							<div class="movie__content-movie" v-if="data?.nameOriginal">
+								<span class="movie__content-movie-title">Название (EN): </span>
+								<span class="movie__content-movie-title">{{
+									data?.nameOriginal
+								}}</span>
 							</div>
 
-							<div class="movie__content-movie">
+							<div class="movie__content-movie" v-if="data?.ratingKinopoisk">
+								<span class="movie__content-movie-title">Кинопоиск: </span>
+								<AtomsRating
+									class="movie__rating"
+									:ratingNum="data?.ratingKinopoisk || 0"
+									:ratingValue="data?.ratingKinopoisk || 0"
+								/>
+							</div>
+
+							<div class="movie__content-movie" v-if="data?.ratingImdb">
+								<span class="movie__content-movie-title">IMDb: </span>
+								<span class="movie__content-movie-title">{{
+									data.ratingImdb
+								}}</span>
+							</div>
+
+							<div class="movie__content-movie" v-if="data?.genres">
+								<span class="movie__content-movie-title">Жанр: </span>
+								<AtomsMovieLinks v-if="data?.genres" :links="data.genres" />
+							</div>
+
+							<div class="movie__content-movie" v-if="data?.countries">
 								<span class="movie__content-movie-title">Страна: </span>
-								<AtomsMovieLinks />
+								<AtomsMovieLinks
+									v-if="data?.countries"
+									:links="data.countries"
+								/>
 							</div>
 						</div>
 					</div>
 
-					<p class="movie__text">
-						Жизнь Томаса Андерсона разделена на две части: днём он — самый
-						обычный офисный работник, получающий нагоняи от начальства, а ночью
-						превращается в хакера по имени Нео, и нет места в сети, куда он бы
-						не смог проникнуть. Но однажды всё меняется. Томас узнаёт ужасающую
-						правду о реальности.
+					<p class="movie__text" v-if="data?.description">
+						{{ data.description }}
 					</p>
 				</div>
 
-				<div class="movie__content-video">Тут видео</div>
+				<div class="movie__content-video kinobox_player">Загрузка...</div>
 			</div>
 		</OrganismsHeroSection>
 
@@ -146,13 +190,13 @@
 					<template #tab1>
 						<ul class="gallery">
 							<ClientOnly>
-								<li
+								<!-- <li
 									class="gallery__item"
 									v-for="(img, index) in images"
 									:key="index"
 								>
 									<GalleryComponent />
-								</li>
+								</li> -->
 							</ClientOnly>
 						</ul>
 					</template>
@@ -170,22 +214,7 @@
 					<template #tab3>
 						<MoleculesMoviesList className="content-section__list">
 							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+								<!-- <OrganismsMovieCard class="movie-card movie-card--horizontal" /> -->
 							</li>
 						</MoleculesMoviesList>
 					</template>
@@ -193,16 +222,7 @@
 					<template #tab4>
 						<MoleculesMoviesList className="content-section__list">
 							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
-							</li>
-							<li class="movies-list__item">
-								<OrganismsMovieCard class="movie-card movie-card--horizontal" />
+								<!-- <OrganismsMovieCard class="movie-card movie-card--horizontal" /> -->
 							</li>
 						</MoleculesMoviesList>
 					</template>

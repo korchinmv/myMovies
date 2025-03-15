@@ -4,7 +4,7 @@
 		movie: TMovie;
 	}
 
-	const props = defineProps<Props>();
+	defineProps<Props>();
 </script>
 
 <template>
@@ -30,7 +30,7 @@
 				}}</NuxtLink>
 			</h3>
 
-			<AtomsMovieLinks class="movie-card__genres" :genres="movie.genres" />
+			<AtomsMovieLinks class="movie-card__genres" :links="movie.genres" />
 
 			<div class="movie-card__info">
 				<AtomsRating

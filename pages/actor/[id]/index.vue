@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import type { TActorPage } from "~/types/ActorPage";
-	import { ref, computed, watch, onMounted } from "vue";
 
 	const activeTabIndex = ref<number>(0);
 	const route = useRoute();

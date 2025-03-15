@@ -4,6 +4,17 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	css: ["~/assets/scss/main.scss"],
 	plugins: ["~/plugins/useClickOutside.ts", "~/plugins/useFancybox.ts"],
+	app: {
+		head: {
+			script: [
+				{
+					src: "https://kinobox.tv/kinobox.min.js",
+					async: true,
+					defer: true,
+				},
+			],
+		},
+	},
 	modules: [
 		"@pinia/nuxt",
 		"@vueuse/nuxt",

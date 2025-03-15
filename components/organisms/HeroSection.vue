@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-	defineProps({
-		bgImage: {
-			type: String,
-			required: true,
-		},
-	});
+	interface Props {
+		bgImage: string;
+	}
+
+	defineProps<Props>();
 </script>
 
 <template>
