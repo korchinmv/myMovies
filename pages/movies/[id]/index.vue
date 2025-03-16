@@ -1,11 +1,13 @@
 <script setup lang="ts">
+	import type { TActor } from "~/types/Actor";
 	import type { TMovie } from "~/types/Movie";
+	import type { TScreenshot } from "~/types/Screenshots";
 
 	const route = useRoute();
 
 	const tabs = [
-		{ title: "Скриншоты" },
 		{ title: "О фильме" },
+		{ title: "Скриншоты" },
 		{ title: "Сиквелы" },
 		{ title: "Похожие фильмы" },
 	];
@@ -28,8 +30,28 @@
 		`/v2.2/films/${route.params.id}`
 	);
 
+	const {
+		data: dataScreens,
+		error: errorScreens,
+		isLoading: isLoadingScreens,
+		fetchData: fetchDataScreens,
+	} = useFetchData<{
+		total: number;
+		totalPages: number;
+		items: TScreenshot[];
+	}>(`/v2.2/films/${route.params.id}/images?type=SCREENSHOT&page=1`);
+
+	const {
+		data: dataActors,
+		error: errorActors,
+		isLoading: isLoadingActors,
+		fetchData: fetchDataActors,
+	} = useFetchData<TActor[]>(`/v1/staff?filmId=${route.params.id}`);
+
 	onMounted(() => {
 		fetchData();
+		fetchDataScreens();
+		fetchDataActors();
 	});
 
 	onMounted(() => {
@@ -194,27 +216,72 @@
 			<template #body-content>
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
-						<ul class="gallery">
-							<ClientOnly>
-								<!-- <li
-									class="gallery__item"
-									v-for="(img, index) in images"
-									:key="index"
+						<AtomsErrorData v-if="dataActors?.length === 0 || errorActors">
+							Списка актеров пока что нет
+						</AtomsErrorData>
+
+						<AtomsPreloaderLocal
+							class="movie__actors-tab-preloader"
+							v-if="isLoadingActors"
+						/>
+
+						<div class="movie__actors-tab" v-else>
+							<AtomsSubTitle class="movie__subtitle" subtitle="Актеры" />
+
+							<MoleculesActorsList class="movie__actors-list">
+								<li
+									class="actors-list__item"
+									v-for="actor in dataActors
+										?.filter((actor) => actor.professionKey === 'ACTOR')
+										.filter((actor) => actor.nameRu)"
+									:key="actor.staffId"
 								>
-									<GalleryComponent />
-								</li> -->
-							</ClientOnly>
-						</ul>
+									<OrganismsActorCard :actor="actor" />
+								</li>
+							</MoleculesActorsList>
+
+							<AtomsSubTitle class="movie__subtitle" subtitle="Режисеры" />
+
+							<MoleculesActorsList class="movie__actors-list">
+								<li
+									class="actors-list__item"
+									v-for="actor in dataActors
+										?.filter((actor) => actor.professionKey === 'DIRECTOR')
+										.filter((actor) => actor.nameRu)"
+									:key="actor.staffId"
+								>
+									<OrganismsActorCard :actor="actor" />
+								</li>
+							</MoleculesActorsList>
+						</div>
 					</template>
 
 					<template #tab2>
-						<AtomsSubTitle class="movie__subtitle" subtitle="Режисеры" />
+						<AtomsErrorData
+							v-if="dataScreens?.items.length === 0 || errorScreens"
+						>
+							Скриншотов пока что нет
+						</AtomsErrorData>
 
-						<MoleculesActorsList class="movie__actors-list" />
+						<AtomsPreloaderLocal
+							class="movie__actors-tab-preloader"
+							v-if="isLoadingScreens"
+						/>
 
-						<AtomsSubTitle class="movie__subtitle" subtitle="Актеры" />
-
-						<MoleculesActorsList class="movie__actors-list" />
+						<ul class="gallery" v-else>
+							<ClientOnly>
+								<li
+									class="gallery__item"
+									v-for="(screen, index) in dataScreens?.items"
+									:key="index"
+								>
+									<GalleryComponent
+										:preview="screen.previewUrl"
+										:original="screen.imageUrl"
+									/>
+								</li>
+							</ClientOnly>
+						</ul>
 					</template>
 
 					<template #tab3>

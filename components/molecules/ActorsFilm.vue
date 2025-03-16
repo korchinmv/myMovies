@@ -19,15 +19,17 @@
 
 				<AtomsRating
 					class="actors-film__rating"
-					v-if="isValidRating"
+					v-if="isValidRating || movie.rating"
 					:ratingNum="movie.rating || 0"
 					:ratingValue="movie.rating || 0"
 				/>
 			</div>
 
 			<div class="actors-film__wrap">
-				<span class="actors-film__descr">Роль: {{ movie.professionKey }}</span>
-				<span class="actors-film__descr"
+				<span class="actors-film__descr" v-if="movie.professionKey"
+					>Роль: {{ updateProfession(movie.professionKey) }}</span
+				>
+				<span class="actors-film__descr" v-if="movie.description"
 					>Персонаж: {{ movie.description }}</span
 				>
 			</div>

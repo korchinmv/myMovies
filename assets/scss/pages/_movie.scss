@@ -14,7 +14,13 @@
 		@media screen and (width <= 768px) {
 			flex-direction: column;
 			align-items: flex-start;
+			align-self: flex-start;
+			flex-shrink: 0;
 		}
+	}
+
+	&__title {
+		align-self: flex-start;
 	}
 
 	&__content {
@@ -52,12 +58,6 @@
 		}
 	}
 
-	&__title {
-		@media screen and (width <= 768px) {
-			align-self: flex-start;
-		}
-	}
-
 	&__content-img {
 		background-color: var(--bg-color);
 		border-radius: 8px;
@@ -74,8 +74,13 @@
 
 	&__details {
 		display: flex;
-		column-gap: 10px;
+		flex-wrap: wrap;
+		gap: 10px;
 		margin-bottom: 15px;
+
+		@media screen and (width <= 768px) {
+			margin-bottom: 5px;
+		}
 	}
 
 	&__content-movie {
@@ -84,8 +89,7 @@
 		column-gap: 10px;
 
 		@media screen and (width <= 768px) {
-			flex-direction: column;
-			align-items: flex-start;
+			flex-wrap: wrap;
 		}
 
 		&:not(:last-child) {
@@ -158,6 +162,7 @@
 
 	&__subtitle {
 		margin-bottom: 30px;
+		align-self: flex-start;
 	}
 
 	&__actors-list {
@@ -168,5 +173,9 @@
 				margin-bottom: 40px;
 			}
 		}
+	}
+
+	&__actors-tab-preloader {
+		margin: 0 auto;
 	}
 }

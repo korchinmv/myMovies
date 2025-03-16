@@ -30,8 +30,10 @@
 		display: block;
 		border: 1px solid transparent;
 		border-radius: 8px;
-		object-fit: contain;
+		object-fit: cover;
 		transition: all 0.4s ease-in-out;
+		height: 212px;
+		width: 100%;
 	}
 
 	&__name {

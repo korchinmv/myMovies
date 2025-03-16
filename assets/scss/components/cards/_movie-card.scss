@@ -64,6 +64,10 @@
 		height: 340px;
 		margin-bottom: 10px;
 
+		@media screen and (width <= 576px) {
+			height: 290px;
+		}
+
 		&:hover {
 			&::before {
 				opacity: 0.7;
@@ -96,6 +100,10 @@
 		height: 100%;
 		object-fit: cover;
 		height: 340px;
+
+		@media screen and (width <= 576px) {
+			height: 290px;
+		}
 	}
 
 	&__play {
@@ -128,7 +136,7 @@
 		margin-bottom: 5px;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1; /* Ограничение до трёх строк */
+		-webkit-line-clamp: 2; /* Ограничение до двух строк */
 		overflow: hidden; /* Скрываем текст, который выходит за пределы */
 		text-overflow: ellipsis; /* Добавляем многоточие в конце */
 

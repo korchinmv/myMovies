@@ -16,6 +16,10 @@
 	&__breadcrumbs {
 		margin-bottom: 80px;
 
+		li {
+			align-self: flex-start;
+		}
+
 		@media screen and (width <= 990px) {
 			margin-bottom: 56px;
 		}

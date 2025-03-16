@@ -8,7 +8,7 @@
 
 <template>
 	<article class="actor-card">
-		<NuxtLink class="actor-card__link" to="/actors/1">
+		<NuxtLink class="actor-card__link" :to="`/actor/${actor.staffId}`">
 			<NuxtImg
 				class="actor-card__img"
 				:src="actor.posterUrl"
@@ -18,7 +18,6 @@
 			<p class="actor-card__proff">
 				{{ deleteLastWord(actor.professionText) }}
 			</p>
-			<p class="actor-card__description">{{ actor.description }}</p>
 		</NuxtLink>
 	</article>
 </template>

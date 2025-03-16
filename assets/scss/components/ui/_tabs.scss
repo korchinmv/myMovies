@@ -44,4 +44,11 @@
 			height: 40px;
 		}
 	}
+
+	&__content-item {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 }
