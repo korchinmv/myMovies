@@ -9,7 +9,10 @@
 
 <template>
 	<article class="movie-card">
-		<NuxtLink class="movie-card__cover" :to="`/movies/${movie.kinopoiskId}`">
+		<NuxtLink
+			class="movie-card__cover"
+			:to="`/movies/${movie.kinopoiskId || movie.filmId}`"
+		>
 			<NuxtImg
 				class="movie-card__img"
 				:src="movie.posterUrlPreview"
@@ -30,9 +33,21 @@
 				}}</NuxtLink>
 			</h3>
 
-			<AtomsMovieLinks class="movie-card__genres" :links="movie.genres" />
+			<AtomsMovieLinks
+				class="movie-card__genres"
+				:links="movie.genres"
+				v-if="movie.genres"
+			/>
 
-			<div class="movie-card__info">
+			<div
+				class="movie-card__info"
+				v-if="
+					movie.ratingKinopoisk ||
+					movie.year ||
+					movie.filmLength ||
+					movie.ratingAgeLimits
+				"
+			>
 				<AtomsRating
 					class="movie-card__rating"
 					v-if="movie.ratingKinopoisk"
@@ -42,24 +57,29 @@
 
 				<AtomsMovieDetails
 					class="movie-card__year"
+					v-if="movie.year"
 					:title="movie.year"
 					description="г"
 				/>
 
 				<AtomsMovieDetails
 					class="movie-card__time"
+					v-if="movie.filmLength"
 					:title="movie.filmLength"
 					description="мин"
 				/>
 
 				<AtomsMovieDetails
 					class="movie-card__time"
+					v-if="movie.ratingAgeLimits"
 					:title="movie.ratingAgeLimits"
 					description="+"
 				/>
 			</div>
 
-			<p class="movie-card__descr">{{ movie.description }}</p>
+			<p class="movie-card__descr" v-if="movie.description">
+				{{ movie.description }}
+			</p>
 		</div>
 	</article>
 </template>

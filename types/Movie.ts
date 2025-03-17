@@ -1,5 +1,6 @@
 export type TMovie = {
-	kinopoiskId: number;
+	kinopoiskId?: number;
+	filmId?: number;
 	kinopoiskHDId: string;
 	imdbId: string;
 	nameRu: string;
@@ -37,10 +38,10 @@ export type TMovie = {
 	hasImax: boolean;
 	has3D: boolean;
 	lastSync: string;
-	countries: Array<{
+	countries?: Array<{
 		country: string;
 	}>;
-	genres: Array<{
+	genres?: Array<{
 		genre: string;
 	}>;
 	startYear: number;

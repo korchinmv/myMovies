@@ -2,9 +2,9 @@
 	import type { TActor } from "~/types/Actor";
 	import type { TMovie } from "~/types/Movie";
 	import type { TScreenshot } from "~/types/Screenshots";
-
 	const route = useRoute();
 
+	// Конфигурация вкладок
 	const tabs = [
 		{ title: "О фильме" },
 		{ title: "Скриншоты" },
@@ -12,23 +12,27 @@
 		{ title: "Похожие фильмы" },
 	];
 
+	// Хлебные крошки
 	const breadcrumbs = ref([
-		{
-			label: "Главная",
-			to: "/",
-		},
-		{
-			label: "Фильмы",
-			to: "/movies",
-		},
-		{
-			label: "",
-		},
+		{ label: "Главная", to: "/" },
+		{ label: "Фильмы", to: "/movies" },
+		{ label: "" }, // Динамическое название фильма будет добавлено позже
 	]);
 
-	const { data, isLoading, error, fetchData } = useFetchData<TMovie>(
-		`/v2.2/films/${route.params.id}`
-	);
+	// Запросы данных
+	const {
+		data: dataMovie,
+		isLoading: isLoadingMovie,
+		error: errorMovie,
+		fetchData: fetchDataMovie,
+	} = useFetchData<TMovie>(`v2.2/films/${route.params.id}`);
+
+	const {
+		data: dataActors,
+		error: errorActors,
+		isLoading: isLoadingActors,
+		fetchData: fetchDataActors,
+	} = useFetchData<TActor[]>(`v1/staff?filmId=${route.params.id}`);
 
 	const {
 		data: dataScreens,
@@ -39,25 +43,41 @@
 		total: number;
 		totalPages: number;
 		items: TScreenshot[];
-	}>(`/v2.2/films/${route.params.id}/images?type=SCREENSHOT&page=1`);
+	}>(`v2.2/films/${route.params.id}/images?type=SCREENSHOT&page=1`);
 
 	const {
-		data: dataActors,
-		error: errorActors,
-		isLoading: isLoadingActors,
-		fetchData: fetchDataActors,
-	} = useFetchData<TActor[]>(`/v1/staff?filmId=${route.params.id}`);
+		data: dataSequels,
+		error: errorSequels,
+		isLoading: isLoadingSequels,
+		fetchData: fetchDataSequels,
+	} = useFetchData<TMovie[]>(
+		`v2.1/films/${route.params.id}/sequels_and_prequels`
+	);
 
+	const {
+		data: dataSimilars,
+		error: errorSimilars,
+		isLoading: isLoadingSimilars,
+		fetchData: fetchDataSimilars,
+	} = useFetchData<{
+		total: number;
+		items: TMovie[];
+	}>(`/v2.2/films/${route.params.id}/similars`);
+
+	// Загрузка данных при монтировании компонента
 	onMounted(() => {
-		fetchData();
+		fetchDataMovie();
 		fetchDataScreens();
 		fetchDataActors();
+		fetchDataSequels();
+		fetchDataSimilars();
 	});
 
+	// Инициализация Kinobox
 	onMounted(() => {
 		setTimeout(() => {
 			if ((window as any).kbox) {
-				(window as any).kbox(".kinobox_player", {
+				(window as any).kbox(".kinobox-player", {
 					search: {
 						kinopoisk: route.params.id,
 					},
@@ -68,41 +88,53 @@
 		}, 500);
 	});
 
-	watch(data, (newData) => {
+	// Обновление SEO-метаданных при изменении данных о фильме
+	watch(dataMovie, (newData) => {
 		if (newData) {
 			useSeoMeta({
 				title: `myMovies - ${newData.nameRu} (${newData.year}г.) смотреть онлайн бесплатно, в хорошем качестве`,
 				description: `myMovies - Смотрите ${newData.nameRu} бесплатно, в хорошем качестве на русском. Смотрите все фильмы онлайн в 4K на myMovies с телефона или компьютера бесплатно.`,
 			});
-		}
-	});
 
-	watch(data, (newData) => {
-		if (newData) {
+			// Обновление хлебных крошек
 			breadcrumbs.value[2].label = newData.nameRu;
 		}
 	});
 
+	// Активная вкладка
 	const activeTabIndex = ref<number>(0);
 
 	const onTabChange = (index: number) => {
 		activeTabIndex.value = index;
 	};
 
+	// Ленивая загрузка компонента галереи
 	const GalleryComponent = defineAsyncComponent(
 		() => import("~/components/atoms/GalleryClient.vue")
 	);
+
+	//Фильтрация сиквелов
+	const filtredSequels = computed(() => {
+		return dataSequels.value?.filter((movie) => movie.nameRu != null) || [];
+	});
+
+	//Фильтрация похожих фильмов
+	const filtredSemilars = computed(() => {
+		return (
+			dataSimilars.value?.items.filter((movie) => movie.nameRu != null) || []
+		);
+	});
 </script>
 
 <template>
-	<AtomsPreloader v-if="isLoading" />
-	<AtomsErrorData v-else-if="error">
+	<AtomsPreloader v-if="isLoadingMovie" />
+	<AtomsErrorData v-else-if="errorMovie">
 		Ошибка при получении данных
 	</AtomsErrorData>
 
-	<div class="movie" v-if="data">
+	<div class="movie" v-if="dataMovie">
 		<OrganismsHeroSection
-			:bgImage="data?.coverUrl || `/img/bg/bg-movie-page.jpg`"
+			:bgImage="dataMovie?.coverUrl || `/img/bg/bg-movie-page.jpg`"
 		>
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
@@ -110,7 +142,7 @@
 			/>
 
 			<div class="movie__hero-wrapper">
-				<AtomsPageTitle class="movie__title" :pageTitle="data?.nameRu" />
+				<AtomsPageTitle class="movie__title" :pageTitle="dataMovie?.nameRu" />
 
 				<div class="movie__hero-inner">
 					<AtomsAddFavoritesBtn
@@ -125,82 +157,96 @@
 				</div>
 			</div>
 
-			<p class="movie__slogan" v-if="data?.slogan">{{ data.slogan }}</p>
+			<p class="movie__slogan" v-if="dataMovie?.slogan">
+				{{ dataMovie.slogan }}
+			</p>
 
 			<div class="movie__content">
 				<div class="movie__content-left">
 					<div class="movie__content-head">
 						<NuxtImg
 							class="movie__content-img"
-							:src="data?.posterUrl"
-							:alt="data?.nameRu"
+							:src="dataMovie?.posterUrl"
+							:alt="dataMovie?.nameRu"
 						/>
 
 						<div class="movie__content-info">
 							<ul class="movie__details">
-								<li class="movie__details-item" v-if="data?.year">
-									<AtomsMovieDetails :title="data?.year" :description="'г'" />
+								<li class="movie__details-item" v-if="dataMovie?.year">
+									<AtomsMovieDetails
+										:title="dataMovie?.year"
+										:description="'г'"
+									/>
 								</li>
 
-								<li class="movie__details-item" v-if="data?.filmLength">
+								<li class="movie__details-item" v-if="dataMovie?.filmLength">
 									<AtomsMovieDetails
-										:title="data?.filmLength"
+										:title="dataMovie?.filmLength"
 										:description="'мин'"
 									/>
 								</li>
 
-								<li class="movie__details-item" v-if="data?.ratingAgeLimits">
+								<li
+									class="movie__details-item"
+									v-if="dataMovie?.ratingAgeLimits"
+								>
 									<AtomsMovieDetails
-										:title="data?.ratingAgeLimits"
+										:title="dataMovie?.ratingAgeLimits"
 										:description="'+'"
 									/>
 								</li>
 							</ul>
 
-							<div class="movie__content-movie" v-if="data?.nameOriginal">
+							<div class="movie__content-movie" v-if="dataMovie?.nameOriginal">
 								<span class="movie__content-movie-title">Название (EN): </span>
 								<span class="movie__content-movie-title">{{
-									data?.nameOriginal
+									dataMovie?.nameOriginal
 								}}</span>
 							</div>
 
-							<div class="movie__content-movie" v-if="data?.ratingKinopoisk">
+							<div
+								class="movie__content-movie"
+								v-if="dataMovie?.ratingKinopoisk"
+							>
 								<span class="movie__content-movie-title">Кинопоиск: </span>
 								<AtomsRating
 									class="movie__rating"
-									:ratingNum="data?.ratingKinopoisk || 0"
-									:ratingValue="data?.ratingKinopoisk || 0"
+									:ratingNum="dataMovie?.ratingKinopoisk || 0"
+									:ratingValue="dataMovie?.ratingKinopoisk || 0"
 								/>
 							</div>
 
-							<div class="movie__content-movie" v-if="data?.ratingImdb">
+							<div class="movie__content-movie" v-if="dataMovie?.ratingImdb">
 								<span class="movie__content-movie-title">IMDb: </span>
 								<span class="movie__content-movie-title">{{
-									data.ratingImdb
+									dataMovie.ratingImdb
 								}}</span>
 							</div>
 
-							<div class="movie__content-movie" v-if="data?.genres">
+							<div class="movie__content-movie" v-if="dataMovie?.genres">
 								<span class="movie__content-movie-title">Жанр: </span>
-								<AtomsMovieLinks v-if="data?.genres" :links="data.genres" />
+								<AtomsMovieLinks
+									v-if="dataMovie?.genres"
+									:links="dataMovie.genres || []"
+								/>
 							</div>
 
-							<div class="movie__content-movie" v-if="data?.countries">
+							<div class="movie__content-movie" v-if="dataMovie?.countries">
 								<span class="movie__content-movie-title">Страна: </span>
 								<AtomsMovieLinks
-									v-if="data?.countries"
-									:links="data.countries"
+									v-if="dataMovie?.countries"
+									:links="dataMovie.countries || []"
 								/>
 							</div>
 						</div>
 					</div>
 
-					<p class="movie__text" v-if="data?.description">
-						{{ data.description }}
+					<p class="movie__text" v-if="dataMovie?.description">
+						{{ dataMovie.description }}
 					</p>
 				</div>
 
-				<div class="movie__content-video kinobox_player">Загрузка...</div>
+				<div class="movie__content-video kinobox-player">Загрузка...</div>
 			</div>
 		</OrganismsHeroSection>
 
@@ -217,7 +263,7 @@
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
 						<AtomsErrorData v-if="dataActors?.length === 0 || errorActors">
-							Списка актеров пока что нет
+							Полного списка актеров пока что нет
 						</AtomsErrorData>
 
 						<AtomsPreloaderLocal
@@ -285,17 +331,51 @@
 					</template>
 
 					<template #tab3>
-						<MoleculesMoviesList className="content-section__list">
-							<li class="movies-list__item">
-								<!-- <OrganismsMovieCard class="movie-card movie-card--horizontal" /> -->
+						<AtomsErrorData v-if="dataSequels?.length === 0 || errorSequels">
+							Сиквелы не найдены
+						</AtomsErrorData>
+
+						<AtomsPreloaderLocal
+							class="movie__actors-tab-preloader"
+							v-if="isLoadingSequels"
+						/>
+
+						<MoleculesMoviesList>
+							<li
+								class="movies-list-preview__item"
+								v-for="movie in filtredSequels"
+								:key="movie.filmId"
+							>
+								<OrganismsMovieCard
+									class="movie-card movie-card--preview"
+									:movie="movie"
+								/>
 							</li>
 						</MoleculesMoviesList>
 					</template>
 
 					<template #tab4>
-						<MoleculesMoviesList className="content-section__list">
-							<li class="movies-list__item">
-								<!-- <OrganismsMovieCard class="movie-card movie-card--horizontal" /> -->
+						<AtomsErrorData
+							v-if="dataSimilars?.items.length === 0 || errorSimilars"
+						>
+							Похожие фильмы еще не сняли..
+						</AtomsErrorData>
+
+						<AtomsPreloaderLocal
+							class="movie__actors-tab-preloader"
+							v-if="isLoadingSimilars"
+						/>
+
+						<MoleculesMoviesList>
+							<li
+								class="movies-list-preview__item"
+								v-for="movie in filtredSemilars"
+								:key="movie.filmId"
+							>
+								<OrganismsMovieCard
+									class="movie-card movie-card--preview"
+									:movie="movie"
+								/>
 							</li>
 						</MoleculesMoviesList>
 					</template>

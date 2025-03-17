@@ -13,27 +13,27 @@
 	});
 
 	const { setDataGenresAndCountriesFilters } = useGenresAndCountriesFilter();
-	const { currentYear, currentMonth } = currentDate();
+	const { currentMonth } = currentDate();
 
 	//Получаем премьеры
 	const { data: dataPremieres, fetchData: fetchDataPremieres } = useFetchData<{
 		total: number;
 		items: TMovie[];
-	}>(`/v2.2/films/premieres?year=${currentYear}&month=${currentMonth}`);
+	}>(`v2.2/films/premieres?year=2024&month=${currentMonth}`);
 
 	//Получаем популярные фильмы
 	const { data: dataPopular, fetchData: fetchDataPopular } = useFetchData<{
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>(`/v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1`);
+	}>(`v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1`);
 
 	//Получаем популярные сериалы
 	const { data: dataSeries, fetchData: fetchDataSeries } = useFetchData<{
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>(`/v2.2/films/collections?type=POPULAR_SERIES&page=1`);
+	}>(`v2.2/films/collections?type=POPULAR_SERIES&page=1`);
 
 	//Получаем данные стран и жанров для фильтра
 	const { data: dataFilters, fetchData: fetchDataFilters } =
@@ -70,9 +70,8 @@
 
 <template>
 	<AtomsPreloader v-if="isLoading" />
-	<AtomsErrorData v-else-if="isError">
-		Ошибка при получении данных
-	</AtomsErrorData>
+
+	<AtomsErrorData v-else="isError">Ошибка при получении данных </AtomsErrorData>
 
 	<OrganismsHeroSection
 		v-if="dataPremieres"

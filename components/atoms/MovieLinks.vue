@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import type { TMovie } from "~/types/Movie";
 	interface Props {
-		links: TMovie["countries"] | TMovie["genres"];
+		links?: TMovie["countries"] | TMovie["genres"];
 	}
 
 	defineProps<Props>();

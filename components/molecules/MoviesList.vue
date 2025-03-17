@@ -1,5 +1,5 @@
 <template>
-	<ul class="movies-list">
+	<ul class="movies-list-preview">
 		<slot />
 	</ul>
 </template>
