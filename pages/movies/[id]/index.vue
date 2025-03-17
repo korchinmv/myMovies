@@ -2,6 +2,7 @@
 	import type { TActor } from "~/types/Actor";
 	import type { TMovie } from "~/types/Movie";
 	import type { TScreenshot } from "~/types/Screenshots";
+
 	const route = useRoute();
 
 	// Конфигурация вкладок
