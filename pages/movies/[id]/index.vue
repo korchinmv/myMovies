@@ -63,7 +63,7 @@
 	} = useFetchData<{
 		total: number;
 		items: TMovie[];
-	}>(`/v2.2/films/${route.params.id}/similars`);
+	}>(`v2.2/films/${route.params.id}/similars`);
 
 	// Загрузка данных при монтировании компонента
 	onMounted(() => {
@@ -114,21 +114,19 @@
 		() => import("~/components/atoms/GalleryClient.vue")
 	);
 
-	//Фильтрация сиквелов
-	const filtredSequels = computed(() => {
-		return dataSequels.value?.filter((movie) => movie.nameRu != null) || [];
-	});
+	// Фильтрация на наличие названия фильма
+	const { filteredMovies: filtredSequels } = useMovieFilters(
+		computed(() => dataSequels.value || [])
+	);
 
-	//Фильтрация похожих фильмов
-	const filtredSemilars = computed(() => {
-		return (
-			dataSimilars.value?.items.filter((movie) => movie.nameRu != null) || []
-		);
-	});
+	const { filteredMovies: filtredSimilars } = useMovieFilters(
+		computed(() => dataSimilars.value?.items || [])
+	);
 </script>
 
 <template>
 	<AtomsPreloader v-if="isLoadingMovie" />
+
 	<AtomsErrorData v-else-if="errorMovie">
 		Ошибка при получении данных
 	</AtomsErrorData>
@@ -370,7 +368,7 @@
 						<MoleculesMoviesList>
 							<li
 								class="movies-list-preview__item"
-								v-for="movie in filtredSemilars"
+								v-for="movie in filtredSimilars"
 								:key="movie.filmId"
 							>
 								<OrganismsMovieCard

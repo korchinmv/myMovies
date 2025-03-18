@@ -6,5 +6,8 @@ export const useMobileMenu = defineStore("mobileMenu", {
 		toggleMobileMenu(): void {
 			this.isShowMobileMenu = !this.isShowMobileMenu;
 		},
+		hideMobileMenu(): void {
+			this.isShowMobileMenu = false;
+		},
 	},
 });

@@ -4,6 +4,7 @@
 	background-color: var(--bg-color);
 	padding: 80px 0;
 	overflow: hidden;
+	width: 100%;
 
 	@media screen and (width <= 1240px) {
 		padding: 56px 0;
@@ -56,12 +57,6 @@
 		justify-content: space-between;
 		align-items: center;
 		column-gap: 32px;
-	}
-
-	&__slider {
-		@media screen and (width <= 768px) {
-			margin-bottom: 20px;
-		}
 	}
 
 	&__loader {

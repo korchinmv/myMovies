@@ -16,28 +16,43 @@
 	const { currentMonth } = currentDate();
 
 	//Получаем премьеры
-	const { data: dataPremieres, fetchData: fetchDataPremieres } = useFetchData<{
+	const {
+		data: dataPremieres,
+		fetchData: fetchDataPremieres,
+		error: errorPremieres,
+	} = useFetchData<{
 		total: number;
 		items: TMovie[];
 	}>(`v2.2/films/premieres?year=2024&month=${currentMonth}`);
 
 	//Получаем популярные фильмы
-	const { data: dataPopular, fetchData: fetchDataPopular } = useFetchData<{
+	const {
+		data: dataPopular,
+		fetchData: fetchDataPopular,
+		error: errorPopular,
+	} = useFetchData<{
 		total: number;
 		totalPages: number;
 		items: TMovie[];
 	}>(`v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1`);
 
 	//Получаем популярные сериалы
-	const { data: dataSeries, fetchData: fetchDataSeries } = useFetchData<{
+	const {
+		data: dataSeries,
+		fetchData: fetchDataSeries,
+		error: errorSeries,
+	} = useFetchData<{
 		total: number;
 		totalPages: number;
 		items: TMovie[];
 	}>(`v2.2/films/collections?type=POPULAR_SERIES&page=1`);
 
 	//Получаем данные стран и жанров для фильтра
-	const { data: dataFilters, fetchData: fetchDataFilters } =
-		useFetchData<TGenresAndCountries>("/v2.2/films/filters");
+	const {
+		data: dataFilters,
+		fetchData: fetchDataFilters,
+		error: errorFilters,
+	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
 
 	//Если данные есть, то добавляем состояние в Pinia
 	watch(dataFilters, (newFilters) => {
@@ -49,12 +64,23 @@
 	const fetchData = async () => {
 		try {
 			isLoading.value = true;
+			isError.value = false;
+
 			await Promise.all([
 				fetchDataPremieres(),
 				fetchDataPopular(),
 				fetchDataSeries(),
 				fetchDataFilters(),
 			]);
+
+			if (
+				errorPremieres.value ||
+				errorPopular.value ||
+				errorSeries.value ||
+				errorFilters.value
+			) {
+				isError.value = true;
+			}
 		} catch (error) {
 			console.error("Ошибка при загрузке данных:", error);
 			isError.value = true;
@@ -66,15 +92,26 @@
 	onMounted(() => {
 		fetchData();
 	});
+
+	// Фильтрация на наличие названия фильма
+	const { filteredMovies: filtredPremieres } = useMovieFilters(
+		computed(() => dataPremieres.value?.items || [])
+	);
+	const { filteredMovies: filtredPopular } = useMovieFilters(
+		computed(() => dataPopular.value?.items || [])
+	);
+	const { filteredMovies: filtredSeries } = useMovieFilters(
+		computed(() => dataSeries.value?.items || [])
+	);
 </script>
 
 <template>
 	<AtomsPreloader v-if="isLoading" />
 
-	<AtomsErrorData v-else="isError">Ошибка при получении данных </AtomsErrorData>
+	<AtomsErrorData v-if="isError">Ошибка при получении данных</AtomsErrorData>
 
 	<OrganismsHeroSection
-		v-if="dataPremieres"
+		v-if="dataPremieres && !isError"
 		bgImage="/img/bg/bg-main-page.jpeg"
 	>
 		<AtomsMainTitle
@@ -86,7 +123,7 @@
 
 		<MoleculesSlider className="hero-section__slider">
 			<swiper-slide
-				v-for="movie in dataPremieres?.items"
+				v-for="movie in filtredPremieres"
 				:key="movie.kinopoiskId"
 				class="slider__item"
 			>
@@ -95,7 +132,7 @@
 		</MoleculesSlider>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection v-if="dataPopular">
+	<OrganismsContentSection v-if="dataPopular && !isError">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -106,7 +143,7 @@
 			<MoleculesMoviesList className="content-section__list">
 				<li
 					class="movies-list__item"
-					v-for="movie in dataPopular?.items.slice(0, 6)"
+					v-for="movie in filtredPopular.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
 					<OrganismsMovieCard
@@ -123,7 +160,7 @@
 		>
 	</OrganismsContentSection>
 
-	<OrganismsContentSection v-if="dataSeries">
+	<OrganismsContentSection v-if="dataSeries && !isError">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -132,10 +169,10 @@
 		/></template>
 
 		<template #body-content>
-			<MoleculesMoviesList>
+			<MoleculesMoviesList className="content-section__list">
 				<li
 					class="movies-list__item"
-					v-for="movie in dataSeries?.items.slice(0, 6)"
+					v-for="movie in filtredSeries.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
 					<OrganismsMovieCard

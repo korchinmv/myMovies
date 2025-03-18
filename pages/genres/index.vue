@@ -15,13 +15,6 @@
 			label: "Жанры",
 		},
 	];
-
-	const { data, isLoading, error } = useFetchData<{
-		id: string;
-		genre: string;
-	}>("v2.2/filters");
-
-	const genres = ref(data.value);
 </script>
 
 <template>
@@ -37,7 +30,7 @@
 		/>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection class="content-section" :genres="genres">
+	<OrganismsContentSection class="content-section">
 		<template #head-content>
 			<AtomsTextBlock>
 				<p class="text-block__text">

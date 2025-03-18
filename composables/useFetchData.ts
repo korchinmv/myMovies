@@ -1,5 +1,3 @@
-import { ref, watch } from "vue";
-
 export function useFetchData<T>(url: string, query?: Record<string, any>) {
 	const config = useRuntimeConfig();
 	const data = ref<T | null>(null);
