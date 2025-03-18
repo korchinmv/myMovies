@@ -232,10 +232,15 @@
 
 							<div class="movie__content-movie" v-if="dataMovie?.countries">
 								<span class="movie__content-movie-title">Страна: </span>
-								<AtomsMovieLinks
-									v-if="dataMovie?.countries"
-									:links="dataMovie.countries || []"
-								/>
+								<ul class="movie__countries-list">
+									<li
+										class="movie__countries-item"
+										v-for="(country, index) in dataMovie.countries"
+										:key="index"
+									>
+										{{ country.country }}
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>

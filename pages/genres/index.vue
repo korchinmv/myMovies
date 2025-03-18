@@ -1,4 +1,6 @@
 <script setup lang="ts">
+	import type { TGenresAndCountries } from "~/types/Filters";
+
 	useSeoMeta({
 		title:
 			"myMovies - Фильмы по жанрам: смотреть онлайн лучшие комедии, драмы, боевики, фантастику и другие жанры",
@@ -15,10 +17,37 @@
 			label: "Жанры",
 		},
 	];
+
+	//Получаем данные стран и жанров для фильтра
+	const {
+		data: dataFilters,
+		fetchData: fetchDataFilters,
+		isLoading: isLoadingFilters,
+		error: errorFilters,
+	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+
+	onMounted(() => {
+		fetchDataFilters();
+	});
+
+	const filtredGenres = computed(() => {
+		return (
+			dataFilters.value?.genres?.filter((genre) => genre.genre !== "") || []
+		);
+	});
 </script>
 
 <template>
-	<OrganismsHeroSection bgImage="/img/bg/genres-page.jpg">
+	<AtomsPreloader v-if="isLoadingFilters" />
+
+	<AtomsErrorData v-if="errorFilters"
+		>Ошибка при получении данных</AtomsErrorData
+	>
+
+	<OrganismsHeroSection
+		v-if="dataFilters && !errorFilters"
+		bgImage="/img/bg/genres-page.jpg"
+	>
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
 			:breadcrumbs="breadcrumbs"
@@ -30,7 +59,10 @@
 		/>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection class="content-section">
+	<OrganismsContentSection
+		class="content-section"
+		v-if="dataFilters && !errorFilters"
+	>
 		<template #head-content>
 			<AtomsTextBlock>
 				<p class="text-block__text">
@@ -44,38 +76,12 @@
 
 		<template #body-content>
 			<MoleculesGenresList>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
-				</li>
-				<li class="genres-list__item">
-					<OrganismsGenreCard />
+				<li
+					class="genres-list__item"
+					v-for="genre in filtredGenres"
+					:key="genre.id"
+				>
+					<OrganismsGenreCard :genre="genre" />
 				</li>
 			</MoleculesGenresList>
 		</template>

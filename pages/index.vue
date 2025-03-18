@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-	import { useGenresAndCountriesFilter } from "~/store/useGenresAndCountriesFilter";
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 
@@ -12,7 +11,6 @@
 			"myMovies - Большой каталог фильмов и сериалов онлайн. Без рекламы, без регистрации. Качество HD. Смотри лучшие фильмы и сериалы прямо сейчас!",
 	});
 
-	const { setDataGenresAndCountriesFilters } = useGenresAndCountriesFilter();
 	const { currentMonth } = currentDate();
 
 	//Получаем премьеры
@@ -53,13 +51,6 @@
 		fetchData: fetchDataFilters,
 		error: errorFilters,
 	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
-
-	//Если данные есть, то добавляем состояние в Pinia
-	watch(dataFilters, (newFilters) => {
-		if (newFilters) {
-			setDataGenresAndCountriesFilters(newFilters);
-		}
-	});
 
 	const fetchData = async () => {
 		try {
