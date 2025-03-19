@@ -30,7 +30,7 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>("v2.2/films/collections?type=TOP_250_MOVIES", query.value);
+	}>("v2.2/films/collections?type=TOP_250_MOVIES", query);
 
 	// Обновляем total и totalPages при изменении данных
 	watch(data, (newData) => {

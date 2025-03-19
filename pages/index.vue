@@ -45,13 +45,6 @@
 		items: TMovie[];
 	}>(`v2.2/films/collections?type=POPULAR_SERIES&page=1`);
 
-	//Получаем данные стран и жанров для фильтра
-	const {
-		data: dataFilters,
-		fetchData: fetchDataFilters,
-		error: errorFilters,
-	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
-
 	const fetchData = async () => {
 		try {
 			isLoading.value = true;
@@ -61,15 +54,9 @@
 				fetchDataPremieres(),
 				fetchDataPopular(),
 				fetchDataSeries(),
-				fetchDataFilters(),
 			]);
 
-			if (
-				errorPremieres.value ||
-				errorPopular.value ||
-				errorSeries.value ||
-				errorFilters.value
-			) {
+			if (errorPremieres.value || errorPopular.value || errorSeries.value) {
 				isError.value = true;
 			}
 		} catch (error) {

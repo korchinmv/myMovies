@@ -1,4 +1,4 @@
-export function useFetchData<T>(url: string, query?: Record<string, any>) {
+export function useFetchData<T>(url: string, query?: Ref<Record<string, any>>) {
 	const config = useRuntimeConfig();
 	const data = ref<T | null>(null);
 	const isLoading = ref(false);
@@ -16,7 +16,7 @@ export function useFetchData<T>(url: string, query?: Record<string, any>) {
 		try {
 			const response = await $fetch<T>(config.public.baseUrl + url, {
 				headers,
-				query: { ...query }, // Копируем query, чтобы избежать мутаций
+				query: query ? { ...query.value } : {}, // Используем значение query, если оно есть
 			});
 			data.value = response;
 		} catch (err) {
@@ -27,13 +27,15 @@ export function useFetchData<T>(url: string, query?: Record<string, any>) {
 	}
 
 	// Отслеживаем изменения query и выполняем запрос
-	watch(
-		() => ({ ...query }), // Создаем новый объект для отслеживания изменений
-		() => {
-			fetchData();
-		},
-		{ deep: true } // Глубокое отслеживание изменений в query
-	);
+	if (query) {
+		watch(
+			query,
+			() => {
+				fetchData();
+			},
+			{ deep: true } // Глубокое отслеживание изменений в query
+		);
+	}
 
 	return {
 		data,
