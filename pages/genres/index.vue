@@ -77,7 +77,7 @@
 		<template #body-content>
 			<MoleculesGenresList>
 				<li
-					class="genres-list__item"
+					class="genres-list__item fade-in"
 					v-for="genre in filtredGenres"
 					:key="genre.id"
 				>

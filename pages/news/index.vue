@@ -31,7 +31,7 @@
 		total: number;
 		totalPages: number;
 		items: TNews[];
-	}>("v1/media_posts", query.value);
+	}>("v1/media_posts", query);
 
 	watch(
 		() => route.query.page,
@@ -99,7 +99,7 @@
 			<template #body-content>
 				<ul class="news__list">
 					<li
-						class="news__item"
+						class="news__item fade-in"
 						v-for="news in data?.items"
 						:key="news.kinopoiskId"
 					>

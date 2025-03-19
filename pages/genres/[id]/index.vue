@@ -87,6 +87,10 @@
 		router.push({ query: { page: newPage } }); // Обновляем URL
 		fetchDataGenresFilms(); // Выполняем запрос
 	});
+
+	const { filteredMovies } = useMovieFilters(
+		computed(() => genresFilms.value?.items || [])
+	);
 </script>
 
 <template>
@@ -122,8 +126,8 @@
 		<template #body-content>
 			<MoleculesMoviesList class="top__movie-list">
 				<li
-					class="movies-list-preview__item"
-					v-for="movie in genresFilms?.items"
+					class="movies-list-preview__item fade-in"
+					v-for="movie in filteredMovies"
 					:key="movie.filmId"
 				>
 					<OrganismsMovieCard class="movie-card--preview" :movie="movie" />

@@ -108,6 +108,10 @@
 				<OrganismsMovieCard class="movie-card--preview" :movie="movie" />
 			</swiper-slide>
 		</MoleculesSlider>
+
+		<NuxtLink class="hero-section__link button-primary" to="/premieres"
+			>Премьеры</NuxtLink
+		>
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection v-if="dataPopular && !isError">
@@ -120,7 +124,7 @@
 		<template #body-content>
 			<MoleculesMoviesList className="content-section__list">
 				<li
-					class="movies-list__item"
+					class="movies-list__item fade-in"
 					v-for="movie in filtredPopular.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
@@ -134,8 +138,8 @@
 		<template #link>
 			<NuxtLink class="content-section__link button-primary" to="/movies"
 				>Все фильмы</NuxtLink
-			></template
-		>
+			>
+		</template>
 	</OrganismsContentSection>
 
 	<OrganismsContentSection v-if="dataSeries && !isError">
@@ -149,7 +153,7 @@
 		<template #body-content>
 			<MoleculesMoviesList className="content-section__list">
 				<li
-					class="movies-list__item"
+					class="movies-list__item fade-in"
 					v-for="movie in filtredSeries.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>

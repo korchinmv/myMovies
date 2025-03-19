@@ -68,4 +68,13 @@
 		color: var(--white-color);
 		font-family: var(--font-ubuntu);
 	}
+
+	&__link {
+		width: fit-content;
+		margin: 0 auto;
+
+		@media screen and (width <= 768px) {
+			display: none;
+		}
+	}
 }

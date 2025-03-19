@@ -346,7 +346,7 @@
 
 						<MoleculesMoviesList>
 							<li
-								class="movies-list-preview__item"
+								class="movies-list-preview__item fade-in"
 								v-for="movie in filtredSequels"
 								:key="movie.filmId"
 							>
@@ -372,7 +372,7 @@
 
 						<MoleculesMoviesList>
 							<li
-								class="movies-list-preview__item"
+								class="movies-list-preview__item fade-in"
 								v-for="movie in filtredSimilars"
 								:key="movie.filmId"
 							>
