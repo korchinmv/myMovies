@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 
 	useSeoMeta({
@@ -31,8 +32,16 @@
 		items: TMovie[];
 	}>(`v2.2/films/premieres?year=2025&month=${currentMonth}`);
 
+	//Получаем данные стран и жанров для фильтра
+	const {
+		data: dataFilters,
+		error: errorFilters,
+		fetchData: fetchDataFilters,
+	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+
 	onMounted(() => {
 		fetchDataPremieres();
+		fetchDataFilters();
 	});
 
 	const { filteredMovies } = useMovieFilters(
@@ -45,26 +54,37 @@
 		visibleFilmsCount.value += 20; // Увеличиваем количество на 16
 	};
 
-	// Обрезанный массив фильмов
-	const visibleFilms = computed(() => {
-		return filteredMovies.value.slice(0, visibleFilmsCount.value);
-	});
-
 	// Проверка, есть ли ещё фильмы для отображения
 	const hasMoreFilms = computed(() => {
 		return visibleFilmsCount.value < filteredMovies.value.length;
+	});
+
+	//Функция добавления id жанров
+	const updatePremieresMovieWithGenres = computed(() => {
+		if (filteredMovies.value && dataFilters.value) {
+			return addGenreIds(filteredMovies.value, dataFilters.value.genres);
+		}
+		return filteredMovies.value;
+	});
+
+	// Обрезанный массив фильмов
+	const visibleFilms = computed(() => {
+		return updatePremieresMovieWithGenres.value.slice(
+			0,
+			visibleFilmsCount.value
+		);
 	});
 </script>
 
 <template>
 	<AtomsPreloader v-if="isLoadingPremieres" />
 
-	<AtomsErrorData v-if="errorPremieres"
+	<AtomsErrorData v-if="errorPremieres || errorFilters"
 		>Ошибка при получении данных</AtomsErrorData
 	>
 
 	<OrganismsHeroSection
-		v-if="dataPremieres && !errorPremieres"
+		v-if="(dataPremieres && !errorPremieres) || errorFilters"
 		bgImage="/img/bg/premieres.jpg"
 	>
 		<OrganismsBreadcrumbs

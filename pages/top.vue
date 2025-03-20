@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 
 	const route = useRoute();
@@ -32,6 +33,13 @@
 		items: TMovie[];
 	}>("v2.2/films/collections?type=TOP_250_MOVIES", query);
 
+	//Получаем данные стран и жанров для фильтра
+	const {
+		data: dataFilters,
+		error: errorFilters,
+		fetchData: fetchDataFilters,
+	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+
 	// Обновляем total и totalPages при изменении данных
 	watch(data, (newData) => {
 		if (newData) {
@@ -49,11 +57,20 @@
 
 	onMounted(() => {
 		fetchData();
+		fetchDataFilters();
 	});
 
 	const { filteredMovies } = useMovieFilters(
 		computed(() => data.value?.items || [])
 	);
+
+	//Функция добавления id жанров
+	const updateMovieWithGenres = computed(() => {
+		if (filteredMovies.value && dataFilters.value) {
+			return addGenreIds(filteredMovies.value, dataFilters.value.genres);
+		}
+		return filteredMovies.value;
+	});
 </script>
 
 <template>
@@ -75,7 +92,7 @@
 			/>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection v-if="data">
+		<OrganismsContentSection v-if="updateMovieWithGenres">
 			<template #head-content>
 				<AtomsTextBlock>
 					<p class="text-block__text">
@@ -91,7 +108,7 @@
 				<MoleculesMoviesList class="top__movie-list">
 					<li
 						class="movies-list-preview__item fade-in"
-						v-for="movie in filteredMovies"
+						v-for="movie in updateMovieWithGenres"
 						:key="movie.filmId"
 					>
 						<OrganismsMovieCard class="movie-card--preview" :movie="movie" />

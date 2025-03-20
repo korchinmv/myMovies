@@ -32,7 +32,6 @@
 
 	const {
 		data: dataFilters,
-		isLoading: isLoadingFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
 	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
@@ -91,6 +90,14 @@
 	const { filteredMovies } = useMovieFilters(
 		computed(() => genresFilms.value?.items || [])
 	);
+
+	//Функция добавления id жанров
+	const updateMovieWithGenres = computed(() => {
+		if (filteredMovies.value && dataFilters.value) {
+			return addGenreIds(filteredMovies.value, dataFilters.value.genres);
+		}
+		return filteredMovies.value;
+	});
 </script>
 
 <template>
@@ -111,7 +118,9 @@
 		<AtomsMainTitle class="hero-section__title" :mainTitleStrong="genreName" />
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection v-if="genresFilms && !errorGenresFilms">
+	<OrganismsContentSection
+		v-if="(genresFilms && !errorGenresFilms) || errorFilters"
+	>
 		<template #head-content>
 			<AtomsTextBlock>
 				<p class="text-block__text">
@@ -127,7 +136,7 @@
 			<MoleculesMoviesList class="top__movie-list">
 				<li
 					class="movies-list-preview__item fade-in"
-					v-for="movie in filteredMovies"
+					v-for="movie in updateMovieWithGenres"
 					:key="movie.filmId"
 				>
 					<OrganismsMovieCard class="movie-card--preview" :movie="movie" />

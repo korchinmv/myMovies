@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import type { TActor } from "~/types/Actor";
+	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 	import type { TScreenshot } from "~/types/Screenshots";
 
@@ -65,6 +66,9 @@
 		items: TMovie[];
 	}>(`v2.2/films/${route.params.id}/similars`);
 
+	const { data: dataFilters, fetchData: fetchDataFilters } =
+		useFetchData<TGenresAndCountries>("v2.2/films/filters");
+
 	// Загрузка данных при монтировании компонента
 	onMounted(() => {
 		fetchDataMovie();
@@ -72,6 +76,7 @@
 		fetchDataActors();
 		fetchDataSequels();
 		fetchDataSimilars();
+		fetchDataFilters();
 	});
 
 	// Инициализация Kinobox
@@ -122,6 +127,14 @@
 	const { filteredMovies: filtredSimilars } = useMovieFilters(
 		computed(() => dataSimilars.value?.items || [])
 	);
+
+	// Функция для добавления id к жанрам
+	const updateMovieWithGenres = computed(() => {
+		if (dataMovie.value && dataFilters.value) {
+			return addGenreIds(dataMovie.value, dataFilters.value.genres);
+		}
+		return dataMovie.value;
+	});
 </script>
 
 <template>
@@ -225,8 +238,8 @@
 							<div class="movie__content-movie" v-if="dataMovie?.genres">
 								<span class="movie__content-movie-title">Жанр: </span>
 								<AtomsMovieLinks
-									v-if="dataMovie?.genres"
-									:links="dataMovie.genres || []"
+									v-if="updateMovieWithGenres?.genres"
+									:links="updateMovieWithGenres.genres || []"
 								/>
 							</div>
 
@@ -280,7 +293,7 @@
 
 							<MoleculesActorsList class="movie__actors-list">
 								<li
-									class="actors-list__item"
+									class="actors-list__item fade-in"
 									v-for="actor in dataActors
 										?.filter((actor) => actor.professionKey === 'ACTOR')
 										.filter((actor) => actor.nameRu)"
@@ -294,7 +307,7 @@
 
 							<MoleculesActorsList class="movie__actors-list">
 								<li
-									class="actors-list__item"
+									class="actors-list__item fade-in"
 									v-for="actor in dataActors
 										?.filter((actor) => actor.professionKey === 'DIRECTOR')
 										.filter((actor) => actor.nameRu)"
@@ -318,7 +331,7 @@
 							v-if="isLoadingScreens"
 						/>
 
-						<ul class="gallery" v-else>
+						<ul class="gallery fade-in" v-else>
 							<ClientOnly>
 								<li
 									class="gallery__item"

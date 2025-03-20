@@ -1,9 +1,14 @@
-export type TFilterData = {
+export type TFilterGenres = {
+	id?: number;
+	genre: string;
+};
+
+export type TFilterCountries = {
 	id: number;
 	genre: string;
 };
 
 export type TGenresAndCountries = {
-	genres: TFilterData[];
-	countries: TFilterData[];
+	genres: TFilterGenres[];
+	countries: TFilterCountries[];
 };

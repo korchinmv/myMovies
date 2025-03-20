@@ -13,11 +13,18 @@
 
 	const { currentMonth } = currentDate();
 
+	//Получаем данные стран и жанров для фильтра
+	const {
+		data: dataFilters,
+		error: errorFilters,
+		fetchData: fetchDataFilters,
+	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+
 	//Получаем премьеры
 	const {
 		data: dataPremieres,
-		fetchData: fetchDataPremieres,
 		error: errorPremieres,
+		fetchData: fetchDataPremieres,
 	} = useFetchData<{
 		total: number;
 		items: TMovie[];
@@ -26,8 +33,8 @@
 	//Получаем популярные фильмы
 	const {
 		data: dataPopular,
-		fetchData: fetchDataPopular,
 		error: errorPopular,
+		fetchData: fetchDataPopular,
 	} = useFetchData<{
 		total: number;
 		totalPages: number;
@@ -37,8 +44,8 @@
 	//Получаем популярные сериалы
 	const {
 		data: dataSeries,
-		fetchData: fetchDataSeries,
 		error: errorSeries,
+		fetchData: fetchDataSeries,
 	} = useFetchData<{
 		total: number;
 		totalPages: number;
@@ -54,9 +61,15 @@
 				fetchDataPremieres(),
 				fetchDataPopular(),
 				fetchDataSeries(),
+				fetchDataFilters(),
 			]);
 
-			if (errorPremieres.value || errorPopular.value || errorSeries.value) {
+			if (
+				errorPremieres.value ||
+				errorPopular.value ||
+				errorSeries.value ||
+				errorFilters.value
+			) {
 				isError.value = true;
 			}
 		} catch (error) {
@@ -81,6 +94,28 @@
 	const { filteredMovies: filtredSeries } = useMovieFilters(
 		computed(() => dataSeries.value?.items || [])
 	);
+
+	//Функция добавления id жанров
+	const updatePremieresMovieWithGenres = computed(() => {
+		if (filtredPremieres.value && dataFilters.value) {
+			return addGenreIds(filtredPremieres.value, dataFilters.value.genres);
+		}
+		return filtredPremieres.value;
+	});
+
+	const updatePopularMovieWithGenres = computed(() => {
+		if (filtredPopular.value && dataFilters.value) {
+			return addGenreIds(filtredPopular.value, dataFilters.value.genres);
+		}
+		return filtredPopular.value;
+	});
+
+	const updateSeriesMovieWithGenres = computed(() => {
+		if (filtredSeries.value && dataFilters.value) {
+			return addGenreIds(filtredSeries.value, dataFilters.value.genres);
+		}
+		return filtredSeries.value;
+	});
 </script>
 
 <template>
@@ -101,7 +136,7 @@
 
 		<MoleculesSlider className="hero-section__slider">
 			<swiper-slide
-				v-for="movie in filtredPremieres"
+				v-for="movie in updatePremieresMovieWithGenres"
 				:key="movie.kinopoiskId"
 				class="slider__item"
 			>
@@ -125,7 +160,7 @@
 			<MoleculesMoviesList className="content-section__list">
 				<li
 					class="movies-list__item fade-in"
-					v-for="movie in filtredPopular.slice(0, 6)"
+					v-for="movie in updatePopularMovieWithGenres.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
 					<OrganismsMovieCard
@@ -154,7 +189,7 @@
 			<MoleculesMoviesList className="content-section__list">
 				<li
 					class="movies-list__item fade-in"
-					v-for="movie in filtredSeries.slice(0, 6)"
+					v-for="movie in updateSeriesMovieWithGenres.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
 					<OrganismsMovieCard

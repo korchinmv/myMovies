@@ -43,6 +43,7 @@ export type TMovie = {
 	}>;
 	genres?: Array<{
 		genre: string;
+		id?: number;
 	}>;
 	startYear: number;
 	endYear: number;

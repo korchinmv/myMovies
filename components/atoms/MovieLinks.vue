@@ -1,7 +1,8 @@
 <script setup lang="ts">
-	import type { TMovie } from "~/types/Movie";
+	import type { TFilterGenres } from "~/types/Filters";
+
 	interface Props {
-		links?: TMovie["countries"] | TMovie["genres"];
+		links: TFilterGenres[];
 	}
 
 	defineProps<Props>();
@@ -9,9 +10,9 @@
 
 <template>
 	<ul class="movie-links">
-		<li class="movie-links__item" v-for="(link, index) in links" :key="index">
-			<NuxtLink class="movie-links__link" to="#">{{
-				firstWordUppercase("genre" in link ? link.genre : link.country)
+		<li class="movie-links__item" v-for="link in links" :key="link.id">
+			<NuxtLink class="movie-links__link" :to="`/genres/${link.id}`">{{
+				firstWordUppercase(link.genre)
 			}}</NuxtLink>
 		</li>
 	</ul>
