@@ -52,7 +52,6 @@
 						url="/collections/TOP_POPULAR_MOVIES"
 					/>
 				</li>
-
 				<li class="list__item">
 					<OrganismsCollectionCard
 						:name="'Популярные сериалы'"
@@ -60,7 +59,6 @@
 						url="/collections/POPULAR_SERIES"
 					/>
 				</li>
-
 				<li class="list__item">
 					<OrganismsCollectionCard
 						:name="'Супергерои'"
@@ -68,7 +66,6 @@
 						url="/collections/COMICS_THEME"
 					/>
 				</li>
-
 				<li class="list__item">
 					<OrganismsCollectionCard
 						:name="'Про вампиров'"
@@ -76,7 +73,6 @@
 						url="/collections/VAMPIRE_THEME"
 					/>
 				</li>
-
 				<li class="list__item">
 					<OrganismsCollectionCard
 						:name="'Семейные'"

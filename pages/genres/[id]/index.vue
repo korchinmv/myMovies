@@ -5,9 +5,6 @@
 	const route = useRoute();
 	const router = useRouter();
 	const page = ref(Number(route.query.page) || 1);
-	const query = ref({
-		page: page.value,
-	});
 	const total = ref(0);
 	const totalPages = ref(0);
 
