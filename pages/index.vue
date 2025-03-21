@@ -126,6 +126,7 @@
 	<OrganismsHeroSection
 		v-if="dataPremieres && !isError"
 		bgImage="/img/bg/bg-main-page.jpeg"
+		class="fade-in"
 	>
 		<AtomsMainTitle
 			class="hero-section__title"
@@ -149,7 +150,7 @@
 		>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection v-if="dataPopular && !isError">
+	<OrganismsContentSection v-if="dataPopular && !isError" class="fade-in">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -159,7 +160,7 @@
 		<template #body-content>
 			<MoleculesMoviesList className="content-section__list">
 				<li
-					class="movies-list__item fade-in"
+					class="movies-list__item"
 					v-for="movie in updatePopularMovieWithGenres.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>
@@ -177,7 +178,7 @@
 		</template>
 	</OrganismsContentSection>
 
-	<OrganismsContentSection v-if="dataSeries && !isError">
+	<OrganismsContentSection v-if="dataSeries && !isError" class="fade-in">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -188,7 +189,7 @@
 		<template #body-content>
 			<MoleculesMoviesList className="content-section__list">
 				<li
-					class="movies-list__item fade-in"
+					class="movies-list__item"
 					v-for="movie in updateSeriesMovieWithGenres.slice(0, 6)"
 					:key="movie.kinopoiskId"
 				>

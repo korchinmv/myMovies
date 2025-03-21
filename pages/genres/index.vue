@@ -47,6 +47,7 @@
 	<OrganismsHeroSection
 		v-if="dataFilters && !errorFilters"
 		bgImage="/img/bg/genres-page.jpg"
+		class="fade-in"
 	>
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
@@ -60,7 +61,7 @@
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection
-		class="content-section"
+		class="content-section fade-in"
 		v-if="dataFilters && !errorFilters"
 	>
 		<template #head-content>
@@ -75,15 +76,11 @@
 		</template>
 
 		<template #body-content>
-			<MoleculesGenresList>
-				<li
-					class="genres-list__item fade-in"
-					v-for="genre in filtredGenres"
-					:key="genre.id"
-				>
+			<MoleculesList>
+				<li class="list__item" v-for="genre in filtredGenres" :key="genre.id">
 					<OrganismsGenreCard :genre="genre" />
 				</li>
-			</MoleculesGenresList>
+			</MoleculesList>
 		</template>
 	</OrganismsContentSection>
 </template>

@@ -147,6 +147,7 @@
 	<div class="movie" v-if="dataMovie">
 		<OrganismsHeroSection
 			:bgImage="dataMovie?.coverUrl || `/img/bg/bg-movie-page.jpg`"
+			class="fade-in"
 		>
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
@@ -267,7 +268,7 @@
 			</div>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection class="movie__info">
+		<OrganismsContentSection class="movie__info fade-in">
 			<template #head-content>
 				<MoleculesTabs
 					class="movie__tabs"

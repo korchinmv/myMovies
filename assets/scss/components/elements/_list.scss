@@ -1,11 +1,10 @@
-.genres-list {
+.list {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 30px;
+	gap: 20px;
 
 	@media screen and (width <= 1024px) {
 		grid-template-columns: repeat(3, 1fr);
-		gap: 20px;
 	}
 
 	@media screen and (width <= 768px) {

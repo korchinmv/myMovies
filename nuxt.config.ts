@@ -39,6 +39,7 @@ export default defineNuxtConfig({
 		},
 	},
 	image: {
+		dir: "public",
 		inject: true,
 		quality: 80,
 	},

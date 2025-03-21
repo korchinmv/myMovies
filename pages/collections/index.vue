@@ -17,7 +17,7 @@
 	];
 </script>
 <template>
-	<OrganismsHeroSection bgImage="/img/bg/collections-page.jpg">
+	<OrganismsHeroSection bgImage="/img/bg/collections-page.jpg" class="fade-in">
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
 			:breadcrumbs="breadcrumbs"
@@ -29,7 +29,7 @@
 		/>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection class="content-section">
+	<OrganismsContentSection class="content-section fade-in">
 		<template #head-content>
 			<AtomsTextBlock>
 				<p class="text-block__text">
@@ -43,6 +43,83 @@
 			</AtomsTextBlock>
 		</template>
 
-		<template #body-content> </template>
+		<template #body-content>
+			<MoleculesList>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Популярные фильмы'"
+						image="/img/collections/movies.jpg"
+						url="/collections/TOP_POPULAR_MOVIES"
+					/>
+				</li>
+
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Популярные сериалы'"
+						image="/img/collections/series.jpg"
+						url="/collections/POPULAR_SERIES"
+					/>
+				</li>
+
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Супергерои'"
+						image="/img/collections/comics.jpg"
+						url="/collections/COMICS_THEME"
+					/>
+				</li>
+
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Про вампиров'"
+						image="/img/collections/vampires.jpg"
+						url="/collections/VAMPIRE_THEME"
+					/>
+				</li>
+
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Семейные'"
+						image="/img/collections/family.jpg"
+						url="/collections/FAMILY"
+					/>
+				</li>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Получившие Оскар'"
+						image="/img/collections/oscar.jpg"
+						url="/collections/OSKAR_WINNERS_2021"
+					/>
+				</li>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Про зомби'"
+						image="/img/collections/zombie.jpg"
+						url="/collections/ZOMBIE_THEME"
+					/>
+				</li>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Мелодрамы'"
+						image="/img/collections/love.png"
+						url="/collections/LOVE_THEME"
+					/>
+				</li>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Катастрофы'"
+						image="/img/collections/cata.jpg"
+						url="/collections/CATASTROPHE_THEME"
+					/>
+				</li>
+				<li class="list__item">
+					<OrganismsCollectionCard
+						:name="'Для детей'"
+						image="/img/collections/mult.jpg"
+						url="/collections/KIDS_ANIMATION_THEME"
+					/>
+				</li>
+			</MoleculesList>
+		</template>
 	</OrganismsContentSection>
 </template>

@@ -15,7 +15,7 @@
 </script>
 
 <template>
-	<OrganismsSignForm>
+	<OrganismsSignForm class="fade-in">
 		<template #form>
 			<AtomsInput placeholder="Почта" v-model="form.email" />
 			<AtomsInput

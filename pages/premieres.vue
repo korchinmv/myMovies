@@ -86,6 +86,7 @@
 	<OrganismsHeroSection
 		v-if="(dataPremieres && !errorPremieres) || errorFilters"
 		bgImage="/img/bg/premieres.jpg"
+		class="fade-in"
 	>
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
@@ -98,7 +99,7 @@
 		/>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection v-if="dataPremieres">
+	<OrganismsContentSection v-if="dataPremieres" class="fade-in">
 		<template #head-content>
 			<AtomsTextBlock>
 				<p class="text-block__text">

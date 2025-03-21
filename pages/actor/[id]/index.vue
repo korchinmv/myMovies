@@ -54,7 +54,7 @@
 
 <template>
 	<div class="actor">
-		<OrganismsHeroSection bgImage="/img/bg/actor-page.jpg">
+		<OrganismsHeroSection bgImage="/img/bg/actor-page.jpg" class="fade-in">
 			<AtomsPageTitle
 				class="actor__title"
 				:pageTitle="data?.nameRu || 'Загрузка...'"
@@ -157,7 +157,7 @@
 				</button>
 			</div>
 		</OrganismsHeroSection>
-		<OrganismsContentSection>
+		<OrganismsContentSection class="fade-in">
 			<template #head-content>
 				<MoleculesTabs
 					class="actor__tabs"

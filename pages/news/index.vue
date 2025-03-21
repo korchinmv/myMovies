@@ -70,7 +70,11 @@
 			Ошибка при получении данных
 		</AtomsErrorData>
 
-		<OrganismsHeroSection v-if="data" bgImage="/img/bg/news-page.jpg">
+		<OrganismsHeroSection
+			v-if="data"
+			bgImage="/img/bg/news-page.jpg"
+			class="fade-in"
+		>
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
 				:breadcrumbs="breadcrumbs"
@@ -83,7 +87,7 @@
 			/>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection v-if="data">
+		<OrganismsContentSection v-if="data" class="fade-in">
 			<template #head-content>
 				<AtomsTextBlock>
 					<p class="text-block__text">

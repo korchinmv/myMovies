@@ -34,11 +34,8 @@
 	}>("v2.2/films/collections?type=TOP_250_MOVIES", query);
 
 	//Получаем данные стран и жанров для фильтра
-	const {
-		data: dataFilters,
-		error: errorFilters,
-		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+	const { data: dataFilters, fetchData: fetchDataFilters } =
+		useFetchData<TGenresAndCountries>("v2.2/films/filters");
 
 	// Обновляем total и totalPages при изменении данных
 	watch(data, (newData) => {
@@ -80,7 +77,11 @@
 			Ошибка при получении данных
 		</AtomsErrorData>
 
-		<OrganismsHeroSection v-if="data" bgImage="/img/bg/top.jpeg">
+		<OrganismsHeroSection
+			v-if="data"
+			bgImage="/img/bg/top.jpeg"
+			class="fade-in"
+		>
 			<OrganismsBreadcrumbs
 				class="hero-section__breadcrumbs"
 				:breadcrumbs="breadcrumbs"
@@ -92,7 +93,7 @@
 			/>
 		</OrganismsHeroSection>
 
-		<OrganismsContentSection v-if="updateMovieWithGenres">
+		<OrganismsContentSection v-if="data" class="fade-in">
 			<template #head-content>
 				<AtomsTextBlock>
 					<p class="text-block__text">
@@ -107,7 +108,7 @@
 			<template #body-content>
 				<MoleculesMoviesList class="top__movie-list">
 					<li
-						class="movies-list-preview__item fade-in"
+						class="movies-list-preview__item"
 						v-for="movie in updateMovieWithGenres"
 						:key="movie.filmId"
 					>

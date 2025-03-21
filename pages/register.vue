@@ -73,7 +73,7 @@
 </script>
 
 <template>
-	<OrganismsSignForm>
+	<OrganismsSignForm class="fade-in">
 		<template #form>
 			<ClientOnly>
 				<Form
