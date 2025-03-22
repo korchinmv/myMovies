@@ -119,7 +119,7 @@
 
 			<template #link>
 				<MoleculesPagination
-					class="top__pagination"
+					class="content-section__pagination"
 					v-if="data?.items.length"
 					v-model:page="page"
 					:total="total"
