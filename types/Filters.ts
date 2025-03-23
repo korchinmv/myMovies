@@ -5,7 +5,7 @@ export type TFilterGenres = {
 
 export type TFilterCountries = {
 	id: number;
-	genre: string;
+	country: string;
 };
 
 export type TGenresAndCountries = {

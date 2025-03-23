@@ -1,0 +1,93 @@
+.custom-select {
+	cursor: pointer;
+	position: relative;
+	border-radius: 8px;
+	font-size: 14px;
+	width: fit-content;
+	flex-shrink: 0;
+	width: 170px;
+	height: 46px;
+
+	&.active {
+		.custom-select__options {
+			max-height: 300px;
+			opacity: 1;
+			transform: translateY(0);
+			overflow-y: auto;
+		}
+
+		.custom-select__icon {
+			transform: rotate(180deg);
+		}
+	}
+
+	&__selected {
+		padding: 12px 20px;
+		border-radius: 8px;
+		font-size: 14px;
+		border: 1px solid rgba(255, 255, 255, 0.05);
+		color: var(--white-color);
+		background: linear-gradient(90deg, rgba(255, 85, 165, 0.04) 0%, rgba(255, 88, 96, 0.03) 100%);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		column-gap: 10px;
+	}
+
+	&__options {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		margin-top: 4px;
+		padding: 0;
+		list-style: none;
+		border: 1px solid rgba(255, 255, 255, 0.05);
+		border-radius: 8px;
+		background-color: var(--bg-color);
+		z-index: 1000;
+		max-height: 0; // Начальное значение для анимации
+		overflow-y: hidden; // Скрываем контент, пока dropdown не открыт
+		width: 170px;
+		opacity: 0; // Начальная прозрачность
+		transform: translateY(-10px); // Начальное смещение
+		transition:
+			max-height 0.3s ease,
+			opacity 0.3s ease,
+			transform 0.3s ease; // Плавные переходы
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			display: block;
+			background: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+			box-shadow: 0 0 20px 0 rgba(255, 88, 96, 0.5);
+		}
+	}
+
+	&__option {
+		padding: 12px 20px;
+		font-size: 14px;
+		color: var(--txt-gray);
+		cursor: pointer;
+		transition: all ease 0.2s;
+
+		&:hover {
+			background-color: var(--accent-color);
+			color: white;
+		}
+
+		&:checked {
+			background-color: var(--accent-color);
+			color: white;
+		}
+	}
+
+	&__icon {
+		transition: all ease 0.2s;
+	}
+}

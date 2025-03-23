@@ -5,11 +5,19 @@
 	const route = useRoute();
 	const router = useRouter();
 	const page = ref(Number(route.query.page) || 1);
-	const query = ref({
-		page: page.value,
-	});
 	const total = ref(0);
 	const totalPages = ref(0);
+
+	// Используем reactive для query
+	const query = reactive({
+		page: page.value,
+		countries: route.query.countries || "",
+		genres: route.query.genres || "",
+		ratingFrom: Number(route.query.ratingFrom) || "",
+		ratingTo: Number(route.query.ratingTo) || "",
+		yearFrom: Number(route.query.yearFrom) || "",
+		yearTo: Number(route.query.yearTo) || "",
+	});
 
 	useSeoMeta({
 		title:
@@ -28,47 +36,67 @@
 		},
 	]);
 
-	//Получаем популярные фильмы
-	const {
-		data: dataPopular,
-		error: errorPopular,
-		isLoading: isLoadingPopular,
-		fetchData: fetchDataPopular,
-	} = useFetchData<{
-		total: number;
-		totalPages: number;
-		items: TMovie[];
-	}>("v2.2/films/collections?type=TOP_POPULAR_MOVIES&", query);
-
+	// Получаем фильтры (страны и жанры)
 	const {
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
 	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
 
+	// Получаем фильмы с учетом фильтров
+	const {
+		data: dataFilms,
+		error: errorFilms,
+		isLoading: isLoadingFilms,
+		fetchData: fetchDataFilms,
+	} = useFetchData<{
+		total: number;
+		totalPages: number;
+		items: TMovie[];
+	}>("v2.2/films", query); // Передаем reactive объект
+
 	onMounted(() => {
-		fetchDataPopular();
+		fetchDataFilms();
 		fetchDataFilters();
 	});
 
-	watch(dataPopular, (newDataPopular) => {
-		if (newDataPopular) {
-			total.value = newDataPopular.total;
-			totalPages.value = newDataPopular.totalPages;
+	watch(dataFilms, (newDataFilms) => {
+		if (newDataFilms) {
+			total.value = newDataFilms.total;
+			totalPages.value = newDataFilms.totalPages;
 		}
 	});
 
 	// Отслеживаем изменения page и обновляем query и URL
 	watch(page, (newPage) => {
 		if (newPage) {
-			query.value.page = newPage; // Обновляем query
-			router.push({ query: { page: newPage } }); // Обновляем URL
-			fetchDataPopular(); // Выполняем запрос
+			query.page = newPage; // Обновляем свойство page в reactive объекте
+			router.push({ query: { ...route.query, page: newPage } });
+			fetchDataFilms();
 		}
 	});
 
+	const handleFiltersUpdate = (filters: Record<string, any>) => {
+		page.value = 1;
+
+		// Обновляем query
+		query.countries = filters.selectedCountry || "";
+		query.genres = filters.selectedGenre || "";
+		query.ratingFrom = filters.ratingFrom || 0;
+		query.ratingTo = filters.ratingTo || 10;
+		query.yearFrom = filters.yearFrom || 1000;
+		query.yearTo = filters.yearTo || 3000;
+		query.page = 1;
+
+		// Обновляем URL
+		router.push({ query: { ...filters, page: 1 } }).then(() => {
+			// Выполняем запрос после обновления URL
+			fetchDataFilms();
+		});
+	};
+
 	const { filteredMovies } = useMovieFilters(
-		computed(() => dataPopular.value?.items || [])
+		computed(() => dataFilms.value?.items || [])
 	);
 
 	// Функция добавления id жанров
@@ -81,15 +109,13 @@
 </script>
 
 <template>
-	<AtomsPreloader v-if="isLoadingPopular" />
+	<AtomsPreloader v-if="isLoadingFilms" />
 
-	<AtomsErrorData v-if="errorPopular"
-		>Ошибка при получении данных</AtomsErrorData
-	>
+	<AtomsErrorData v-if="errorFilms">Ошибка при получении данных</AtomsErrorData>
 
 	<OrganismsHeroSection
 		class="fade-in"
-		v-if="dataPopular && !errorPopular"
+		v-if="dataFilms && !errorFilms"
 		bgImage="/img/bg/movies-page.jpg"
 	>
 		<OrganismsBreadcrumbs
@@ -101,9 +127,15 @@
 
 	<OrganismsContentSection
 		class="fade-in"
-		v-if="(dataPopular && !errorPopular) || errorFilters"
+		v-if="(dataFilms && !errorFilms) || errorFilters"
 	>
-		<template #head-content> </template>
+		<template #head-content>
+			<OrganismsFilters
+				v-if="dataFilters"
+				:dataFilters="dataFilters"
+				@update-filters="handleFiltersUpdate"
+			/>
+		</template>
 
 		<template #body-content>
 			<MoleculesMoviesList>
@@ -120,7 +152,7 @@
 		<template #link>
 			<MoleculesPagination
 				class="content-section__pagination"
-				v-if="dataPopular?.items.length"
+				v-if="dataFilms?.items.length"
 				v-model:page="page"
 				:total="total"
 				:totalPages="totalPages"
