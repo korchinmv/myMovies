@@ -1,4 +1,25 @@
 .filters {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	column-gap: 20px;
+
+	&__selects {
+		display: flex;
+		align-items: center;
+		column-gap: 20px;
+	}
+
+	&__btn {
+		height: 46px;
+		font-size: 16px;
+	}
+
+	&__reset {
+		transition: color 0.3s;
+
+		&:hover {
+			color: var(--accent-color);
+		}
+	}
 }

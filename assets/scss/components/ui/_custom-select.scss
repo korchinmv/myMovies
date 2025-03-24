@@ -5,29 +5,29 @@
 	font-size: 14px;
 	width: fit-content;
 	flex-shrink: 0;
-	width: 170px;
+	width: 190px;
 	height: 46px;
+	z-index: 1001;
 
 	&.active {
 		.custom-select__options {
 			max-height: 300px;
 			opacity: 1;
 			transform: translateY(0);
-			overflow-y: auto;
 		}
 
 		.custom-select__icon {
-			transform: rotate(180deg);
+			transform: scaleY(-1);
 		}
 	}
 
 	&__selected {
-		padding: 12px 20px;
+		padding: 12px 18px;
 		border-radius: 8px;
 		font-size: 14px;
 		border: 1px solid rgba(255, 255, 255, 0.05);
 		color: var(--white-color);
-		background: linear-gradient(90deg, rgba(255, 85, 165, 0.04) 0%, rgba(255, 88, 96, 0.03) 100%);
+		background: linear-gradient(90deg, rgba(245, 66, 150, 0.1) 0%, rgba(255, 88, 96, 0.03) 70%);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -46,15 +46,15 @@
 		border-radius: 8px;
 		background-color: var(--bg-color);
 		z-index: 1000;
-		max-height: 0; // Начальное значение для анимации
-		overflow-y: hidden; // Скрываем контент, пока dropdown не открыт
-		width: 170px;
-		opacity: 0; // Начальная прозрачность
-		transform: translateY(-10px); // Начальное смещение
+		max-height: 0;
+		overflow-y: auto;
+		width: 190px;
+		opacity: 0;
+		transform: translateY(-10px);
 		transition:
 			max-height 0.3s ease,
 			opacity 0.3s ease,
-			transform 0.3s ease; // Плавные переходы
+			transform 0.3s ease;
 
 		&:before {
 			content: '';

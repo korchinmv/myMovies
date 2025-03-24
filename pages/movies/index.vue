@@ -8,7 +8,6 @@
 	const total = ref(0);
 	const totalPages = ref(0);
 
-	// Используем reactive для query
 	const query = reactive({
 		page: page.value,
 		countries: route.query.countries || "",
@@ -17,6 +16,7 @@
 		ratingTo: Number(route.query.ratingTo) || "",
 		yearFrom: Number(route.query.yearFrom) || "",
 		yearTo: Number(route.query.yearTo) || "",
+		order: route.query.order || "",
 	});
 
 	useSeoMeta({
@@ -53,7 +53,7 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>("v2.2/films", query); // Передаем reactive объект
+	}>("v2.2/films?type=FILM", query); // Передаем reactive объект
 
 	onMounted(() => {
 		fetchDataFilms();
@@ -80,17 +80,30 @@
 		page.value = 1;
 
 		// Обновляем query
-		query.countries = filters.selectedCountry || "";
-		query.genres = filters.selectedGenre || "";
-		query.ratingFrom = filters.ratingFrom || 0;
-		query.ratingTo = filters.ratingTo || 10;
-		query.yearFrom = filters.yearFrom || 1000;
-		query.yearTo = filters.yearTo || 3000;
-		query.page = 1;
+		Object.assign(query, {
+			countries: filters.selectedCountry || "",
+			genres: filters.selectedGenre || "",
+			ratingFrom: filters.ratingFrom || "",
+			ratingTo: filters.ratingTo || "",
+			yearFrom: filters.yearFrom || "",
+			yearTo: filters.yearTo || "",
+			order: filters.order || "NUM_VOTE",
+			page: 1,
+		});
 
-		// Обновляем URL
-		router.push({ query: { ...filters, page: 1 } }).then(() => {
-			// Выполняем запрос после обновления URL
+		//Если в URL нету параметров, то удаляем их
+		const cleanFiltersUrl = {
+			...(filters.selectedCountry && { countries: filters.selectedCountry }),
+			...(filters.selectedGenre && { genres: filters.selectedGenre }),
+			...(filters.ratingFrom && { ratingFrom: filters.ratingFrom }),
+			...(filters.ratingTo && { ratingTo: filters.ratingTo }),
+			...(filters.yearFrom && { yearFrom: filters.yearFrom }),
+			...(filters.yearTo && { yearTo: filters.yearTo }),
+			...(filters.order && { order: filters.order }),
+			page: 1,
+		};
+
+		router.push({ query: cleanFiltersUrl }).then(() => {
 			fetchDataFilms();
 		});
 	};
@@ -122,7 +135,11 @@
 			class="hero-section__breadcrumbs"
 			:breadcrumbs="breadcrumbs"
 		/>
-		<AtomsMainTitle class="hero-section__title" :mainTitleStrong="'Фильмы'" />
+		<AtomsMainTitle
+			class="hero-section__title"
+			mainTitleStrong="Полнометражные"
+			mainTitle="фильмы"
+		/>
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection

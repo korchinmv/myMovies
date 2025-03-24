@@ -1,8 +1,7 @@
 <script setup lang="ts">
 	interface Option {
-		id: number;
-		genre?: string;
-		country?: string;
+		id: number | string;
+		optionName: string;
 	}
 
 	defineProps<{
@@ -42,14 +41,10 @@
 		<div class="custom-select__selected" @click="toggleDropdown">
 			{{
 				selectedOption
-					? firstWordUppercase(selectedOption.genre || selectedOption.country)
+					? firstWordUppercase(selectedOption.optionName)
 					: placeholder
 			}}
-			<Icon
-				class="custom-select__icon"
-				name="material-symbols:arrow-drop-down"
-				size="20px"
-			/>
+			<slot />
 		</div>
 
 		<ul class="custom-select__options">
@@ -59,7 +54,7 @@
 				:key="option.id"
 				@click="selectOption(option)"
 			>
-				{{ firstWordUppercase(option.genre || option.country) }}
+				{{ firstWordUppercase(option.optionName) }}
 			</li>
 		</ul>
 	</div>

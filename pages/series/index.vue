@@ -5,17 +5,25 @@
 	const route = useRoute();
 	const router = useRouter();
 	const page = ref(Number(route.query.page) || 1);
-	const query = ref({
-		page: page.value,
-	});
 	const total = ref(0);
 	const totalPages = ref(0);
+
+	const query = reactive({
+		page: page.value,
+		countries: route.query.countries || "",
+		genres: route.query.genres || "",
+		ratingFrom: Number(route.query.ratingFrom) || "",
+		ratingTo: Number(route.query.ratingTo) || "",
+		yearFrom: Number(route.query.yearFrom) || "",
+		yearTo: Number(route.query.yearTo) || "",
+		order: route.query.order || "",
+	});
 
 	useSeoMeta({
 		title:
 			"myMovies - Смотрите лучшие сериалы онлайн в HD-качестве | Популярные новинки, классика и подборки",
 		description:
-			"myMovies - Ваш онлайн-кинотеатр для просмотра сериалов! Смотрите лучшие сериалы в HD-качестве: популярные новинки, классические многосезонные проекты, подборки по жанрам и настроению. Удобный поиск, подробные описания и рейтинги. Наслаждайтесь просмотром на любом устройстве!",
+			"myMovies - Ваш кинотеатр онлайн! Смотрите лучшие сериалы в HD-качестве: популярные новинки, классика кино, подборки по жанрам и настроению. Удобный поиск, подробные описания и рейтинги. Наслаждайтесь просмотром на любом устройстве!",
 	});
 
 	const breadcrumbs = ref([
@@ -28,47 +36,80 @@
 		},
 	]);
 
-	//Получаем популярные фильмы
-	const {
-		data: dataSeries,
-		error: errorSeries,
-		isLoading: isLoadingSeries,
-		fetchData: fetchDataSeries,
-	} = useFetchData<{
-		total: number;
-		totalPages: number;
-		items: TMovie[];
-	}>("v2.2/films/collections?type=POPULAR_SERIES", query);
-
+	// Получаем фильтры (страны и жанры)
 	const {
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
 	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
 
+	// Получаем фильмы с учетом фильтров
+	const {
+		data: dataFilms,
+		error: errorFilms,
+		isLoading: isLoadingFilms,
+		fetchData: fetchDataFilms,
+	} = useFetchData<{
+		total: number;
+		totalPages: number;
+		items: TMovie[];
+	}>("v2.2/films?type=TV_SERIES", query); // Передаем reactive объект
+
 	onMounted(() => {
-		fetchDataSeries();
+		fetchDataFilms();
 		fetchDataFilters();
 	});
 
-	watch(dataSeries, (newDataSeries) => {
-		if (newDataSeries) {
-			total.value = newDataSeries.total;
-			totalPages.value = newDataSeries.totalPages;
+	watch(dataFilms, (newDataFilms) => {
+		if (newDataFilms) {
+			total.value = newDataFilms.total;
+			totalPages.value = newDataFilms.totalPages;
 		}
 	});
 
 	// Отслеживаем изменения page и обновляем query и URL
 	watch(page, (newPage) => {
 		if (newPage) {
-			query.value.page = newPage; // Обновляем query
-			router.push({ query: { page: newPage } }); // Обновляем URL
-			fetchDataSeries(); // Выполняем запрос
+			query.page = newPage; // Обновляем свойство page в reactive объекте
+			router.push({ query: { ...route.query, page: newPage } });
+			fetchDataFilms();
 		}
 	});
 
+	const handleFiltersUpdate = (filters: Record<string, any>) => {
+		page.value = 1;
+
+		// Обновляем query
+		Object.assign(query, {
+			countries: filters.selectedCountry || "",
+			genres: filters.selectedGenre || "",
+			ratingFrom: filters.ratingFrom || "",
+			ratingTo: filters.ratingTo || "",
+			yearFrom: filters.yearFrom || "",
+			yearTo: filters.yearTo || "",
+			order: filters.order || "NUM_VOTE",
+			page: 1,
+		});
+
+		//Если в URL нету параметров, то удаляем их
+		const cleanFiltersUrl = {
+			...(filters.selectedCountry && { countries: filters.selectedCountry }),
+			...(filters.selectedGenre && { genres: filters.selectedGenre }),
+			...(filters.ratingFrom && { ratingFrom: filters.ratingFrom }),
+			...(filters.ratingTo && { ratingTo: filters.ratingTo }),
+			...(filters.yearFrom && { yearFrom: filters.yearFrom }),
+			...(filters.yearTo && { yearTo: filters.yearTo }),
+			...(filters.order && { order: filters.order }),
+			page: 1,
+		};
+
+		router.push({ query: cleanFiltersUrl }).then(() => {
+			fetchDataFilms();
+		});
+	};
+
 	const { filteredMovies } = useMovieFilters(
-		computed(() => dataSeries.value?.items || [])
+		computed(() => dataFilms.value?.items || [])
 	);
 
 	// Функция добавления id жанров
@@ -81,29 +122,33 @@
 </script>
 
 <template>
-	<AtomsPreloader v-if="isLoadingSeries" />
+	<AtomsPreloader v-if="isLoadingFilms" />
 
-	<AtomsErrorData v-if="errorSeries"
-		>Ошибка при получении данных</AtomsErrorData
-	>
+	<AtomsErrorData v-if="errorFilms">Ошибка при получении данных</AtomsErrorData>
 
 	<OrganismsHeroSection
 		class="fade-in"
-		v-if="dataSeries && !errorSeries"
+		v-if="dataFilms && !errorFilms"
 		bgImage="/img/bg/series-page.jpg"
 	>
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
 			:breadcrumbs="breadcrumbs"
 		/>
-		<AtomsMainTitle class="hero-section__title" :mainTitleStrong="'Сериалы'" />
+		<AtomsMainTitle class="hero-section__title" mainTitleStrong="Сериалы" />
 	</OrganismsHeroSection>
 
 	<OrganismsContentSection
 		class="fade-in"
-		v-if="(dataSeries && !errorSeries) || errorFilters"
+		v-if="(dataFilms && !errorFilms) || errorFilters"
 	>
-		<template #head-content> </template>
+		<template #head-content>
+			<OrganismsFilters
+				v-if="dataFilters"
+				:dataFilters="dataFilters"
+				@update-filters="handleFiltersUpdate"
+			/>
+		</template>
 
 		<template #body-content>
 			<MoleculesMoviesList>
@@ -120,7 +165,7 @@
 		<template #link>
 			<MoleculesPagination
 				class="content-section__pagination"
-				v-if="dataSeries?.items.length"
+				v-if="dataFilms?.items.length"
 				v-model:page="page"
 				:total="total"
 				:totalPages="totalPages"
