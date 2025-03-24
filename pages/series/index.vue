@@ -148,6 +148,7 @@
 				:dataFilters="dataFilters"
 				@update-filters="handleFiltersUpdate"
 			/>
+			<MoleculesFilmsInfo :total="total" :films="filteredMovies" />
 		</template>
 
 		<template #body-content>
@@ -173,4 +174,9 @@
 			/>
 		</template>
 	</OrganismsContentSection>
+	<OrganismsMobileFilters
+		v-if="dataFilters"
+		:dataFilters="dataFilters"
+		@update-filters="handleFiltersUpdate"
+	/>
 </template>

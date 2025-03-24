@@ -4,19 +4,37 @@
 	align-items: center;
 	column-gap: 20px;
 
+	@media screen and (width <= 1240px) {
+		column-gap: 10px;
+	}
+
+	@media screen and (width <= 768px) {
+		display: none;
+	}
+
 	&__selects {
 		display: flex;
 		align-items: center;
 		column-gap: 20px;
+
+		@media screen and (width <= 1240px) {
+			gap: 10px;
+			flex-wrap: wrap;
+		}
 	}
 
 	&__btn {
 		height: 46px;
 		font-size: 16px;
+		align-self: flex-start;
 	}
 
 	&__reset {
 		transition: color 0.3s;
+
+		@media screen and (width <= 768px) {
+			align-self: flex-start;
+		}
 
 		&:hover {
 			color: var(--accent-color);
