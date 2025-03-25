@@ -1,9 +1,24 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	const router = useRouter();
+	const searchQuery = ref<string>("");
+
+	const handleSearch = (e: Event) => {
+		e.preventDefault();
+		if (searchQuery.value.trim()) {
+			router.push({
+				path: `/search/${searchQuery.value.trim().toLowerCase()}`,
+			});
+
+			searchQuery.value = "";
+		}
+	};
+</script>
 
 <template>
-	<form class="search-form" action="#">
+	<form class="search-form" action="#" @submit="handleSearch">
 		<input
 			class="search-form__input"
+			v-model="searchQuery"
 			type="text"
 			placeholder="Найти фильм"
 			required

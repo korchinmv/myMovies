@@ -143,8 +143,8 @@
 
 		<template #link>
 			<MoleculesPagination
-				class="top__pagination"
-				v-if="genresFilms?.items.length"
+				class="content-section__pagination"
+				v-if="genresFilms?.items.length && totalPages > 1"
 				v-model:page="page"
 				:total="total"
 				:totalPages="totalPages"

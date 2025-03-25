@@ -206,7 +206,7 @@
 		<template #link>
 			<MoleculesPagination
 				class="content-section__pagination"
-				v-if="dataCollection?.items.length"
+				v-if="dataCollection?.items.length && totalPages > 1"
 				v-model:page="page"
 				:total="total"
 				:totalPages="totalPages"

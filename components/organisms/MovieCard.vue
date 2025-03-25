@@ -29,7 +29,7 @@
 		<div class="movie-card__content">
 			<h3 class="movie-card__title">
 				<NuxtLink :to="`/movies/${movie.kinopoiskId}`">{{
-					movie.nameRu
+					movie.nameRu || movie.nameEn
 				}}</NuxtLink>
 			</h3>
 
