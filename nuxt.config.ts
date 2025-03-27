@@ -30,6 +30,7 @@ export default defineNuxtConfig({
 		public: {
 			apiKey: process.env.API_KEY,
 			baseUrl: process.env.BASE_URL,
+			serverUrl: process.env.SERVER_URL,
 		},
 	},
 	googleFonts: {

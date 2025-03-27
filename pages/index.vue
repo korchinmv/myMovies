@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
+	import { useAuth } from "~/store/useAuth";
 
 	const isLoading = ref<boolean>(true);
 	const isError = ref<boolean>(false);
+	const auth = useAuth();
+	const config = useRuntimeConfig();
+	const tokenCookie = useCookie("token");
 
 	useSeoMeta({
 		title: "myMovies - Смотрите лучшие фильмы и сериалы онлайн",
@@ -82,6 +86,10 @@
 
 	onMounted(() => {
 		fetchData();
+	});
+
+	onMounted(async () => {
+		await auth.checkAuth(tokenCookie.value, config.public.serverUrl);
 	});
 
 	// Фильтрация на наличие названия фильма

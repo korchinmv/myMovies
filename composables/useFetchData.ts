@@ -1,5 +1,3 @@
-import { ref, watch, isRef } from "vue";
-
 export function useFetchData<T>(
 	url: string,
 	query?: Ref<Record<string, any>> | Record<string, any> // Принимаем Ref или reactive

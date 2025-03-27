@@ -56,4 +56,19 @@
 			text-decoration: underline;
 		}
 	}
+
+	&__success-message,
+	&__error-message {
+		margin-top: 10px;
+		font-size: 16px;
+		text-align: center;
+	}
+
+	&__success-message {
+		color: var(--success-color);
+	}
+
+	&__error-message {
+		color: var(--error-color);
+	}
 }

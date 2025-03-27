@@ -8,6 +8,8 @@
 
 <template>
 	<div class="mobile-menu" :class="{ 'mobile-menu--active': isShowMobileMenu }">
+		<MoleculesProfile class="mobile-menu__profile" />
+
 		<MoleculesSearchForm class="mobile-menu__search" />
 
 		<nav class="mobile-menu__nav">
