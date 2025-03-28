@@ -1,6 +1,8 @@
 <script setup lang="ts">
 	import type { TGenresAndCountries } from "~/types/Filters";
 
+	const config = useRuntimeConfig();
+
 	useSeoMeta({
 		title:
 			"myMovies - Фильмы по жанрам: смотреть онлайн лучшие комедии, драмы, боевики, фантастику и другие жанры",
@@ -24,7 +26,9 @@
 		fetchData: fetchDataFilters,
 		isLoading: isLoadingFilters,
 		error: errorFilters,
-	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	onMounted(() => {
 		fetchDataFilters();

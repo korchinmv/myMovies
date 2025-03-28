@@ -24,4 +24,8 @@
 			color: var(--accent-color);
 		}
 	}
+
+	&.is-favorite {
+		color: var(--accent-color);
+	}
 }

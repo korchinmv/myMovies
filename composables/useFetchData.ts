@@ -1,13 +1,17 @@
 export function useFetchData<T>(
 	url: string,
-	query?: Ref<Record<string, any>> | Record<string, any> // Принимаем Ref или reactive
+	options?: {
+		query?: Ref<Record<string, any>> | Record<string, any>;
+		headers?: Ref<Record<string, string>> | Record<string, string>;
+	}
 ) {
 	const config = useRuntimeConfig();
 	const data = ref<T | null>(null);
 	const isLoading = ref(false);
 	const error = ref<any>(null);
 
-	const headers = {
+	// Дефолтные headers
+	const defaultHeaders = {
 		"X-API-KEY": config.public.apiKey,
 		"Content-Type": "application/json",
 	};
@@ -29,46 +33,64 @@ export function useFetchData<T>(
 
 	// Функция для получения query параметров
 	const getQueryParams = () => {
+		if (!options?.query) return {};
+
+		const query = options.query;
 		if (isRef(query)) {
-			// Проверяем, что query.value является объектом
-			if (
-				query.value &&
-				typeof query.value === "object" &&
-				!Array.isArray(query.value)
-			) {
-				return cleanQuery(query.value); // Очищаем query.value
-			}
-			return {}; // Если query.value не объект, возвращаем пустой объект
-		} else if (query && typeof query === "object" && !Array.isArray(query)) {
-			return cleanQuery(query); // Очищаем query
+			return query.value && typeof query.value === "object"
+				? cleanQuery(query.value)
+				: {};
 		}
-		return {}; // Если query не передан или не объект, возвращаем пустой объект
+		return typeof query === "object" ? cleanQuery(query) : {};
+	};
+
+	// Функция для получения headers
+	const getHeaders = () => {
+		const customHeaders = options?.headers
+			? isRef(options.headers)
+				? options.headers.value
+				: options.headers
+			: {};
+
+		return { ...defaultHeaders, ...customHeaders };
 	};
 
 	// Основная функция для выполнения запроса
-	const fetchData = async () => {
+	const fetchData = async (customOptions?: {
+		headers?: Record<string, string>;
+		query?: Record<string, any>;
+	}) => {
 		isLoading.value = true;
 		error.value = null;
 
 		try {
-			const queryParams = getQueryParams(); // Получаем очищенные параметры запроса
+			const finalHeaders = customOptions?.headers
+				? { ...getHeaders(), ...customOptions.headers }
+				: getHeaders();
 
-			const response = await $fetch<T>(config.public.baseUrl + url, {
-				headers,
-				query: queryParams, // Используем очищенные параметры запроса
+			const finalQuery = customOptions?.query
+				? { ...getQueryParams(), ...customOptions.query }
+				: getQueryParams();
+
+			const response = await $fetch<T>(url, {
+				headers: finalHeaders,
+				query: finalQuery,
 			});
+
 			data.value = response;
+			return response;
 		} catch (err) {
 			error.value = err;
+			throw err;
 		} finally {
 			isLoading.value = false;
 		}
 	};
 
 	// Отслеживаем изменения query и выполняем запрос
-	if (query) {
+	if (options?.query) {
 		watch(
-			() => (isRef(query) ? query.value : query), // Отслеживаем изменения query
+			() => (isRef(options.query) ? options.query.value : options.query), // Отслеживаем изменения query
 			() => {
 				fetchData();
 			},

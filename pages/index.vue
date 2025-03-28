@@ -22,7 +22,9 @@
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	//Получаем премьеры
 	const {
@@ -32,7 +34,10 @@
 	} = useFetchData<{
 		total: number;
 		items: TMovie[];
-	}>(`v2.2/films/premieres?year=2024&month=${currentMonth}`);
+	}>(
+		config.public.baseUrl +
+			`v2.2/films/premieres?year=2024&month=${currentMonth}`
+	);
 
 	//Получаем популярные фильмы
 	const {
@@ -43,7 +48,10 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>(`v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1`);
+	}>(
+		config.public.baseUrl +
+			"v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=1"
+	);
 
 	//Получаем популярные сериалы
 	const {
@@ -54,7 +62,9 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>(`v2.2/films/collections?type=POPULAR_SERIES&page=1`);
+	}>(
+		config.public.baseUrl + "v2.2/films/collections?type=POPULAR_SERIES&page=1"
+	);
 
 	const fetchData = async () => {
 		try {

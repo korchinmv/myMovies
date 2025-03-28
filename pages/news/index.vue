@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import type { TNews } from "~/types/News";
-	import { useFetchData } from "~/composables/useFetchData";
+
+	const config = useRuntimeConfig();
 
 	useSeoMeta({
 		title: "myMovies - Свежие новинки, анонсы и обзоры фильмов и сериалов",
@@ -31,7 +32,7 @@
 		total: number;
 		totalPages: number;
 		items: TNews[];
-	}>("v1/media_posts", query);
+	}>(config.public.baseUrl + "v1/media_posts", { query });
 
 	watch(
 		() => route.query.page,

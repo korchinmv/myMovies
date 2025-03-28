@@ -1,10 +1,21 @@
 <script setup lang="ts">
 	import type { TActor } from "~/types/Actor";
+	import type { FavoritesResponse } from "~/types/FavoritesResponse";
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 	import type { TScreenshot } from "~/types/Screenshots";
 
 	const route = useRoute();
+	const config = useRuntimeConfig();
+	const favoriteId = ref<number | null>(null); // ID записи в избранном
+	const watchLaterId = ref<number | null>(null); // ID записи в списке "потом"
+	const isFavorite = computed(() => !!favoriteId.value);
+	const isWatchLater = computed(() => !!watchLaterId.value);
+
+	const { fetchList: fetchFavorites, toggleItem: toggleFavorite } =
+		useFavorites();
+	const { fetchList: fetchWatchLater, toggleItem: toggleWatchLater } =
+		useWatchLater();
 
 	// Конфигурация вкладок
 	const tabs = [
@@ -27,14 +38,18 @@
 		isLoading: isLoadingMovie,
 		error: errorMovie,
 		fetchData: fetchDataMovie,
-	} = useFetchData<TMovie>(`v2.2/films/${route.params.id}`);
+	} = useFetchData<TMovie>(
+		config.public.baseUrl + `v2.2/films/${route.params.id}`
+	);
 
 	const {
 		data: dataActors,
 		error: errorActors,
 		isLoading: isLoadingActors,
 		fetchData: fetchDataActors,
-	} = useFetchData<TActor[]>(`v1/staff?filmId=${route.params.id}`);
+	} = useFetchData<TActor[]>(
+		config.public.baseUrl + `v1/staff?filmId=${route.params.id}`
+	);
 
 	const {
 		data: dataScreens,
@@ -45,7 +60,10 @@
 		total: number;
 		totalPages: number;
 		items: TScreenshot[];
-	}>(`v2.2/films/${route.params.id}/images?type=SCREENSHOT&page=1`);
+	}>(
+		config.public.baseUrl +
+			`v2.2/films/${route.params.id}/images?type=SCREENSHOT&page=1`
+	);
 
 	const {
 		data: dataSequels,
@@ -53,7 +71,7 @@
 		isLoading: isLoadingSequels,
 		fetchData: fetchDataSequels,
 	} = useFetchData<TMovie[]>(
-		`v2.1/films/${route.params.id}/sequels_and_prequels`
+		config.public.baseUrl + `v2.1/films/${route.params.id}/sequels_and_prequels`
 	);
 
 	const {
@@ -64,10 +82,12 @@
 	} = useFetchData<{
 		total: number;
 		items: TMovie[];
-	}>(`v2.2/films/${route.params.id}/similars`);
+	}>(config.public.baseUrl + `v2.2/films/${route.params.id}/similars`);
 
 	const { data: dataFilters, fetchData: fetchDataFilters } =
-		useFetchData<TGenresAndCountries>("v2.2/films/filters");
+		useFetchData<TGenresAndCountries>(
+			config.public.baseUrl + "v2.2/films/filters"
+		);
 
 	// Загрузка данных при монтировании компонента
 	onMounted(() => {
@@ -94,6 +114,45 @@
 		}, 500);
 	});
 
+	// Проверка статуса избранного
+	const checkFavoriteStatus = async (movie: TMovie) => {
+		try {
+			const favorites = await fetchFavorites();
+			const favorite = favorites.find(
+				(item: any) => item.movieData.kinopoiskId === movie.kinopoiskId
+			);
+			favoriteId.value = favorite?.id || null;
+		} catch (error) {
+			console.error("Error checking favorite status:", error);
+		}
+	};
+
+	const checkWatchLaterStatus = async (movie: TMovie) => {
+		try {
+			const watchLater = await fetchWatchLater();
+			const watching = watchLater.find(
+				(item: any) => item.movieData.kinopoiskId === movie.kinopoiskId
+			);
+			watchLaterId.value = watching?.id || null;
+		} catch (error) {
+			console.error("Error checking favorite status:", error);
+		}
+	};
+
+	const handleToggleFavorite = async (movie: TMovie) => {
+		const result = await toggleFavorite(movie, favoriteId.value);
+		if (result.success) {
+			favoriteId.value = result.itemId;
+		}
+	};
+
+	const handleToggleWatchLater = async (movie: TMovie) => {
+		const result = await toggleWatchLater(movie, watchLaterId.value);
+		if (result.success) {
+			watchLaterId.value = result.itemId;
+		}
+	};
+
 	// Обновление SEO-метаданных при изменении данных о фильме
 	watch(dataMovie, (newData) => {
 		if (newData) {
@@ -104,6 +163,9 @@
 
 			// Обновление хлебных крошек
 			breadcrumbs.value[2].label = newData.nameRu;
+			//Проверяем статус избранного и смотреть позже
+			checkFavoriteStatus(newData);
+			checkWatchLaterStatus(newData);
 		}
 	});
 
@@ -159,13 +221,17 @@
 
 				<div class="movie__hero-inner">
 					<AtomsAddFavoritesBtn
-						class="movie__favorites-btn"
-						text="В избранное"
+						@click="handleToggleFavorite(dataMovie)"
+						:class="{ 'is-favorite': isFavorite }"
+						:text="isFavorite ? 'Удалить из избранного' : 'В избранное'"
 					/>
 
 					<AtomsBeWatchingBtn
 						class="movie__watching-btn"
-						text="Буду смотреть"
+						@click="handleToggleWatchLater(dataMovie)"
+						:text="
+							isWatchLater ? 'Удалить из смотреть позже' : 'Смотреть позже'
+						"
 					/>
 				</div>
 			</div>

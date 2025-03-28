@@ -1,4 +1,9 @@
 <script setup lang="ts">
+	import type { FavoritesResponse } from "~/types/FavoritesResponse";
+
+	const config = useRuntimeConfig();
+	const tokenCookie = useCookie("token");
+
 	useSeoMeta({
 		title: "myMovies - Ваша персональная коллекция лучших фильмов",
 		description:
@@ -22,6 +27,22 @@
 	const onTabChange = (index: number) => {
 		activeTabIndex.value = index;
 	};
+
+	const {
+		data: favoritesMovies,
+		error: errorFavoritesMovies,
+		isLoading: isLoadingFavoritesMovies,
+		fetchData: fetchFavoritesMovies,
+	} = useFetchData<FavoritesResponse>(config.public.serverUrl + "favorites", {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${tokenCookie.value}`,
+		},
+	});
+
+	onMounted(() => {
+		fetchFavoritesMovies();
+	});
 </script>
 
 <template>
@@ -62,28 +83,29 @@
 			<template #body-content>
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
-						<!-- <AtomsErrorData v-if="dataSequels?.length === 0 || errorSequels">
-							Сиквелы не найдены
+						<AtomsErrorData
+							v-if="favoritesMovies?.length === 0 || errorFavoritesMovies"
+						>
+							Избранных фильмов пока что нет
 						</AtomsErrorData>
 
 						<AtomsPreloaderLocal
 							class="movie__actors-tab-preloader"
-							v-if="isLoadingSequels"
-						/> -->
+							v-if="isLoadingFavoritesMovies"
+						/>
 
-						<!-- <MoleculesMoviesList>
+						<MoleculesMoviesList>
 							<li
 								class="movies-list-preview__item fade-in"
-								v-for="movie in filtredSequels"
-								:key="movie.filmId"
+								v-for="movie in favoritesMovies"
+								:key="movie.movieData.kinopoiskId"
 							>
 								<OrganismsMovieCard
 									class="movie-card movie-card--preview"
-									:movie="movie"
+									:movie="movie.movieData"
 								/>
 							</li>
-						</MoleculesMoviesList> -->
-						TAB1
+						</MoleculesMoviesList>
 					</template>
 
 					<template #tab2>

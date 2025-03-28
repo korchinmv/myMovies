@@ -10,6 +10,7 @@
 	});
 	const total = ref(0);
 	const totalPages = ref(0);
+	const config = useRuntimeConfig();
 
 	interface Collections {
 		[key: string]: {
@@ -94,13 +95,17 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>(`v2.2/films/collections?type=${route.params.id}`, query);
+	}>(config.public.baseUrl + `v2.2/films/collections?type=${route.params.id}`, {
+		query,
+	});
 
 	const {
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries | null>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	onMounted(() => {
 		fetchDataCollection();

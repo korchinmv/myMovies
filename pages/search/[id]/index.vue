@@ -10,6 +10,7 @@
 	});
 	const total = ref(0);
 	const totalPages = ref(0);
+	const config = useRuntimeConfig();
 
 	const breadcrumbs = ref([{ label: "Главная", to: "/" }, { label: "Поиск" }]);
 
@@ -23,13 +24,19 @@
 		pagesCount: number;
 		searchFilmsCountResult: number;
 		films: TMovie[];
-	}>(`v2.1/films/search-by-keyword?keyword=${route.params.id}`, query);
+	}>(
+		config.public.baseUrl +
+			`v2.1/films/search-by-keyword?keyword=${route.params.id}`,
+		{ query }
+	);
 
 	const {
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries | null>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	watch(dataFilms, (newDataFilms) => {
 		if (newDataFilms) {

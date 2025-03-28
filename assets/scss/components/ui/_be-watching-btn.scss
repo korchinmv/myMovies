@@ -24,4 +24,8 @@
 			color: var(--accent-color);
 		}
 	}
+
+	&.is-watching {
+		color: var(--accent-color);
+	}
 }

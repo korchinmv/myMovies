@@ -5,12 +5,13 @@
 	const route = useRoute();
 	const router = useRouter();
 	const tabs = [{ title: "Фильмы" }, { title: "Факты" }];
+	const config = useRuntimeConfig();
 	const onTabChange = (index: number) => {
 		activeTabIndex.value = index;
 	};
 
 	const { data, isLoading, error, fetchData } = useFetchData<TActorPage>(
-		`v1/staff/${route.params.id}`
+		config.public.baseUrl + `v1/staff/${route.params.id}`
 	);
 
 	// Количество отображаемых фильмов

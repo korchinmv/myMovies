@@ -7,6 +7,7 @@
 	const page = ref(Number(route.query.page) || 1);
 	const total = ref(0);
 	const totalPages = ref(0);
+	const config = useRuntimeConfig();
 
 	const breadcrumbs = ref([
 		{
@@ -31,7 +32,9 @@
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries | null>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	const {
 		data: genresFilms,
@@ -42,7 +45,7 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>("v2.2/films", queryParams);
+	}>(config.public.baseUrl + "v2.2/films", { query: queryParams });
 
 	onMounted(() => {
 		fetchDataGenresFilms();

@@ -7,6 +7,7 @@
 	const page = ref(Number(route.query.page) || 1);
 	const total = ref(0);
 	const totalPages = ref(0);
+	const config = useRuntimeConfig();
 
 	const query = reactive({
 		page: page.value,
@@ -41,7 +42,9 @@
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries | null>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries | null>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	// Получаем фильмы с учетом фильтров
 	const {
@@ -53,7 +56,7 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>("v2.2/films?type=TV_SERIES", query); // Передаем reactive объект
+	}>(config.public.baseUrl + "v2.2/films?type=TV_SERIES", { query }); // Передаем reactive объект
 
 	onMounted(() => {
 		fetchDataFilms();

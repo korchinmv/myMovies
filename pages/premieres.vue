@@ -2,6 +2,8 @@
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 
+	const config = useRuntimeConfig();
+
 	useSeoMeta({
 		title:
 			"myMovies - Премьеры фильмов: смотреть онлайн лучшие комедии, драмы, боевики, фантастику и другие жанры",
@@ -30,14 +32,19 @@
 	} = useFetchData<{
 		total: number;
 		items: TMovie[];
-	}>(`v2.2/films/premieres?year=2025&month=${currentMonth}`);
+	}>(
+		config.public.baseUrl +
+			`v2.2/films/premieres?year=2025&month=${currentMonth}`
+	);
 
 	//Получаем данные стран и жанров для фильтра
 	const {
 		data: dataFilters,
 		error: errorFilters,
 		fetchData: fetchDataFilters,
-	} = useFetchData<TGenresAndCountries>("v2.2/films/filters");
+	} = useFetchData<TGenresAndCountries>(
+		config.public.baseUrl + "v2.2/films/filters"
+	);
 
 	onMounted(() => {
 		fetchDataPremieres();

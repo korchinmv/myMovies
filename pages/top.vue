@@ -10,6 +10,7 @@
 	});
 	const total = ref(0);
 	const totalPages = ref(0);
+	const config = useRuntimeConfig();
 
 	useSeoMeta({
 		title: "myMovies - Топ 250 фильмов всех времен - рейтинг лучших фильмов",
@@ -31,11 +32,15 @@
 		total: number;
 		totalPages: number;
 		items: TMovie[];
-	}>("v2.2/films/collections?type=TOP_250_MOVIES", query);
+	}>(config.public.baseUrl + "v2.2/films/collections?type=TOP_250_MOVIES", {
+		query,
+	});
 
 	//Получаем данные стран и жанров для фильтра
 	const { data: dataFilters, fetchData: fetchDataFilters } =
-		useFetchData<TGenresAndCountries>("v2.2/films/filters");
+		useFetchData<TGenresAndCountries>(
+			config.public.baseUrl + "v2.2/films/filters"
+		);
 
 	// Обновляем total и totalPages при изменении данных
 	watch(data, (newData) => {
