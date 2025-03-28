@@ -132,9 +132,9 @@
 	<AtomsErrorData v-if="isError">Ошибка при получении данных</AtomsErrorData>
 
 	<OrganismsHeroSection
+		class="fade-in"
 		v-if="dataPremieres && !isError"
 		bgImage="/img/bg/bg-main-page.jpeg"
-		class="fade-in"
 	>
 		<AtomsMainTitle
 			class="hero-section__title"
@@ -145,9 +145,9 @@
 
 		<MoleculesSlider className="hero-section__slider">
 			<swiper-slide
+				class="slider__item"
 				v-for="movie in updatePremieresMovieWithGenres"
 				:key="movie.kinopoiskId"
-				class="slider__item"
 			>
 				<OrganismsMovieCard class="movie-card--preview" :movie="movie" />
 			</swiper-slide>
@@ -158,7 +158,7 @@
 		>
 	</OrganismsHeroSection>
 
-	<OrganismsContentSection v-if="dataPopular && !isError" class="fade-in">
+	<OrganismsContentSection class="fade-in" v-if="dataPopular && !isError">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"
@@ -186,7 +186,7 @@
 		</template>
 	</OrganismsContentSection>
 
-	<OrganismsContentSection v-if="dataSeries && !isError" class="fade-in">
+	<OrganismsContentSection class="fade-in" v-if="dataSeries && !isError">
 		<template #head-content>
 			<AtomsSectionTitle
 				class="content-section__title"

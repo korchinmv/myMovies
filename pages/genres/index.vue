@@ -45,9 +45,9 @@
 	>
 
 	<OrganismsHeroSection
+		class="fade-in"
 		v-if="dataFilters && !errorFilters"
 		bgImage="/img/bg/genres-page.jpg"
-		class="fade-in"
 	>
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"

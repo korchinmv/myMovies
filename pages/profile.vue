@@ -28,6 +28,7 @@
 </script>
 
 <template>
+	<div class="profile-page">
 	<OrganismsHeroSection bgImage="/img/bg/profile-page.jpg" class="fade-in">
 		<OrganismsBreadcrumbs
 			class="hero-section__breadcrumbs"
@@ -43,18 +44,29 @@
 	<OrganismsContentSection class="fade-in">
 		<template #head-content>
 			<AtomsTextBlock>
-				&#128075 Привет, {{ user?.name }}. В личном кабинете можно изменять данные профиля. 
+				<p class="text-block__text">&#128075 Привет, {{ user?.name }}</p>
 			</AtomsTextBlock>
 		</template>
 
 		<template #body-content>
-			<h2>{{ user?.name }}</h2>
+			<ul class="profile-page__content-list">
+				<li class="profile-page__content-item">Ваш email: {{ user?.email }}</li>
+				<li class="profile-page__content-item">Имя: {{ user?.name }}</li>
+			</ul>
 		</template>
 
 		<template #link>
-			<button class="content-section__link button-primary" @click="logout">
+		<div class="profile-page__wrap-btns">
+			<NuxtLink
+				class="button-primary"
+				to="/favorites"
+				>Перейти в избранное</NuxtLink>
+
+				<button class="button-primary button-primary--red" @click="logout">
 				Выйти из профиля
 			</button>
+		</div>
 		</template>
 	</OrganismsContentSection>
+</div>
 </template>
