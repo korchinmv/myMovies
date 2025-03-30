@@ -6,4 +6,21 @@
 			padding-bottom: 0;
 		}
 	}
+
+	&__movie-list {
+		margin-bottom: 120px;
+
+		@media screen and (width <= 1024px) {
+			margin-bottom: 100px;
+		}
+
+		@media screen and (width <= 768px) {
+			margin-bottom: 60px;
+		}
+	}
+
+	&__preloader,
+	&__error {
+		padding: 50px 0;
+	}
 }

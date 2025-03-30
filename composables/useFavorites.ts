@@ -5,7 +5,7 @@ type ListType = "favorites" | "watch-later";
 
 export const useListManager = (listType: ListType = "favorites") => {
 	const config = useRuntimeConfig();
-	const apiUrl = `${config.public.serverUrl}/${listType}`;
+	const apiUrl = `${config.public.serverUrl}${listType}`;
 	const tokenCookie = useCookie("token");
 	const isLoading = ref(false);
 
@@ -20,6 +20,22 @@ export const useListManager = (listType: ListType = "favorites") => {
 		} catch (error) {
 			console.error(`Error fetching ${listType}:`, error);
 			throw error;
+		}
+	};
+
+	const clearList = async () => {
+		try {
+			$fetch(`${apiUrl}`, {
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${tokenCookie.value}`,
+				},
+				body: JSON.stringify([]),
+			});
+			return { success: true };
+		} catch (error) {
+			console.error(`Error clearing ${listType}:`, error);
+			return { success: false, error };
 		}
 	};
 
@@ -62,9 +78,37 @@ export const useListManager = (listType: ListType = "favorites") => {
 		}
 	};
 
+	const deleteItem = async (currentItemId: number) => {
+		try {
+			if (currentItemId) {
+				await $fetch(`${apiUrl}/${currentItemId}`, {
+					method: "DELETE",
+					headers: {
+						Authorization: `Bearer ${tokenCookie.value}`,
+					},
+				});
+				return {
+					success: true,
+					itemId: currentItemId,
+				};
+			}
+		} catch (error) {
+			console.error(`Error delete ${listType} item:`, error);
+			return {
+				success: false,
+				error: `Failed to delete ${listType} item`,
+				itemId: currentItemId,
+			};
+		} finally {
+			isLoading.value = false;
+		}
+	};
+
 	return {
 		fetchList,
+		clearList,
 		toggleItem,
+		deleteItem,
 		isLoading,
 	};
 };

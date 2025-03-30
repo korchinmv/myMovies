@@ -45,6 +45,10 @@
 	}
 
 	&--preview {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+
 		.movie-card__year,
 		.movie-card__time,
 		.movie-card__descr {
@@ -127,6 +131,7 @@
 	&__content {
 		display: flex;
 		flex-direction: column;
+		margin-bottom: 5px;
 	}
 
 	&__title {
@@ -170,5 +175,10 @@
 		font-size: 14px;
 		line-height: 24px;
 		color: var(--txt-gray);
+	}
+
+	&__delete-btn {
+		align-self: flex-start;
+		margin-top: auto;
 	}
 }

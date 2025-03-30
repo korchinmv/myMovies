@@ -4,6 +4,11 @@
 	const config = useRuntimeConfig();
 	const tokenCookie = useCookie("token");
 
+	const { clearList: clearFavorites, deleteItem: deleteFavoriteMovie } =
+		useFavorites();
+	const { clearList: clearWatchLater, deleteItem: deleteWatchLaterMovie } =
+		useWatchLater();
+
 	useSeoMeta({
 		title: "myMovies - Ваша персональная коллекция лучших фильмов",
 		description:
@@ -40,17 +45,80 @@
 		},
 	});
 
+	const {
+		data: laterMovies,
+		error: errorLaterMovies,
+		isLoading: isLoadingLaterMovies,
+		fetchData: fetchLaterMovies,
+	} = useFetchData<FavoritesResponse>(config.public.serverUrl + "watch-later", {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${tokenCookie.value}`,
+		},
+	});
+
 	onMounted(() => {
 		fetchFavoritesMovies();
+		fetchLaterMovies();
 	});
+
+	const handleClearFavoritesList = async () => {
+		const result = await clearFavorites();
+		if (result.success) {
+			await fetchFavoritesMovies();
+		}
+	};
+
+	const handleClearLaterList = async () => {
+		const result = await clearWatchLater();
+		if (result.success) {
+			await fetchLaterMovies();
+		}
+	};
+
+	const handleDeleteFavoriteMovie = async (movieId: number) => {
+		const result = await deleteFavoriteMovie(movieId);
+
+		if (!result) {
+			console.error("Unexpected error: result is undefined");
+			return;
+		}
+
+		if (result.success) {
+			await fetchFavoritesMovies();
+		} else {
+			console.error("Error deleting movie:", result.error);
+		}
+	};
+
+	const handleDeleteWatchLaterMovie = async (movieId: number) => {
+		const result = await deleteWatchLaterMovie(movieId);
+
+		if (!result) {
+			console.error("Unexpected error: result is undefined");
+			return;
+		}
+
+		if (result.success) {
+			await fetchLaterMovies();
+		} else {
+			console.error("Error deleting movie:", result.error);
+		}
+	};
 </script>
 
 <template>
 	<div class="favorites-page">
-		<!-- <AtomsPreloader v-if="isLoading" />
-		<AtomsErrorData v-else-if="error">
+		<AtomsPreloader
+			class="favorites-page__preloader"
+			v-if="isLoadingFavoritesMovies || isLoadingLaterMovies"
+		/>
+		<AtomsErrorData
+			class="favorites-page__error"
+			v-else-if="errorFavoritesMovies || errorLaterMovies"
+		>
 			Ошибка при получении данных
-		</AtomsErrorData> -->
+		</AtomsErrorData>
 
 		<OrganismsHeroSection bgImage="/img/bg/favorites-page.jpg" class="fade-in">
 			<OrganismsBreadcrumbs
@@ -84,17 +152,13 @@
 				<MoleculesTabsContent :active-tab-index="activeTabIndex">
 					<template #tab1>
 						<AtomsErrorData
+							class="favorites-page__error"
 							v-if="favoritesMovies?.length === 0 || errorFavoritesMovies"
 						>
 							Избранных фильмов пока что нет
 						</AtomsErrorData>
 
-						<AtomsPreloaderLocal
-							class="movie__actors-tab-preloader"
-							v-if="isLoadingFavoritesMovies"
-						/>
-
-						<MoleculesMoviesList>
+						<MoleculesMoviesList class="favorites-page__movie-list">
 							<li
 								class="movies-list-preview__item fade-in"
 								v-for="movie in favoritesMovies"
@@ -103,47 +167,53 @@
 								<OrganismsMovieCard
 									class="movie-card movie-card--preview"
 									:movie="movie.movieData"
+									:id="movie.id"
+									@delete-movie="handleDeleteFavoriteMovie"
 								/>
 							</li>
 						</MoleculesMoviesList>
+
+						<button
+							class="favorites-page__clear-btn button-primary"
+							@click="handleClearFavoritesList"
+							v-if="favoritesMovies?.length !== 0"
+						>
+							Очистить избранное
+						</button>
 					</template>
 
 					<template #tab2>
-						<!-- <AtomsErrorData v-if="dataSequels?.length === 0 || errorSequels">
-							Сиквелы не найдены
+						<AtomsErrorData
+							class="favorites-page__error"
+							v-if="laterMovies?.length === 0 || errorLaterMovies"
+						>
+							Фильмы не добавлены
 						</AtomsErrorData>
 
-						<AtomsPreloaderLocal
-							class="movie__actors-tab-preloader"
-							v-if="isLoadingSequels"
-						/> -->
-
-						<!-- <MoleculesMoviesList>
+						<MoleculesMoviesList class="favorites-page__movie-list">
 							<li
 								class="movies-list-preview__item fade-in"
-								v-for="movie in filtredSequels"
-								:key="movie.filmId"
+								v-for="movie in laterMovies"
+								:key="movie.movieData.kinopoiskId"
 							>
 								<OrganismsMovieCard
 									class="movie-card movie-card--preview"
-									:movie="movie"
+									:movie="movie.movieData"
+									:id="movie.id"
+									@delete-movie="handleDeleteWatchLaterMovie"
 								/>
 							</li>
-						</MoleculesMoviesList> -->
-						TAB2
+						</MoleculesMoviesList>
+
+						<button
+							class="favorites-page__clear-btn button-primary"
+							@click="handleClearLaterList"
+							v-if="laterMovies?.length !== 0"
+						>
+							Очистить список
+						</button>
 					</template>
 				</MoleculesTabsContent>
-			</template>
-
-			<template #link>
-				<!-- <MoleculesPagination
-					class="content-section__pagination"
-					v-if="data?.items.length && totalPages > 1"
-					v-model:page="page"
-					:total="total"
-					:totalPages="totalPages"
-					:pageCount="20"
-				/> -->
 			</template>
 		</OrganismsContentSection>
 	</div>

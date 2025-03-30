@@ -1,9 +1,8 @@
 <script setup lang="ts">
-	import type { TActor } from "~/types/Actor";
-	import type { FavoritesResponse } from "~/types/FavoritesResponse";
 	import type { TGenresAndCountries } from "~/types/Filters";
-	import type { TMovie } from "~/types/Movie";
 	import type { TScreenshot } from "~/types/Screenshots";
+	import type { TActor } from "~/types/Actor";
+	import type { TMovie } from "~/types/Movie";
 
 	const route = useRoute();
 	const config = useRuntimeConfig();
@@ -14,6 +13,7 @@
 
 	const { fetchList: fetchFavorites, toggleItem: toggleFavorite } =
 		useFavorites();
+
 	const { fetchList: fetchWatchLater, toggleItem: toggleWatchLater } =
 		useWatchLater();
 
@@ -221,17 +221,16 @@
 
 				<div class="movie__hero-inner">
 					<AtomsAddFavoritesBtn
-						@click="handleToggleFavorite(dataMovie)"
+						@click="handleToggleFavorite(updateMovieWithGenres)"
 						:class="{ 'is-favorite': isFavorite }"
 						:text="isFavorite ? 'Удалить из избранного' : 'В избранное'"
 					/>
 
 					<AtomsBeWatchingBtn
 						class="movie__watching-btn"
-						@click="handleToggleWatchLater(dataMovie)"
-						:text="
-							isWatchLater ? 'Удалить из смотреть позже' : 'Смотреть позже'
-						"
+						:class="{ 'is-watching': isWatchLater }"
+						@click="handleToggleWatchLater(updateMovieWithGenres)"
+						:text="isWatchLater ? 'Убрать из списка' : 'Смотреть позже'"
 					/>
 				</div>
 			</div>

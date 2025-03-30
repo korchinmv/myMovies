@@ -2,9 +2,12 @@
 	import type { TMovie } from "~/types/Movie";
 	interface Props {
 		movie: TMovie;
+		id?: number;
 	}
 
 	defineProps<Props>();
+
+	const emit = defineEmits(["delete-movie"]);
 </script>
 
 <template>
@@ -81,5 +84,13 @@
 				{{ movie.description }}
 			</p>
 		</div>
+
+		<button
+			class="movie-card__delete-btn button-primary"
+			v-if="id"
+			@click="emit('delete-movie', id)"
+		>
+			Удалить
+		</button>
 	</article>
 </template>
