@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import { useAuth } from "~/store/useAuth";
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TScreenshot } from "~/types/Screenshots";
 	import type { TActor } from "~/types/Actor";
@@ -10,6 +11,8 @@
 	const watchLaterId = ref<number | null>(null); // ID записи в списке "потом"
 	const isFavorite = computed(() => !!favoriteId.value);
 	const isWatchLater = computed(() => !!watchLaterId.value);
+	const authStore = useAuth();
+	const { isAuth } = storeToRefs(authStore);
 
 	const { fetchList: fetchFavorites, toggleItem: toggleFavorite } =
 		useFavorites();
@@ -219,7 +222,7 @@
 			<div class="movie__hero-wrapper">
 				<AtomsPageTitle class="movie__title" :pageTitle="dataMovie?.nameRu" />
 
-				<div class="movie__hero-inner">
+				<div class="movie__hero-inner" v-if="isAuth">
 					<AtomsAddFavoritesBtn
 						@click="handleToggleFavorite(updateMovieWithGenres)"
 						:class="{ 'is-favorite': isFavorite }"
