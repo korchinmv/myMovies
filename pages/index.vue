@@ -2,6 +2,7 @@
 	import type { TGenresAndCountries } from "~/types/Filters";
 	import type { TMovie } from "~/types/Movie";
 	import { useAuth } from "~/store/useAuth";
+	import { Analytics } from "@vercel/analytics/nuxt";
 
 	const isLoading = ref<boolean>(true);
 	const isError = ref<boolean>(false);
