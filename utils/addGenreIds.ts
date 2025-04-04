@@ -1,4 +1,3 @@
-import type { FavoritesResponse } from "~/types/FavoritesResponse";
 import type { TFilterGenres } from "~/types/Filters";
 import type { TMovie } from "~/types/Movie";
 

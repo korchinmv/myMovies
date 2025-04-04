@@ -138,6 +138,7 @@
 </script>
 
 <template>
+	<Analytics />
 	<AtomsPreloader v-if="isLoading" />
 
 	<AtomsErrorData v-if="isError">Ошибка при получении данных</AtomsErrorData>
